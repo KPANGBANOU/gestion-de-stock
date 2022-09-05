@@ -129,7 +129,6 @@ class BarEnregistrerDepense extends StatelessWidget {
                             .pushNamed("/barenregistrerdepense");
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.indigo,
                           textStyle: TextStyle(backgroundColor: Colors.indigo)),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

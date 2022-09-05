@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/erreur_connection.dart';
 
 class BarListeBierresPage extends StatelessWidget {
   BarListeBierresPage({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class BarListeBierresPage extends StatelessWidget {
         stream: _bierres,
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot> streamsnapshot) {
-          if (streamsnapshot.hasError) return ErreurConnection();
+          if (streamsnapshot.hasError) return Container();
           if (streamsnapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
               backgroundColor: Colors.greenAccent,

@@ -15,7 +15,7 @@ import 'package:projet/services/user.dart';
 class serviceBD {
   final FirebaseFirestore _Ref = FirebaseFirestore.instance;
 // user data
-  Stream<donnesUtilisateur> donnes(String uid) {
+  Stream<donnesUtilisateur> donnes(String? uid) {
     return _Ref.collection("users")
         .doc(uid)
         .snapshots()
@@ -169,49 +169,56 @@ class serviceBD {
 
   // enregistrer une nouvelle bierre
 
-  addNouvelBiar(
-      String nom,
+  Future<String> addNouvelBiar(
+      String? nom,
       String type,
-      int prix_unitaire,
-      int quantite_initial,
-      int quantite_physique,
-      int seuil_approvisionnement) async {
-    await _Ref.collection("bierres").add({
-      'nom': nom,
-      'type': type,
-      'time': DateTime.now(),
-      'prix_unitaire': prix_unitaire,
-      'quantite_initial': quantite_initial,
-      'quantite_physique': quantite_physique,
-      'seuil_approvisionnement': seuil_approvisionnement
-    });
-    // enregistrer un probleme
-    addProbleme(String uid, String description) async {
-      await _Ref.collection("users")
-          .doc(uid)
-          .collection("problemes")
-          .add({'description': description, 'time': DateTime.now()});
+      int? prix_unitaire,
+      int? quantite_initial,
+      int? quantite_physique,
+      int? seuil_approvisionnement) async {
+    try {
+      await _Ref.collection("bierres").doc(type + nom!).set({
+        'nom': nom,
+        'type': type,
+        'time': DateTime.now(),
+        'prix_unitaire': prix_unitaire,
+        'quantite_initial': quantite_initial,
+        'quantite_physique': quantite_physique,
+        'seuil_approvisionnement': seuil_approvisionnement
+      });
+
+      return "Succes";
+    } catch (e) {
+      return "Failed";
     }
+  }
+
+  // enregistrer un probleme
+  addProbleme(String uid, String description) async {
+    await _Ref.collection("users")
+        .doc(uid)
+        .collection("problemes")
+        .add({'description': description, 'time': DateTime.now()});
+  }
 
 // enregistrer une vente
-    addVente(String uid, String bierre_id, int quantite, int montant,
-        int budget_bar, int quantite_physique_bierre) async {
-      if (quantite <= quantite_physique_bierre) {
-        await _Ref.collection("users").doc(uid).collection("ventes").add({
-          'bierre_id': bierre_id,
-          'quantite': quantite,
-          'montant': montant,
-          'time': DateTime.now(),
-        });
+  addVente(String uid, String bierre_id, int quantite, int montant,
+      int budget_bar, int quantite_physique_bierre) async {
+    if (quantite <= quantite_physique_bierre) {
+      await _Ref.collection("users").doc(uid).collection("ventes").add({
+        'bierre_id': bierre_id,
+        'quantite': quantite,
+        'montant': montant,
+        'time': DateTime.now(),
+      });
 
-        await _Ref.collection("bierres").doc(bierre_id).update({
-          'quantite_physique': quantite_physique_bierre - quantite,
-        });
+      await _Ref.collection("bierres").doc(bierre_id).update({
+        'quantite_physique': quantite_physique_bierre - quantite,
+      });
 
-        await _Ref.collection("budget_bar").doc("budgetbar").update({
-          'solde_total': budget_bar + montant,
-        });
-      }
+      await _Ref.collection("budget_bar").doc("budgetbar").update({
+        'solde_total': budget_bar + montant,
+      });
     }
   }
 

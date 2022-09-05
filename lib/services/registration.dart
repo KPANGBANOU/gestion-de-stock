@@ -20,7 +20,7 @@ class firebaseAuth {
       return null;
     }
 
-    return Utilisateur(uid: utilisateur.uid);
+    return Utilisateur(utilisateur.uid);
   }
 
   Stream<Utilisateur?> get utilisateur {

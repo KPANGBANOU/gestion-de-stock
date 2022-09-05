@@ -75,7 +75,6 @@ class BarSignalerProbleme extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.indigo,
                           textStyle: TextStyle(
                               backgroundColor: Colors.indigo,
                               fontWeight: FontWeight.bold)),

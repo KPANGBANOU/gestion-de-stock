@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
 
 import 'package:projet/interface/accueil.dart';
+import 'package:projet/interface/home.dart';
 
 import 'package:projet/interface/welcome.dart';
 import 'package:projet/interface/welcome_default.dart';
-import 'package:projet/interface/welcome_gerant.dart';
 import 'package:projet/interface/welcome_servant.dart';
 import 'package:projet/services/user.dart';
 
@@ -21,19 +21,17 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firebase = Provider.of<Utilisateur>(context);
-    final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
+    final firebase = Provider.of<Utilisateur?>(context);
+    final _donnes = Provider.of<donnesUtilisateur>(context);
+
     if (firebase == null) {
       return Accueil();
     }
 
     if (firebase != null) {
-      if (_donnesUtilisateur.admin == true) return Welcome();
-
-      if (_donnesUtilisateur.role == "Servant") return WelcomeServantPage();
-      if (_donnesUtilisateur.is_active == false) return WelcomePage();
-
-      return WelcomePage();
+      if (_donnes.admin == true) return HomePage();
+      if (_donnes.is_active == false) return Welcome();
+      if (_donnes.role == "Servant") return WelcomeServantPage();
     }
 
     return WelcomePage();

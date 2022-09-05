@@ -31,7 +31,7 @@ class donnesUtilisateur {
     return donnesUtilisateur(
         nom: (snap.data() as Map<String, dynamic>)["nom"] ?? "",
         prenom: (snap.data() as Map<String, dynamic>)['prenom'],
-        email: (snap.data() as Map<String, dynamic>)['emai'],
+        email: (snap.data() as Map<String, dynamic>)['email'],
         telephone: (snap.data() as Map<String, dynamic>)['telephone'],
         role: (snap.data() as Map<String, dynamic>)['role'],
         sexe: (snap.data() as Map<String, dynamic>)['sexe'],
@@ -134,7 +134,7 @@ class donnesUtilisateur {
 
 class Utilisateur {
   final String uid;
-  Utilisateur({
-    required this.uid,
-  });
+  Utilisateur(
+    this.uid,
+  );
 }

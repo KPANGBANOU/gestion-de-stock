@@ -1,17 +1,21 @@
-// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, camel_case_types, unused_local_variable, must_be_immutable, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:projet/services/registration.dart';
+import 'package:projet/services/user.dart';
+
 import 'package:provider/provider.dart';
 
 class DrawerHome extends StatelessWidget {
-  const DrawerHome({Key? key}) : super(key: key);
+  DrawerHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _firebase = Provider.of<firebaseAuth>(context);
+    final _donnesUsers = Provider.of<donnesUtilisateur>(context);
+
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: MediaQuery.of(context).size.width * 0.7,
       child: Padding(
         padding: const EdgeInsets.only(top: 96),
         child: Drawer(
@@ -19,64 +23,80 @@ class DrawerHome extends StatelessWidget {
             // ignore: prefer_const_literals_to_create_immutables
             children: [
               SizedBox(
-                height: 150,
+                height: 200,
                 child: DrawerHeader(
                     child: Column(
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/centreInformatique");
-                          },
-                          child: Text(
-                            "CENTRE INFORMATIQUE",
-                            style: TextStyle(color: Colors.black),
-                          )),
+                    Image.asset(
+                      'images/homme.png',
+                      width: 90,
+                      height: 90,
+                      scale: 2.5,
+                      fit: BoxFit.contain,
                     ),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/bar");
-                          },
-                          child: Text(
-                            "BAR RESTAURANT",
-                            style: TextStyle(color: Colors.black),
-                          )),
-                    ),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          _donnesUsers.prenom.toString() +
+                              " " +
+                              _donnesUsers.nom.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ))
                   ],
                 )),
               ),
-              Container(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(13.0),
-                    child: Text(
-                      "GESTION DES EMPLOYES",
-                      style: TextStyle(color: Colors.black.withOpacity(.5)),
-                    ),
-                  )),
               ListTile(
-                title: Text("Listes des employés "),
+                title: Text(
+                  "Centre informatique".toUpperCase(),
+                  style: TextStyle(color: Colors.green),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/centreInformatique");
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Bar restaurant".toUpperCase(),
+                  style: TextStyle(color: Colors.green),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/bar");
+                },
+              ),
+              ListTile(
+                title: Text("Liste des employés".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/listeEmployes");
                 },
               ),
               ListTile(
-                title: Text("Accorder de droits à un employé"),
+                title: Text("Attribution de droits".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/accorderDroits");
                 },
               ),
               ListTile(
-                title: Text("Informations de l'employé "),
+                title: Text("Services de l'entreprise".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/infoEmploye");
+                  Navigator.pushNamed(context, "/mesServices");
                 },
               ),
               ListTile(
-                title: Text("Déconnexion"),
+                title: Text("Profil".toUpperCase()),
+                onTap: () {
+                  Navigator.pushNamed(context, "/profil");
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Déconnexion".toUpperCase(),
+                  style: TextStyle(color: Colors.redAccent),
+                ),
                 onTap: () async {
                   await _firebase.signOut();
                   Navigator.of(context).pushNamed("/login");

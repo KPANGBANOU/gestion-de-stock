@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/my_filter.dart';
 import 'package:projet/interface/bottomnavigation.dart';
 import 'package:projet/services/registration.dart';
 import 'package:intl/intl.dart';
@@ -43,11 +44,12 @@ class _RegisterPageState extends State<RegisterPage> {
     final firebase = Provider.of<firebaseAuth>(context);
 
     return Scaffold(
+      backgroundColor: Colors.greenAccent,
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent,
         title: Text(
-          "Création de compte",
+          "Créer un compte",
           style: TextStyle(color: Colors.white.withOpacity(.8)),
         ),
         centerTitle: true,
@@ -69,59 +71,123 @@ class _RegisterPageState extends State<RegisterPage> {
                     _showUserPrenomInput(),
                     _showUserNomInput(),
                     SizedBox(
-                      width: double.infinity,
-                      child: DropdownButton<String>(
-                          value: sexe,
-                          elevation: 16,
-                          underline: Container(
-                            height: 2,
-                            color: Colors.deepPurpleAccent,
-                          ),
-                          items: <String>['Masculin', 'Féminin']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                                value: value, child: Text(value));
-                          }).toList(),
-                          onChanged: (newValue) {
-                            setState(() {
-                              sexe = newValue!;
-                            });
-                          }),
+                      height: 25,
                     ),
-                    TextField(
-                      controller: dateNaissance,
-                      decoration: InputDecoration(
-                        labelText: "Votre date de naissance",
-                        labelStyle: TextStyle(
-                          color: Colors.white.withOpacity(.8),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(
+                            Icons.man,
+                            color: Colors.grey,
+                            size: 40,
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: DropdownButton<String>(
+                                value: sexe,
+                                elevation: 16,
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                items: <String>[
+                                  'Masculin',
+                                  'Féminin'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                      value: value, child: Text(value));
+                                }).toList(),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    sexe = newValue!;
+                                  });
+                                }),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
                       ),
-                      readOnly: true,
-                      onTap: () async {
-                        DateTime? dateSelectionned = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            lastDate: DateTime(2100));
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: TextFormField(
+                        controller: dateNaissance,
+                        validator: ((value) {
+                          if (value == "") {
+                            return "La date de naissance est vide";
+                          }
+                          return null;
+                        }),
+                        decoration: InputDecoration(
+                            labelText: "Votre date de naissance",
+                            labelStyle: TextStyle(
+                              color: Colors.white.withOpacity(.8),
+                            ),
+                            icon: Icon(
+                              Icons.dataset,
+                              color: Colors.grey,
+                              size: 40,
+                            )),
+                        readOnly: true,
+                        onTap: () async {
+                          DateTime? dateSelectionned = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              lastDate: DateTime(2100));
 
-                        if (dateSelectionned != null) {
-                          String formatDate =
-                              DateFormat('dd-MM-yyyy').format(dateSelectionned);
+                          if (dateSelectionned != null) {
+                            String formatDate = DateFormat('dd-MM-yyyy')
+                                .format(dateSelectionned);
 
-                          setState(() {
-                            dateNaissance.text = formatDate;
-                          });
-                          // ignore: curly_braces_in_flow_control_structures
-                        } else {
-                          dateNaissance.text = "";
-                        }
-                      },
+                            setState(() {
+                              dateNaissance.text = formatDate;
+                            });
+                            // ignore: curly_braces_in_flow_control_structures
+                          } else {
+                            dateNaissance.text = "";
+                          }
+                        },
+                      ),
                     ),
                     _showEmailInput(),
                     _showUserTelephoneInput(),
                     _showPasswordInput(),
                     _showConfirmPasswordInput(),
                     _showFormActions(),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Avez-vous déjà créé un compte ?".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 20,
+                            color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 0,
+                    ),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Connectez vous alors !",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.blue, fontSize: 22),
+                        )),
+                    SizedBox(
+                      height: 40,
+                    )
                   ],
                 ),
               ),
@@ -135,9 +201,30 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //1
   _showTitle() {
-    return Text(
-      "Register",
-      style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            "Bienvenue sur DGracias App".toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 22, fontWeight: FontWeight.bold, letterSpacing: 4),
+          ),
+        ),
+        SizedBox(
+          height: 70,
+        ),
+        Text(
+          "Veuillez renseigner bien les informations svp !".toUpperCase(),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.redAccent.withOpacity(.7),
+              fontSize: 22,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold),
+        )
+      ],
     );
   }
 
@@ -147,13 +234,23 @@ class _RegisterPageState extends State<RegisterPage> {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextFormField(
+        autofocus: true,
         onSaved: (val) => _prenom = val!,
-        validator: (val) => val!.length < 6 ? "Le champ prénom est vide" : null,
+        validator: (val) {
+          if (val == "") {
+            return "Le prenom est obligatoire";
+          }
+          return null;
+        },
         decoration: InputDecoration(
-            labelText: "Prénom",
+            labelText: "Prénom".toLowerCase(),
+            labelStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.7)),
             hintText: "Votre prénom",
             icon: Icon(
               Icons.person_add_alt_sharp,
+              color: Colors.grey,
+              size: 40,
             )),
       ),
     );
@@ -164,12 +261,21 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(10),
       child: TextFormField(
         onSaved: (val) => _nom = val!,
-        validator: (val) => val!.length < 6 ? "Le champ nom est vide" : null,
+        validator: (val) {
+          if (val == "") {
+            return "Le nom est obligatoire";
+          }
+          return null;
+        },
         decoration: InputDecoration(
-            labelText: "Nom",
+            labelStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            labelText: "Nom".toUpperCase(),
             hintText: "Votre nom",
             icon: Icon(
               Icons.person_add_alt_sharp,
+              color: Colors.grey,
+              size: 40,
             )),
       ),
     );
@@ -181,12 +287,21 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(10),
       child: TextFormField(
         onSaved: (val) => _email = val!,
-        validator: (val) => !val!.contains("@") ? "Email invalide" : null,
+        validator: (val) {
+          if (!val!.contains("@") || val == "") {
+            return "L'email est vide ou invalide";
+          }
+          return null;
+        },
         decoration: InputDecoration(
-            labelText: "Adresse E-Mail",
+            labelStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            labelText: "Adresse E-Mail".toUpperCase(),
             hintText: "Votre adresse e-mail",
             icon: Icon(
               Icons.email_sharp,
+              color: Colors.grey,
+              size: 40,
             )),
       ),
     );
@@ -196,13 +311,24 @@ class _RegisterPageState extends State<RegisterPage> {
     return Padding(
       padding: EdgeInsets.all(10),
       child: TextFormField(
+        keyboardType: TextInputType.phone,
+        inputFormatters: [MyFilter()],
         onSaved: (val) => _telephone = val!,
-        validator: (val) => val!.length < 6 ? "Le champ numéro est vide" : null,
+        validator: (val) {
+          if (val!.length < 6) {
+            return "Le numero est vide ou invalide";
+          }
+          return null;
+        },
         decoration: InputDecoration(
-            labelText: "Numéro Téléphonique",
+            labelStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            labelText: "Numéro Téléphonique".toUpperCase(),
             hintText: "Votre numéro de téléphone",
             icon: Icon(
               Icons.phone_outlined,
+              color: Colors.grey,
+              size: 40,
             )),
       ),
     );
@@ -214,9 +340,16 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(10),
       child: TextFormField(
         onSaved: (val) => _password = val!,
-        validator: (val) => val!.length < 6 ? "Le mot de passe vide" : null,
+        validator: (val) {
+          if (val!.length <= 7) {
+            return "Le mot de paase est incorrect ou vide";
+          }
+          return null;
+        },
         obscureText: _obscureText,
         decoration: InputDecoration(
+            labelStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.7)),
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {
@@ -226,10 +359,12 @@ class _RegisterPageState extends State<RegisterPage> {
               child:
                   Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
             ),
-            labelText: "Mot de passe",
+            labelText: "Mot de passe".toUpperCase(),
             hintText: "Votre mot de passe",
             icon: Icon(
-              Icons.lock,
+              Icons.wifi,
+              color: Colors.grey,
+              size: 40,
             )),
       ),
     );
@@ -240,13 +375,22 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(10),
       child: TextFormField(
         onSaved: (val) => _confirmpassword = val!,
-        validator: (val) => val!.length < 6 ? "Le mot de passe vide" : null,
+        validator: (val) {
+          if (val!.length <= 7) {
+            return "Confirmez le mot de passe !";
+          }
+          return null;
+        },
         obscureText: true,
         decoration: InputDecoration(
-            labelText: "Confirmation ",
+            labelStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.7)),
+            labelText: "Confirmation".toUpperCase(),
             hintText: "Confirmez votre mot de passe",
             icon: Icon(
-              Icons.lock,
+              Icons.wifi,
+              color: Colors.grey,
+              size: 40,
             )),
       ),
     );
@@ -263,17 +407,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   valueColor:
                       AlwaysStoppedAnimation(Theme.of(context).primaryColor),
                 )
-              : RaisedButton(
-                  // ignore: sort_child_properties_last
-                  child: Text(
-                    "CONTINUEZ",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
+              : SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.indigo,
+                            textStyle:
+                                TextStyle(backgroundColor: Colors.indigo)),
+                        // ignore: sort_child_properties_last
+                        child: Text(
+                          "CONTINUEZ",
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
+                        onPressed: _submit),
                   ),
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.orange,
-                  onPressed: _submit),
+                ),
         ],
       ),
     );
@@ -315,10 +466,11 @@ class _RegisterPageState extends State<RegisterPage> {
       "nom": _nom,
       "prenom": _prenom,
       "sexe": sexe,
+      "role": "",
       "date_naissance": dateNaissance.text,
       "telephone": _telephone,
-      "email": auth.currentUser!.email.toString(),
-      "timestamp": timestamp,
+      "email": _email,
+      "timestamp": DateTime.now(),
       "admin": false,
       "is_active": true,
     });

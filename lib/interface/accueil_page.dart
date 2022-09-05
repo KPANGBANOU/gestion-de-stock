@@ -11,24 +11,26 @@ class AccueilPage extends StatelessWidget {
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
-          Container(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 150),
-              child: const Text("Bienvenue",
-                  style: TextStyle(
-                      color: Colors.grey, fontSize: 40, letterSpacing: 8)),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 150),
+            child: Text("Bienvenue sur DGraciasApp".toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    letterSpacing: 4,
+                    fontWeight: FontWeight.bold)),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.2,
           ),
-          const Text(
-            "Avez vous déjà un compte ?",
+          Text(
+            "Avez-vous déjà crééé de compte sur DgraciasApp !".toUpperCase(),
+            textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.redAccent,
-              fontSize: 25,
-            ),
+                color: Colors.redAccent.withOpacity(.7),
+                fontSize: 22,
+                fontStyle: FontStyle.italic),
           ),
           const SizedBox(
             height: 30,
@@ -48,12 +50,12 @@ class AccueilPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, "/creercompte");
                     },
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(left: 20),
                       child: Text(
                         "CONTINUEZ",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white.withOpacity(.7),
                             fontWeight: FontWeight.bold,
                             letterSpacing: 7),
                       ),

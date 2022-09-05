@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/erreur_connection.dart';
 
 class BarEnregistrerNouvelStockFormPage extends StatefulWidget {
   BarEnregistrerNouvelStockFormPage({Key? key}) : super(key: key);
@@ -76,7 +75,7 @@ class _BarEnregistrerNouvelStockFormPageState
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshots) {
                 if (snapshots.hasError) {
-                  return ErreurConnection();
+                  return Container();
                 }
                 if (snapshots.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator(

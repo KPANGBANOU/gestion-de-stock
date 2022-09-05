@@ -114,16 +114,22 @@ class _LoginPageState extends State<LoginPage> {
                   valueColor:
                       AlwaysStoppedAnimation(Theme.of(context).primaryColor),
                 )
-              : RaisedButton(
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
+              : SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.indigo,
+                            textStyle:
+                                TextStyle(backgroundColor: Colors.indigo)),
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
+                        onPressed: _submit),
                   ),
-                  elevation: 8.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  color: Colors.orange,
-                  onPressed: _submit),
+                ),
         ],
       ),
     );

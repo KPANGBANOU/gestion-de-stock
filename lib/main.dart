@@ -24,7 +24,7 @@ import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
 import 'interface/Bar_restaurant/rubrique_versement.dart';
 import 'interface/Bar_restaurant/statistique_des_ventes_bar.dart';
-import 'interface/Bar_restaurant/stock_initial.dart';
+
 import 'interface/Bar_restaurant/stock_physique.dart';
 import 'interface/Bar_restaurant/stockphysiquegrandmodel.dart';
 import 'interface/Bar_restaurant/stockphysiquepetitmodel.dart';
@@ -39,11 +39,9 @@ import 'interface/information_employe.dart';
 import 'interface/interface_centre_informatique.dart';
 import 'interface/listes_utilisateurs.dart';
 import 'interface/mes_services.dart';
-import 'interface/messagerie.dart';
-import 'interface/messenger.dart';
+
 import 'interface/nouveau_service.dart';
-import 'interface/user_information.dart';
-import 'interface/user_liste.dart';
+
 import 'interface/welcome.dart';
 import 'interface/wrapper.dart';
 import 'interface/zoom.dart';
@@ -81,6 +79,7 @@ class MyApp extends StatelessWidget {
         ),
         // donnees de l'utilisateur
 
+        // donnes de l'utilisateur courament connecté
         StreamProvider(
             create: ((context) => context
                 .read<serviceBD>()
@@ -95,12 +94,9 @@ class MyApp extends StatelessWidget {
                 date_naissance: "",
                 admin: false,
                 is_active: true)),
-
-        // donnes de l'utilisateur courament connecté
-
         StreamProvider(
             create: (context) => context.read<firebaseAuth>().utilisateur,
-            initialData: Utilisateur(uid: "")),
+            initialData: null),
         // stream of budget bar
 
         StreamProvider(
@@ -155,17 +151,12 @@ class MyApp extends StatelessWidget {
             "/bar": (context) => Bar(),
             "/centreInformatique": (context) => CentreInterfacePage(),
             "/mesServices": (context) => MesServices(),
-            "/messagerie": (context) => Messagerie(),
-            "/messenger": (context) => Messenger(),
             "/zoom": (context) => Zoom(),
             "/listeEmployes": (context) => ListeUtilisateurs(),
             "/infoEmploye": (context) => InfoEmploye(),
             "/accorderDroits": (context) => DroitsEmployes(),
             "/home": (context) => HomePage(),
-            "/usersListes": (context) => const UserListe(),
-            "/userinfo": (context) => UserInformation(),
             "/barstockphysique": (context) => StockPhysique(),
-            "/barstockinitial": (context) => StockInitial(),
             "/barrubrique": (context) => RubriqueVersement(),
             "/barbenefices": (context) => BeneficeBar(),
             "/bardepenses": (context) => DepensesBar(),
