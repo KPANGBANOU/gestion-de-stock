@@ -62,10 +62,12 @@ class serviceBD {
 
 // list of small modal of biar
   Stream<List<donneesBieerePetitModele>> get listDonnesBierresPetitModele {
-    return _Ref.collection("bierres").snapshots().map((documents) => documents
-        .docs
-        .map((snap) => donneesBieerePetitModele.fromFirestore(snap))
-        .toList());
+    return _Ref.collection("bierres")
+        .where("type", isEqualTo: "Pétit modèle")
+        .snapshots()
+        .map((documents) => documents.docs
+            .map((snap) => donneesBieerePetitModele.fromFirestore(snap))
+            .toList());
   }
 
   // list des depenses de l'employé connecté maintenant
@@ -102,10 +104,12 @@ class serviceBD {
   // list of big modal biar
 
   Stream<List<donnesBierresGrandModel>> get lisBiarGrandModel {
-    return _Ref.collection("bierres").snapshots().map((documents) => documents
-        .docs
-        .map((snap) => donnesBierresGrandModel.fromFirestore(snap))
-        .toList());
+    return _Ref.collection("bierres")
+        // .where('type', isEqualTo: 'Grand modèle')
+        .snapshots()
+        .map((documents) => documents.docs
+            .map((snap) => donnesBierresGrandModel.fromFirestore(snap))
+            .toList());
   }
 
   // budget general data
@@ -170,14 +174,14 @@ class serviceBD {
   // enregistrer une nouvelle bierre
 
   Future<String> addNouvelBiar(
-      String? nom,
+      String nom,
       String type,
-      int? prix_unitaire,
-      int? quantite_initial,
-      int? quantite_physique,
-      int? seuil_approvisionnement) async {
+      int prix_unitaire,
+      int quantite_initial,
+      int quantite_physique,
+      int seuil_approvisionnement) async {
     try {
-      await _Ref.collection("bierres").doc(type + nom!).set({
+      await _Ref.collection("bierres").doc(type + nom).set({
         'nom': nom,
         'type': type,
         'time': DateTime.now(),
@@ -224,12 +228,17 @@ class serviceBD {
 
   // enregistrer un nouveau stock
 
-  addnewstock(String bierre_id, int quantite_ajouter,
+  Future<String> addnewstock(String bierre_id, int quantite_ajouter,
       int quantite_physique_en_stock, int quantite_initial) async {
-    await _Ref.collection("bierres").doc(bierre_id).update({
-      'quantite_physique': quantite_physique_en_stock + quantite_ajouter,
-      'quantite_initialn': quantite_initial + quantite_ajouter,
-    });
+    try {
+      await _Ref.collection("bierres").doc(bierre_id).update({
+        'quantite_physique': quantite_physique_en_stock + quantite_ajouter,
+        'quantite_initialn': quantite_initial + quantite_ajouter,
+      });
+      return "Succes)";
+    } catch (e) {
+      return "Failed";
+    }
   }
 
   // mettre a jour un produit

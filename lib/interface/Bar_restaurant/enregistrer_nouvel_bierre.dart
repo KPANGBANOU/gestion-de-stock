@@ -20,20 +20,20 @@ class _EnregistrerNouvelBierreFormPageState
     extends State<EnregistrerNouvelBierreFormPage> {
   String type_bierre_selectionne = 'Pétit modèle';
 
+  TextEditingController nomProduit = TextEditingController();
+  TextEditingController quantiteInitial = TextEditingController();
+  TextEditingController prixUnitaire = TextEditingController();
+  TextEditingController seuilAprovisionnement = TextEditingController();
+  late int prix = 0;
+  late int seuil = 0;
+  late int quantite = 0;
+  late String nom = "";
   @override
   Widget build(BuildContext context) {
     final utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
     final service = Provider.of<serviceBD>(context);
     String message = "";
-    String prix = "";
-    String seuil = "";
-    String quantite = "";
-
-    late String nomProduit;
-    late int quantiteInitial;
-    late int prixUnitaire;
-    late int seuilAprovisionnement;
 
     return Scaffold(
         backgroundColor: Colors.greenAccent,
@@ -108,16 +108,8 @@ class _EnregistrerNouvelBierreFormPageState
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
-                child: TextFormField(
-                  validator: ((value) {
-                    if (value!.length <= 2) {
-                      return "La nom est vide ou invalide";
-                    }
-                    return null;
-                  }),
-                  onSaved: (value) {
-                    nomProduit = value as String;
-                  },
+                child: TextField(
+                  controller: nomProduit,
                   autofocus: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -129,8 +121,7 @@ class _EnregistrerNouvelBierreFormPageState
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        width: 1,
-                      ),
+                          width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
                     labelText: "Entrez le nom du produit",
                     hintText: "nom du produit".toUpperCase(),
@@ -142,18 +133,10 @@ class _EnregistrerNouvelBierreFormPageState
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextFormField(
-                  validator: ((value) {
-                    if (value!.length <= 0) {
-                      return "Le prix unitaire est vide ou invalide";
-                    }
-                    return null;
-                  }),
+                child: TextField(
+                  controller: prixUnitaire,
                   keyboardType: TextInputType.number,
                   inputFormatters: [MyFilter()],
-                  onSaved: (value) {
-                    prixUnitaire = value as int;
-                  },
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
@@ -172,18 +155,10 @@ class _EnregistrerNouvelBierreFormPageState
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextFormField(
+                child: TextField(
+                  controller: quantiteInitial,
                   keyboardType: TextInputType.number,
-                  validator: ((value) {
-                    if (value!.length <= 0) {
-                      return "La quantité initiale est vide ou invalide";
-                    }
-                    return null;
-                  }),
                   inputFormatters: [MyFilter()],
-                  onSaved: ((value) {
-                    quantiteInitial = value as int;
-                  }),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
@@ -198,22 +173,14 @@ class _EnregistrerNouvelBierreFormPageState
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 40,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextFormField(
-                  validator: ((value) {
-                    if (value!.length <= 0) {
-                      return "Le seuil d'approvisionnement est vide ou invalide";
-                    }
-                    return null;
-                  }),
+                child: TextField(
+                  controller: seuilAprovisionnement,
                   keyboardType: TextInputType.number,
                   inputFormatters: [MyFilter()],
-                  onSaved: (value) {
-                    seuilAprovisionnement = value as int;
-                  },
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
@@ -228,7 +195,7 @@ class _EnregistrerNouvelBierreFormPageState
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
               Padding(
                 padding:
@@ -237,18 +204,25 @@ class _EnregistrerNouvelBierreFormPageState
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
+                        prix = int.parse(prixUnitaire.text);
+                        quantite = int.parse(quantiteInitial.text);
+                        seuil = int.parse(seuilAprovisionnement.text);
                         var result = service.addNouvelBiar(
-                            nomProduit,
+                            nomProduit.text,
                             type_bierre_selectionne,
-                            prixUnitaire,
-                            quantiteInitial,
-                            quantiteInitial,
-                            seuilAprovisionnement);
+                            prix,
+                            quantite,
+                            quantite,
+                            seuil);
                         if (result == "Failed") {
                           message =
                               "Ce type de bièrre existe déjà pour le type de modèle que vous avez selectionné";
                         } else {
                           message = "Opération effectué avec succès !";
+                          prixUnitaire.clear();
+                          quantiteInitial.clear();
+                          seuilAprovisionnement.clear();
+                          nomProduit.clear();
                         }
 
                         final snakbar = SnackBar(
@@ -272,17 +246,16 @@ class _EnregistrerNouvelBierreFormPageState
 
                         // ignore: prefer_interpolation_to_compose_strings
 
-                        Navigator.of(context).pushNamed("/barsavanewproduct");
+                        // Navigator.of(context).pushNamed("/barsavanewproduct");
                       },
-                      style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(backgroundColor: Colors.indigo)),
+                      style: ElevatedButton.styleFrom(),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Enregistrer".toUpperCase(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.white.withOpacity(.5),
+                              color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),

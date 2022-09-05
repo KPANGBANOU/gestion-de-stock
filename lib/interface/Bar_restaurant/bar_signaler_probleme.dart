@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 
 class BarSignalerProbleme extends StatelessWidget {
   BarSignalerProbleme({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class BarSignalerProbleme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerAdminBar(),
       backgroundColor: Colors.greenAccent.withOpacity(.8),
       appBar: AppBar(
         centerTitle: true,

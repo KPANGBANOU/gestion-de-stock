@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class donnesBierresGrandModel {
   final int prix_unitaire;
   final int quantite_initial;
-  final int uantite_physique;
+  final int quantite_physique;
   final int seuil_approvisionnement;
   final String nom;
   final String type;
@@ -17,7 +17,7 @@ class donnesBierresGrandModel {
   donnesBierresGrandModel({
     required this.prix_unitaire,
     required this.quantite_initial,
-    required this.uantite_physique,
+    required this.quantite_physique,
     required this.seuil_approvisionnement,
     required this.nom,
     required this.type,
@@ -26,14 +26,14 @@ class donnesBierresGrandModel {
 
   factory donnesBierresGrandModel.fromFirestore(DocumentSnapshot document) {
     return donnesBierresGrandModel(
-        prix_unitaire:
-            (document.data() as Map<String, dynamic>)['quantite_unitaire'],
-        quantite_initial:
-            (document.data() as Map<String, dynamic>)['quantite_initial'],
-        uantite_physique:
-            (document.data() as Map<String, dynamic>)['quantite_physique'],
-        seuil_approvisionnement: (document.data()
-            as Map<String, dynamic>)['seuil_approvisionnement'],
+        prix_unitaire: int.parse(
+            (document.data() as Map<String, dynamic>)['quantite_unitaire']),
+        quantite_initial: int.parse(
+            (document.data() as Map<String, dynamic>)['quantite_initial']),
+        quantite_physique: int.parse(
+            (document.data() as Map<String, dynamic>)['quantite_physique']),
+        seuil_approvisionnement: int.parse((document.data()
+            as Map<String, dynamic>)['seuil_approvisionnement']),
         nom: (document.data() as Map<String, dynamic>)['nom'],
         type: (document.data() as Map<String, dynamic>)['type'],
         uid: (document.id));
@@ -42,7 +42,7 @@ class donnesBierresGrandModel {
   donnesBierresGrandModel copyWith({
     int? prix_unitaire,
     int? quantite_initial,
-    int? uantite_physique,
+    int? quantite_physique,
     int? seuil_approvisionnement,
     String? nom,
     String? type,
@@ -51,7 +51,7 @@ class donnesBierresGrandModel {
     return donnesBierresGrandModel(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
       quantite_initial: quantite_initial ?? this.quantite_initial,
-      uantite_physique: uantite_physique ?? this.uantite_physique,
+      quantite_physique: quantite_physique ?? this.quantite_physique,
       seuil_approvisionnement:
           seuil_approvisionnement ?? this.seuil_approvisionnement,
       nom: nom ?? this.nom,
@@ -64,7 +64,7 @@ class donnesBierresGrandModel {
     return {
       'prix_unitaire': prix_unitaire,
       'quantite_initial': quantite_initial,
-      'uantite_physique': uantite_physique,
+      'quantite_physique': quantite_physique,
       'seuil_approvisionnement': seuil_approvisionnement,
       'nom': nom,
       'type': type,
@@ -76,7 +76,7 @@ class donnesBierresGrandModel {
     return donnesBierresGrandModel(
       prix_unitaire: map['prix_unitaire']?.toInt() ?? 0,
       quantite_initial: map['quantite_initial']?.toInt() ?? 0,
-      uantite_physique: map['uantite_physique']?.toInt() ?? 0,
+      quantite_physique: map['quantite_physique']?.toInt() ?? 0,
       seuil_approvisionnement: map['seuil_approvisionnement']?.toInt() ?? 0,
       nom: map['nom'] ?? '',
       type: map['type'] ?? '',
@@ -91,7 +91,7 @@ class donnesBierresGrandModel {
 
   @override
   String toString() {
-    return 'donnesBierresGrandModel(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, uantite_physique: $uantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid)';
+    return 'donnesBierresGrandModel(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, uantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid)';
   }
 
   @override
@@ -101,7 +101,7 @@ class donnesBierresGrandModel {
     return other is donnesBierresGrandModel &&
         other.prix_unitaire == prix_unitaire &&
         other.quantite_initial == quantite_initial &&
-        other.uantite_physique == uantite_physique &&
+        other.quantite_physique == quantite_physique &&
         other.seuil_approvisionnement == seuil_approvisionnement &&
         other.nom == nom &&
         other.type == type &&
@@ -112,7 +112,7 @@ class donnesBierresGrandModel {
   int get hashCode {
     return prix_unitaire.hashCode ^
         quantite_initial.hashCode ^
-        uantite_physique.hashCode ^
+        quantite_physique.hashCode ^
         seuil_approvisionnement.hashCode ^
         nom.hashCode ^
         type.hashCode ^

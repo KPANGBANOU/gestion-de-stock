@@ -79,6 +79,15 @@ class DrawerAdminBar extends StatelessWidget {
                 )),
               ),
               ListTile(
+                title: Text(
+                  "Centre informatique".toUpperCase(),
+                  style: TextStyle(color: Colors.green),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/centreInformatique");
+                },
+              ),
+              ListTile(
                 title: Text("Bénéfices réalisées".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/barbenefices");
@@ -103,13 +112,24 @@ class DrawerAdminBar extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Approvisionner".toUpperCase()),
+                title: Text("Approvisionner de pétit modèle".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/barsavenewstock");
+                  Navigator.pushNamed(
+                      context, "/approvisionnementlistpetitmodele");
                 },
               ),
               ListTile(
-                title: Text("Deconnecter".toUpperCase()),
+                title: Text("Approvisionner de grand modèle".toUpperCase()),
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, "/approvisionnementlistgrandmodele");
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Deconnexion".toUpperCase(),
+                  style: TextStyle(color: Colors.redAccent),
+                ),
                 onTap: () async {
                   await _firebase.signOut();
                   Navigator.of(context).pushNamed("/login");

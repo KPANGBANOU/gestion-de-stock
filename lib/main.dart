@@ -3,6 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
+import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/parametres_admin.dart';
@@ -10,6 +12,7 @@ import 'package:projet/parametres_admin.dart';
 import 'base_donne/servicebasededonnees.dart';
 import 'interface/Bar_restaurant/accueil_servant_bar.dart';
 import 'interface/Bar_restaurant/approvisionnement.dart';
+import 'interface/Bar_restaurant/bar_approvisionner_grand_modele.dart';
 import 'interface/Bar_restaurant/bar_signaler_probleme.dart';
 import 'interface/Bar_restaurant/benefices.dart';
 import 'interface/Bar_restaurant/depenses.dart';
@@ -184,6 +187,12 @@ class MyApp extends StatelessWidget {
             "/profil": (context) => ProfilUtilisateur(),
             "/parametresadmin": (context) => ParametresAdmin(),
             "/nouveauservice": (context) => NouveauService(),
+            "/barsavenewstockgrandmodele": (context) =>
+                BarApprovisionnerGrandModele(),
+            "/approvisionnementlistgrandmodele": (context) =>
+                ApprovisionnementListGrandModel(),
+            "/approvisionnementlistpetitmodele": (context) =>
+                ApprovisionnementListPetitModele()
           },
           initialRoute: "/wrapper"),
     );

@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 import 'package:projet/interface/Bar_restaurant/my_filter.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class BarEnregistrerDepense extends StatelessWidget {
   Widget build(BuildContext context) {
     final utilisateur = Provider.of<Utilisateur>(context);
     return Scaffold(
+      drawer: DrawerAdminBar(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,

@@ -2,6 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/interface/Bar_restaurant/my_filter.dart';
+import 'package:projet/modele/bieere_petit_model.dart';
+import 'package:provider/provider.dart';
+
+import '../../services/user.dart';
 
 class BarEnregistrerNouvelStockFormPage extends StatefulWidget {
   BarEnregistrerNouvelStockFormPage({Key? key}) : super(key: key);
@@ -15,133 +21,90 @@ class _BarEnregistrerNouvelStockFormPageState
     extends State<BarEnregistrerNouvelStockFormPage> {
   TextEditingController quantite = TextEditingController();
 
-  final _bierres = FirebaseFirestore.instance.collectionGroup('bierres');
   var selectedCurrency;
   late DocumentSnapshot? category = null;
 
   String type_bierre = "Pétit modèle";
   @override
   Widget build(BuildContext context) {
+    final listBierres = Provider.of<List<donneesBieerePetitModele>>(context);
+    final _utilisateur = Provider.of<Utilisateur>(context);
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(.7),
+      drawer: DrawerAdminBar(),
+      backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         title: Text("Nouveau stock"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Enregistrement de nouvel stock".toUpperCase(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.black.withOpacity(.7),
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButton<String>(
-                  value: type_bierre,
-                  elevation: 16,
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-                  items: <String>['Pétit modèle', 'Grand modèle']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                        value: value, child: Text(value));
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      type_bierre = newValue!;
-                    });
-                  }),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 70,
             ),
-          ),
-          StreamBuilder<QuerySnapshot>(
-              stream: _bierres
-                  .where("type", isEqualTo: type_bierre)
-                  .orderBy("nom", descending: false)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshots) {
-                if (snapshots.hasError) {
-                  return Container();
-                }
-                if (snapshots.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(
-                    color: Colors.greenAccent,
-                  );
-
-                  if (!snapshots.hasData) {
-                    return Container();
-                  }
-                }
-
-                return Container(
-                    child: DropdownButtonHideUnderline(
-                        child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 15.0, right: 15, top: 20),
-                  child: DropdownButtonFormField<DocumentSnapshot>(
-                      value: category,
-                      hint: Text(
-                        "Selectionne la bièrre",
-                        style: TextStyle(color: Colors.white.withOpacity(.7)),
-                      ),
-                      onSaved: (newvalue) {
-                        setState(() {
-                          category = newvalue!;
-                        });
-                      },
-                      items:
-                          snapshots.data!.docs.map((DocumentSnapshot document) {
-                        return DropdownMenuItem<DocumentSnapshot>(
-                            value: document,
-                            child: Container(
-                              child: Text((document.data()
-                                  as Map<String, dynamic>)['nom']),
-                            ));
-                      }).toList(),
-                      onChanged: (newvalue) {
-                        setState(() {
-                          category = newvalue!;
-                        });
-                      }),
-                )));
-              }),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 15.0,
-              right: 15,
+            Text(
+              "Enregistrement de nouvel stock".toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(.7),
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
             ),
-            child: TextField(
-              controller: quantite,
-              decoration: InputDecoration(
-                labelText: "Quantité".toUpperCase(),
-                hintText: "Saisissez la quantité",
-                labelStyle: TextStyle(
-                  color: Colors.white.withOpacity(.8),
-                ),
-                hintStyle: TextStyle(
-                  color: Colors.white.withOpacity(.7),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+                child: DropdownButtonHideUnderline(
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 15.0, right: 15, top: 20),
+                        child: DropdownButtonFormField<DocumentSnapshot>(
+                            value: category,
+                            hint: Text(
+                              "Selectionne la bièrre",
+                            ),
+                            onSaved: (newvalue) {
+                              setState(() {
+                                category = newvalue!;
+                              });
+                            },
+                            items: listBierres.map((donnesBierres) {
+                              return DropdownMenuItem<DocumentSnapshot>(
+                                  value: null,
+                                  child: Container(
+                                      child: Text(
+                                    (donnesBierres.nom.toString()),
+                                  )));
+                            }).toList(),
+                            onChanged: (newvalue) {
+                              setState(() {
+                                category = newvalue!;
+                              });
+                            })))),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 15.0,
+                right: 15,
+              ),
+              child: TextField(
+                controller: quantite,
+                keyboardType: TextInputType.number,
+                inputFormatters: [MyFilter()],
+                decoration: InputDecoration(
+                  labelText: "Quantité".toUpperCase(),
+                  hintText: "Saisissez la quantité",
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
