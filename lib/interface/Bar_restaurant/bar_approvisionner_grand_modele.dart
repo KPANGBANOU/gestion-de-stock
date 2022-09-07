@@ -1,16 +1,27 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field, dead_code, unused_local_variable, no_leading_underscores_for_local_identifiers, sort_child_properties_last, deprecated_member_use, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, avoid_unnecessary_containers, avoid_init_to_null, non_constant_identifier_names, avoid_print, unrelated_type_equality_checks
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
-import 'package:projet/base_donne/servicebasededonnees.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
-import 'package:projet/interface/Bar_restaurant/my_filter.dart';
-import 'package:projet/modele/bierre_grand_model.dart';
-import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
+import 'package:projet/base_donne/servicebasededonnees.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+
+import 'package:projet/modele/bierre_grand_model.dart';
+import 'package:projet/services/user.dart';
+
 class BarApprovisionnerGrandModele extends StatefulWidget {
-  BarApprovisionnerGrandModele({Key? key, required this.id}) : super(key: key);
+  BarApprovisionnerGrandModele({
+    Key? key,
+    required this.id,
+    required this.nom,
+    required this.quantite_initial,
+    required this.quantite_physique,
+  }) : super(key: key);
+
   final String id;
+  final String nom;
+  final int quantite_initial;
+  final int quantite_physique;
 
   @override
   State<BarApprovisionnerGrandModele> createState() =>
@@ -21,11 +32,6 @@ class _BarApprovisionnerGrandModeleState
     extends State<BarApprovisionnerGrandModele> {
   TextEditingController quantite = TextEditingController();
 
-  var selectedCurrency;
-  late String category = "";
-  late int quantite_physique = 0;
-  late int quantite_initial = 0;
-  late int quantite_a_ajouter = 0;
   late String message = "";
 
   //String type_bierre = "Grand modèle";
@@ -80,46 +86,7 @@ class _BarApprovisionnerGrandModeleState
             SizedBox(
               height: 40,
             ),
-            Container(
-                child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15.0, right: 15, top: 20),
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("bierres")
-                            .where("type", isEqualTo: 'Pétit modèle')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          return DropdownButton(
-                            onChanged: (value) {
-                              category = value.toString();
-                              print(category);
-                            },
-                            isDense: true,
-                            isExpanded: true,
-                            value: category,
-                            icon: Icon(Icons.keyboard_arrow_down),
-                            hint: Text(
-                              "Selectionne la bièrre",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            items: snapshot.data?.docs
-                                .map((DocumentSnapshot donnes) {
-                              return DropdownMenuItem<String>(
-                                  value: (donnes.data()
-                                      as Map<String, dynamic>)['nom'],
-                                  child: Container(
-                                      child: Text(
-                                    (donnes.data()
-                                        as Map<String, dynamic>)['nom'],
-                                  )));
-                            }).toList(),
-                          );
-                        }))),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
+            /* Padding(
               padding: const EdgeInsets.only(
                 left: 15.0,
                 right: 15,
@@ -199,12 +166,13 @@ class _BarApprovisionnerGrandModeleState
                             margin: EdgeInsets.all(5),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                          return BarApprovisionnerGrandModele();
+                          return Container();
+                          //BarApprovisionnerGrandModele();
                         },
                       );
                     })),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

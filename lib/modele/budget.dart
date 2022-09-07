@@ -18,10 +18,9 @@ class budget {
 
   factory budget.fromFirestore(DocumentSnapshot document) {
     return budget(
-        solde_total: (document.data() as Map<String, dynamic>)['solde_total'],
-        depense: (document.data() as Map<String, dynamic>)['depense'],
-        solde_hors_depense:
-            (document.data() as Map<String, dynamic>)['solde_hors_depense'],
+        solde_total: (document.data() as Map)['solde_total'],
+        depense: (document.data() as Map)['depense'],
+        solde_hors_depense: (document.data() as Map)['solde_hors_depense'],
         uid: document.id);
   }
 

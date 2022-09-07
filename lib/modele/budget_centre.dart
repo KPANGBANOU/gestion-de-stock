@@ -18,8 +18,8 @@ class budgetCentre {
 
   factory budgetCentre.fromFirestore(DocumentSnapshot document) {
     return budgetCentre(
-      solde_total: (document.data() as Map<String, dynamic>)['solde_total'],
-      depense: (document.data() as Map<String, dynamic>)['depense'],
+      solde_total: (document.data() as Map)['solde_total'],
+      depense: (document.data() as Map)['depense'],
       uid: document.id,
     );
   }

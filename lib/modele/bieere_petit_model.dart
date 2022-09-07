@@ -24,14 +24,11 @@ class donneesBieerePetitModele {
 
   factory donneesBieerePetitModele.fromFirestore(DocumentSnapshot document) {
     return donneesBieerePetitModele(
-        prix_unitaire:
-            (document.data() as Map<String, dynamic>)['quantite_unitaire'],
-        quantite_initial:
-            (document.data() as Map<String, dynamic>)['quantite_initial'],
-        uantite_physique:
-            (document.data() as Map<String, dynamic>)['quantite_physique'],
-        seuil_approvisionnement: (document.data()
-            as Map<String, dynamic>)['seuil_approvisionnement'],
+        prix_unitaire: (document.data() as Map)['prix_unitaire'],
+        quantite_initial: (document.data() as Map)['quantite_initial'],
+        uantite_physique: (document.data() as Map)['quantite_physique'],
+        seuil_approvisionnement:
+            (document.data() as Map)['seuil_approvisionnement'],
         nom: (document.data() as Map<String, dynamic>)['nom'],
         type: (document.data() as Map<String, dynamic>)['type'],
         uid: (document.id));

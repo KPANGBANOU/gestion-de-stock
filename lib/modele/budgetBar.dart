@@ -18,8 +18,8 @@ class BudgetBar {
 
   factory BudgetBar.fromFirestore(DocumentSnapshot document) {
     return BudgetBar(
-      solde_total: (document.data() as Map<String, dynamic>)['solde_total'],
-      depense: (document.data() as Map<String, dynamic>)['depense'],
+      solde_total: (document.data() as Map)['solde_total'],
+      depense: (document.data() as Map)['depense'],
       uid: document.id,
     );
   }

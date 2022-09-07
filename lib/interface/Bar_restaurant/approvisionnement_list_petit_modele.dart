@@ -9,10 +9,7 @@ import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 class ApprovisionnementListPetitModele extends StatelessWidget {
   ApprovisionnementListPetitModele({
     Key? key,
-    required this.id,
   }) : super(key: key);
-
-  final String id;
 
   @override
   Widget build(BuildContext context) {

@@ -19,8 +19,8 @@ class vente {
   factory vente.fromFirestore(DocumentSnapshot document) {
     return vente(
         bierre_id: (document.data() as Map<String, dynamic>)['bierre_id'],
-        quantite: (document.data() as Map<String, dynamic>)['quantite'],
-        montant: (document.data() as Map<String, dynamic>)['montant'],
+        quantite: (document.data() as Map)['quantite'],
+        montant: (document.data() as Map)['montant'],
         uid: document.id);
   }
 

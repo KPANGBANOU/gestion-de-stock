@@ -37,7 +37,7 @@ class donnesDepense {
     return donnesDepense(
         id: document.id,
         description: (document.data() as Map<String, dynamic>)['description'],
-        montant: (document.data() as Map<String, dynamic>)['montant']);
+        montant: (document.data() as Map)['montant']);
   }
 
   Map<String, dynamic> toMap() {
