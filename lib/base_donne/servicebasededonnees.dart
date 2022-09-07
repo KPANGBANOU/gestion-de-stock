@@ -233,7 +233,7 @@ class serviceBD {
     try {
       await _Ref.collection("bierres").doc(bierre_id).update({
         'quantite_physique': quantite_physique_en_stock + quantite_ajouter,
-        'quantite_initialn': quantite_initial + quantite_ajouter,
+        'quantite_initial': quantite_initial + quantite_ajouter,
       });
       return "Succes)";
     } catch (e) {
