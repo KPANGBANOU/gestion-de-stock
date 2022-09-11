@@ -1,24 +1,31 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_constructors, must_be_immutable, unused_local_variable, no_leading_underscores_for_local_identifiers, unrelated_type_equality_checks, prefer_final_fields, use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/base_donne/servicebasededonnees.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/services/user.dart';
+import 'package:provider/provider.dart';
 
 class BarSignalerProbleme extends StatelessWidget {
   BarSignalerProbleme({Key? key}) : super(key: key);
 
-  TextEditingController description = TextEditingController();
-
+  TextEditingController _description = TextEditingController();
+  String message = "";
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<Utilisateur>(context);
+    final _service = Provider.of<serviceBD>(context);
+    final _donnesUser = Provider.of<donnesUtilisateur>(context);
     return Scaffold(
-      drawer: DrawerAdminBar(),
-      backgroundColor: Colors.greenAccent.withOpacity(.8),
+      drawer: servantdrawer(),
+      backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.indigoAccent,
         title: Text(
-          "Séo Gracias",
+          "Déo Gracias",
           style: TextStyle(
               color: Colors.white.withOpacity(.8),
               fontSize: 22,
@@ -30,15 +37,16 @@ class BarSignalerProbleme extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Text(
-                  " Si le problème est trés percutant, contactez le PDG ou le Gérant directement"
+                  " Si le problème est trés sérieux, contactez svp le PDG ou le Gérant directement"
                       .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.redAccent.withOpacity(.55),
+                      color: Colors.black,
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                 ),
@@ -58,39 +66,94 @@ class BarSignalerProbleme extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(left: 25.0, right: 15, bottom: 20),
                 child: TextField(
-                  controller: description,
-                  decoration: InputDecoration(
+                    controller: _description,
+                    decoration: InputDecoration(
                       hintText: "Description",
                       labelText: "Description",
-                      hintStyle: TextStyle(
-                        color: Colors.white.withOpacity(.8),
-                      ),
-                      labelStyle:
-                          TextStyle(color: Colors.white.withOpacity(.8))),
-                ),
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 10.0, right: 10, top: 40, bottom: 70),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(
+                child: Container(
+                  color: Colors.indigo,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                        onPressed: () async {
+                          try {
+                            await FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(_user.uid)
+                                .collection("problemes")
+                                .add({
+                              'description': _description.text,
+                              'time': DateTime.now()
+                            });
+                            _description.clear();
+                            message = _donnesUser.prenom
+                                    .toString()
+                                    .toUpperCase() +
+                                " , votre problème a té enregistré avec succès"
+                                    .toUpperCase();
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  message,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                               backgroundColor: Colors.indigo,
-                              fontWeight: FontWeight.bold)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Enregistrez".toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(.8),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          } catch (e) {
+                            message =
+                                "Une erreur intattendue s'est produite pendant l'enregistrement du problème ! Réessayez svp !"
+                                    .toUpperCase();
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  message,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.redAccent.withOpacity(.8),
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                                backgroundColor: Colors.indigo,
+                                fontWeight: FontWeight.bold)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Enregistrez".toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                      )),
+                        )),
+                  ),
                 ),
               ),
             ],

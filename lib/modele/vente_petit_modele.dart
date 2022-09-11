@@ -1,16 +1,18 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// ignore_for_file: camel_case_types, non_constant_identifier_names
+// ignore_for_file: camel_case_types
 
-class vente {
+class ventePetitModele {
   final String uid;
   final int quantite;
   final int montant;
   final String nom_bierre;
   final String category;
-  vente({
+  ventePetitModele({
     required this.uid,
     required this.quantite,
     required this.montant,
@@ -18,8 +20,8 @@ class vente {
     required this.category,
   });
 
-  factory vente.fromFirestore(DocumentSnapshot document) {
-    return vente(
+  factory ventePetitModele.fromFirestore(DocumentSnapshot document) {
+    return ventePetitModele(
         nom_bierre: (document.data() as Map)['nom_bierre'],
         category: (document.data() as Map)['category'],
         quantite: (document.data() as Map)['quantite'],
@@ -27,14 +29,14 @@ class vente {
         uid: document.id);
   }
 
-  vente copyWith({
+  ventePetitModele copyWith({
     String? uid,
     int? quantite,
     int? montant,
     String? nom_bierre,
     String? category,
   }) {
-    return vente(
+    return ventePetitModele(
       uid: uid ?? this.uid,
       quantite: quantite ?? this.quantite,
       montant: montant ?? this.montant,
@@ -55,8 +57,8 @@ class vente {
     return result;
   }
 
-  factory vente.fromMap(Map<String, dynamic> map) {
-    return vente(
+  factory ventePetitModele.fromMap(Map<String, dynamic> map) {
+    return ventePetitModele(
       uid: map['uid'] ?? '',
       quantite: map['quantite']?.toInt() ?? 0,
       montant: map['montant']?.toInt() ?? 0,
@@ -67,18 +69,19 @@ class vente {
 
   String toJson() => json.encode(toMap());
 
-  factory vente.fromJson(String source) => vente.fromMap(json.decode(source));
+  factory ventePetitModele.fromJson(String source) =>
+      ventePetitModele.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'vente(uid: $uid, quantite: $quantite, montant: $montant, nom_bierre: $nom_bierre, category: $category)';
+    return 'ventePetitModele(uid: $uid, quantite: $quantite, montant: $montant, nom_bierre: $nom_bierre, category: $category)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is vente &&
+    return other is ventePetitModele &&
         other.uid == uid &&
         other.quantite == quantite &&
         other.montant == montant &&

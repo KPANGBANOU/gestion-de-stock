@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
 import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
+import 'package:projet/interface/Bar_restaurant/liste_des_grands_modele.dart';
+import 'package:projet/interface/Bar_restaurant/liste_petits_modele.dart';
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +21,6 @@ import 'interface/Bar_restaurant/enregistrer_depense.dart';
 import 'interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
 import 'interface/Bar_restaurant/enregistrer_nouvel_stock.dart';
 import 'interface/Bar_restaurant/interface_bar_restaurant.dart';
-import 'interface/Bar_restaurant/liste_bierres.dart';
 import 'interface/Bar_restaurant/liste_produits.dart';
 import 'interface/Bar_restaurant/nouveau_approvisionnement.dart';
 import 'interface/Bar_restaurant/pertes.dart';
@@ -36,6 +37,7 @@ import 'interface/accorder_droit.dart';
 import 'interface/accueil.dart';
 import 'interface/connexion.dart';
 import 'interface/creer_compte.dart';
+import 'interface/desactiver_compte.dart';
 import 'interface/home.dart';
 import 'interface/information_employe.dart';
 import 'interface/interface_centre_informatique.dart';
@@ -44,6 +46,7 @@ import 'interface/mes_services.dart';
 
 import 'interface/nouveau_service.dart';
 
+import 'interface/suppression_compte.dart';
 import 'interface/welcome.dart';
 import 'interface/wrapper.dart';
 import 'interface/zoom.dart';
@@ -87,6 +90,7 @@ class MyApp extends StatelessWidget {
                 .read<serviceBD>()
                 .donnes(FirebaseAuth.instance.currentUser!.uid)),
             initialData: donnesUtilisateur(
+                uid: "",
                 nom: "",
                 prenom: "",
                 email: "",
@@ -178,7 +182,6 @@ class MyApp extends StatelessWidget {
                 EnregistrerNouvelBierreFormPage(),
             "/barsavenewstock": (context) =>
                 BarEnregistrerNouvelStockFormPage(),
-            "/barlistebierres": (context) => BarListeBierresPage(),
             "/barventepetitmodel": (context) => BarVenteBierrePetitModel(),
             "/barventegrandmodel": (context) => BarVenteBierreGrandModel(),
             "/barenregistrerdepense": (context) => BarEnregistrerDepense(),
@@ -189,7 +192,11 @@ class MyApp extends StatelessWidget {
             "/approvisionnementlistgrandmodele": (context) =>
                 ApprovisionnementListGrandModele(),
             "/approvisionnementlistpetitmodele": (context) =>
-                ApprovisionnementListPetitModele()
+                ApprovisionnementListPetitModele(),
+            "/listedesgrandsmodeles": (context) => ListeDesGrandModel(),
+            "/listedespetitsmodeles": (context) => ListeDesPetitsModel(),
+            "/desactivercompte": (context) => DesactiverCompte(),
+            "/supprimercompte": (context) => SuppressionCompte(),
           },
           initialRoute: "/wrapper"),
     );

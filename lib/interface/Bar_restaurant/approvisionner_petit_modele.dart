@@ -115,6 +115,7 @@ class ApprovisionnerPetitModele extends StatelessWidget {
                           message = "Opération effectué avec succès !";
                           _quantite.clear();
                         }
+
                         final snakbar = SnackBar(
                           content: Padding(
                             padding: const EdgeInsets.all(8.0),

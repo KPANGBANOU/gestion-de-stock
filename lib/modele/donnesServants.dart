@@ -1,10 +1,12 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// ignore_for_file: non_constant_identifier_names, camel_case_types, unnecessary_this
+// ignore_for_file: camel_case_types
 
-class donnesUtilisateur {
+class donnesServants {
   final String? nom;
   final String? prenom;
   final String? email;
@@ -16,7 +18,7 @@ class donnesUtilisateur {
 
   final bool? admin;
   final bool? is_active;
-  donnesUtilisateur({
+  donnesServants({
     this.nom,
     this.prenom,
     this.email,
@@ -29,8 +31,8 @@ class donnesUtilisateur {
     this.is_active,
   });
 
-  factory donnesUtilisateur.fromFiresotre(DocumentSnapshot snap) {
-    return donnesUtilisateur(
+  factory donnesServants.fromFiresotre(DocumentSnapshot snap) {
+    return donnesServants(
         uid: snap.id,
         nom: (snap.data() as Map<String, dynamic>)["nom"] ?? "",
         prenom: (snap.data() as Map<String, dynamic>)['prenom'],
@@ -43,7 +45,7 @@ class donnesUtilisateur {
         is_active: (snap.data() as Map<String, dynamic>)['is_active']);
   }
 
-  donnesUtilisateur copyWith({
+  donnesServants copyWith({
     String? nom,
     String? prenom,
     String? email,
@@ -55,7 +57,7 @@ class donnesUtilisateur {
     bool? admin,
     bool? is_active,
   }) {
-    return donnesUtilisateur(
+    return donnesServants(
       nom: nom ?? this.nom,
       prenom: prenom ?? this.prenom,
       email: email ?? this.email,
@@ -104,8 +106,8 @@ class donnesUtilisateur {
     return result;
   }
 
-  factory donnesUtilisateur.fromMap(Map<String, dynamic> map) {
-    return donnesUtilisateur(
+  factory donnesServants.fromMap(Map<String, dynamic> map) {
+    return donnesServants(
       nom: map['nom'],
       prenom: map['prenom'],
       email: map['email'],
@@ -121,19 +123,19 @@ class donnesUtilisateur {
 
   String toJson() => json.encode(toMap());
 
-  factory donnesUtilisateur.fromJson(String source) =>
-      donnesUtilisateur.fromMap(json.decode(source));
+  factory donnesServants.fromJson(String source) =>
+      donnesServants.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'donnesUtilisateur(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, admin: $admin, is_active: $is_active)';
+    return 'donnesServants(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, admin: $admin, is_active: $is_active)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is donnesUtilisateur &&
+    return other is donnesServants &&
         other.nom == nom &&
         other.prenom == prenom &&
         other.email == email &&
@@ -159,11 +161,4 @@ class donnesUtilisateur {
         admin.hashCode ^
         is_active.hashCode;
   }
-}
-
-class Utilisateur {
-  final String uid;
-  Utilisateur(
-    this.uid,
-  );
 }

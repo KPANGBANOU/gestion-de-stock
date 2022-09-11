@@ -55,13 +55,13 @@ class servantdrawer extends StatelessWidget {
               ListTile(
                 title: Text("Vente de petit moèle".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/barventepetitmodel");
+                  Navigator.pushNamed(context, "/listedespetitsmodeles");
                 },
               ),
               ListTile(
                 title: Text("vente de grand moèle".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/barventegrandmodel");
+                  Navigator.pushNamed(context, "/listedesgrandsmodeles");
                 },
               ),
               ListTile(
@@ -77,13 +77,31 @@ class servantdrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                title: Text("Désactiver mon compte".toUpperCase()),
+                onTap: () {
+                  Navigator.pushNamed(context, "/desactivercompte");
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Supprimer mon compte".toUpperCase(),
+                  style: TextStyle(color: Colors.redAccent.withOpacity(.7)),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/supprimercompte");
+                },
+              ),
+              ListTile(
                 title: Text("Mon profil".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/profil");
                 },
               ),
               ListTile(
-                title: Text("Me déconnecter".toUpperCase()),
+                title: Text(
+                  "Déconnexion".toUpperCase(),
+                  style: TextStyle(color: Colors.redAccent),
+                ),
                 onTap: () async {
                   await _firebase.signOut();
                   Navigator.of(context).pushNamed("/login");

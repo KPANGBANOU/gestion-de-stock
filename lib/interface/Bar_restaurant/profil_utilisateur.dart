@@ -67,12 +67,6 @@ class ProfilUtilisateur extends StatelessWidget {
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Colors.white.withOpacity(.5),
-                      ))
                 ],
               ),
             ),
@@ -94,12 +88,6 @@ class ProfilUtilisateur extends StatelessWidget {
                         fontSize: 17,
                         fontWeight: FontWeight.bold),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Colors.white.withOpacity(.5),
-                      ))
                 ],
               ),
             ),
@@ -123,12 +111,6 @@ class ProfilUtilisateur extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: FaIcon(
-                          FontAwesomeIcons.pencil,
-                          color: Colors.white.withOpacity(.5),
-                        ))
                   ],
                 ),
               ),
@@ -151,12 +133,6 @@ class ProfilUtilisateur extends StatelessWidget {
                         fontSize: 17,
                         fontWeight: FontWeight.bold),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: FaIcon(
-                        FontAwesomeIcons.pencil,
-                        color: Colors.white.withOpacity(.5),
-                      ))
                 ],
               ),
             ),
@@ -165,23 +141,26 @@ class ProfilUtilisateur extends StatelessWidget {
                   top: 70, left: 10.0, right: 10, bottom: 70),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(
-                            backgroundColor: Colors.indigo,
-                            fontWeight: FontWeight.bold)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Mettre à jour".toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(.5),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                child: Container(
+                  color: Colors.indigo,
+                  child: TextButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          textStyle: TextStyle(
+                              backgroundColor: Colors.indigo,
+                              fontWeight: FontWeight.bold)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Mettre à jour".toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(.5),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                    )),
+                      )),
+                ),
               ),
             ),
           ],

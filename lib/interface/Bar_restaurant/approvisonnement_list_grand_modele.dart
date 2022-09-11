@@ -127,7 +127,6 @@ class ApprovisionnementListGrandModele extends StatelessWidget {
 
                             return ListTile(
                               onTap: () {
-                                change_bierre_id.currentId = document.id;
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

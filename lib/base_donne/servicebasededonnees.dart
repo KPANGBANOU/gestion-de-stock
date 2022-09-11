@@ -3,13 +3,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
-import 'package:projet/modele/budget.dart';
+
 import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/modele/budget_centre.dart';
 
 import 'package:projet/modele/depense.dart';
+import 'package:projet/modele/donnesServants.dart';
 import 'package:projet/modele/probleme.dart';
 import 'package:projet/modele/vente.dart';
+import 'package:projet/modele/vente_grand_modele.dart';
+import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/services/user.dart';
 
 class serviceBD {
@@ -105,20 +108,21 @@ class serviceBD {
 
   Stream<List<donnesBierresGrandModel>> get lisBiarGrandModel {
     return _Ref.collection("bierres")
-        // .where('type', isEqualTo: 'Grand modèle')
+        .where('type', isEqualTo: 'Grand modèle')
         .snapshots()
         .map((documents) => documents.docs
             .map((snap) => donnesBierresGrandModel.fromFirestore(snap))
             .toList());
   }
 
-  // budget general data
+  // list des servants du bar
 
-  Stream<budget> get budgetGeneral {
-    return _Ref.collection("budget")
-        .doc("budgetgenerale")
+  Stream<List<donnesServants>> get servantBar {
+    return _Ref.collection("users")
+        //.where('role', isEqualTo: "Servant")
         .snapshots()
-        .map((snap) => budget.fromFirestore(snap));
+        .map((event) =>
+            event.docs.map((e) => donnesServants.fromFiresotre(e)).toList());
   }
 
   // budget bar data
@@ -156,21 +160,40 @@ class serviceBD {
 
   // vente data
 
-  Stream<vente> ventedata(String uid) {
-    return _Ref.collection("ventes")
-        .doc(uid)
+  Stream<vente> ventedata(String bierre_uid, String user_id) {
+    return _Ref.collection("users")
+        .doc(user_id)
+        .collection("ventes")
+        .doc(bierre_uid)
         .snapshots()
         .map((event) => vente.fromFirestore(event));
   }
 
-  // list de vente
+  // list de vente d'un utilisateur pour petit model
 
-  Stream<List<vente>> get listdevente {
-    return _Ref.collection("ventes")
+  Stream<List<ventePetitModele>> list_vente_servant_bar_petit_modele(
+      String user_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection("ventes")
+        .where('category', isEqualTo: 'Pétit modèle')
         .snapshots()
-        .map((event) => event.docs.map((e) => vente.fromFirestore(e)).toList());
+        .map((event) =>
+            event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
   }
 
+  // list de vente pour grand modeles
+
+  Stream<List<venteGrandModele>> list_vente_servant_bar_grand_modele(
+      String user_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection("ventes")
+        .where('category', isEqualTo: 'Grand modèle')
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
+  }
   // enregistrer une nouvelle bierre
 
   Future<String> addNouvelBiar(
@@ -198,31 +221,60 @@ class serviceBD {
   }
 
   // enregistrer un probleme
-  addProbleme(String uid, String description) async {
-    await _Ref.collection("users")
-        .doc(uid)
-        .collection("problemes")
-        .add({'description': description, 'time': DateTime.now()});
+  Future<String> addProbleme(String user_uid, String description) async {
+    try {
+      await _Ref.collection("users")
+          .doc(user_uid)
+          .collection("problemes")
+          .add({'description': description, 'time': DateTime.now()});
+      return "Succes";
+    } catch (e) {
+      return "Failed";
+    }
   }
 
 // enregistrer une vente
-  addVente(String uid, String bierre_id, int quantite, int montant,
-      int budget_bar, int quantite_physique_bierre) async {
-    if (quantite <= quantite_physique_bierre) {
-      await _Ref.collection("users").doc(uid).collection("ventes").add({
-        'bierre_id': bierre_id,
-        'quantite': quantite,
-        'montant': montant,
-        'time': DateTime.now(),
-      });
+  Future<String> addVente(
+      String user_uid,
+      String bierre_id,
+      String budget_uid,
+      int quantite,
+      int quantite_qui_etait_vendu,
+      int montant_en_stock,
+      String category,
+      String nom_bierre,
+      int prix_unitaire,
+      int solde_total_bar,
+      int quantite_physique_en_stock) async {
+    try {
+      if (quantite <= quantite_physique_en_stock) {
+        await _Ref.collection("users")
+            .doc(user_uid)
+            .collection("ventes")
+            .doc(bierre_id)
+            .set({
+          'nom_bierre': nom_bierre,
+          'category': category,
+          'quantite': quantite_qui_etait_vendu + quantite,
+          'montant': montant_en_stock + quantite * prix_unitaire,
+          'time': DateTime.now(),
+        });
 
-      await _Ref.collection("bierres").doc(bierre_id).update({
-        'quantite_physique': quantite_physique_bierre - quantite,
-      });
+        await _Ref.collection("bierres").doc(bierre_id).update({
+          'quantite_physique': quantite_physique_en_stock - quantite,
+        });
 
-      await _Ref.collection("budget_bar").doc("budgetbar").update({
-        'solde_total': budget_bar + montant,
-      });
+        await _Ref.collection("budget").doc(budget_uid).update({
+          'solde_total': solde_total_bar + (quantite * prix_unitaire),
+        });
+
+        return "Succes";
+      } else {
+        // ignore: prefer_interpolation_to_compose_strings
+        return "Stock insuffisant";
+      }
+    } catch (e) {
+      return "Failed";
     }
   }
 
@@ -254,16 +306,22 @@ class serviceBD {
 
   // add depense
 
-  addDepense(String description, int montant, String user_id, String budget_id,
-      int depense) async {
-    await _Ref.collection("users").doc(user_id).collection("depenses").add({
-      'created_at': DateTime.now(),
-      'description': description,
-      'montant': montant
-    });
+  Future<String> addDepense(String description, int montant_depenser,
+      String user_id, String budget_id, int depense_budget) async {
+    try {
+      await _Ref.collection("users").doc(user_id).collection("depenses").add({
+        'created_at': DateTime.now(),
+        'description': description,
+        'montant': montant_depenser
+      });
 
-    await _Ref.collection("budget").doc(budget_id).update({
-      'depense': depense + montant,
-    });
+      await _Ref.collection("budget").doc(budget_id).update({
+        'depense': depense_budget + montant_depenser,
+      });
+
+      return "Succes";
+    } catch (e) {
+      return "Failed";
+    }
   }
 }

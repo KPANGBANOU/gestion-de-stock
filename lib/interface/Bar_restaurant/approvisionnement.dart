@@ -7,7 +7,7 @@ import 'package:projet/base_donne/servicebasededonnees.dart';
 
 import 'package:projet/modele/bierre_grand_model.dart';
 
-import 'vendre_petit_modele.dart';
+import 'approvisionner_petit_modele.dart';
 
 class ApprovisionnementBar extends StatelessWidget {
   ApprovisionnementBar({
