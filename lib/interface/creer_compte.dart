@@ -179,7 +179,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 0,
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/login");
+                        },
                         child: Text(
                           "Connectez vous alors !",
                           textAlign: TextAlign.center,
@@ -476,6 +478,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
     /* uid: auth.currentUser!.uid,
         */
-    Navigator.of(context).pushNamed("/welcome");
+    Navigator.of(context).pushNamed("/wrapper");
   }
 }

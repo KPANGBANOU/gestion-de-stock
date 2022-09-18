@@ -154,7 +154,7 @@ class VentePetitModele extends StatelessWidget {
                               " insuffisant pour effectuer cette achat. IL nereste que " +
                               _bierre.quantite_physique.toString() +
                               " en stock !";
-                          ;
+
                           final snakbar = SnackBar(
                             content: Padding(
                               padding: const EdgeInsets.all(8.0),

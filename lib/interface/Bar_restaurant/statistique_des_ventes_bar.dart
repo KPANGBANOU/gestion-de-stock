@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/interface/Bar_restaurant/statistique_liste_servants.dart';
-import 'package:projet/modele/donnesServants.dart';
+import 'package:projet/modele/donnesservants.dart';
 import 'package:provider/provider.dart';
 
 class StatistiqueDesVentesBar extends StatelessWidget {

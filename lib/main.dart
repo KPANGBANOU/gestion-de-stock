@@ -79,9 +79,13 @@ class MyApp extends StatelessWidget {
         Provider<firebaseAuth>(
           create: (_) => firebaseAuth(),
         ),
+
         Provider<serviceBD>(
           create: (_) => serviceBD(),
         ),
+        StreamProvider(
+            create: (context) => context.read<firebaseAuth>().utilisateur,
+            initialData: null),
         // donnees de l'utilisateur
 
         // donnes de l'utilisateur courament connecté
@@ -100,9 +104,7 @@ class MyApp extends StatelessWidget {
                 date_naissance: "",
                 admin: false,
                 is_active: true)),
-        StreamProvider(
-            create: (context) => context.read<firebaseAuth>().utilisateur,
-            initialData: null),
+
         // stream of budget bar
 
         StreamProvider(

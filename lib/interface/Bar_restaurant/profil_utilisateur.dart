@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, must_be_immutable, prefer_typing_uninitialized_variables, unused_field, no_leading_underscores_for_local_identifiers, prefer_const_constructors_in_immutabl, prefer_const_constructors_in_immutables
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 

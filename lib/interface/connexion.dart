@@ -26,36 +26,80 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.greenAccent,
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         centerTitle: true,
-        title: const Text("GeeksForGeeks"),
+        elevation: 0,
+        title: const Text(
+          "Connexion",
+          style: TextStyle(
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  _showTitle(),
-                  _showEmailInput(),
-                  _showPasswordInput(),
-                  _showFormActions()
-                ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Bienvenue sur Déo Gracias".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Renseignez bien vos informations svp !".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.redAccent.withOpacity(.8),
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                "Informations rélatives à votre compte".toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 24,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    _showEmailInput(),
+                    _showPasswordInput(),
+                    _showFormActions()
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
-    );
-  }
-
-  _showTitle() {
-    return Text(
-      "Login",
-      style: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
     );
   }
 
@@ -63,14 +107,17 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child: TextFormField(
+        autofocus: true,
         onSaved: (val) => _email = val!,
-        validator: (val) => !val!.contains("@") ? "Invalid Email" : null,
+        validator: (val) =>
+            !val!.contains("@") ? "Adresse e-mail vide ou invalide" : null,
         decoration: InputDecoration(
-            border: OutlineInputBorder(),
             labelText: "Email",
-            hintText: "Enter Valid Email",
+            hintText: "Votre adresse E-mail",
             icon: Icon(
               Icons.mail,
+              color: Colors.white,
+              size: 35,
             )),
       ),
     );
@@ -81,7 +128,8 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.only(top: 20),
       child: TextFormField(
         onSaved: (val) => _password = val!,
-        validator: (val) => val!.length < 6 ? "Password Is Too Short" : null,
+        validator: (val) =>
+            val!.length < 6 ? "Mot de passe vide ou invalide" : null,
         obscureText: _obscureText,
         decoration: InputDecoration(
             suffixIcon: GestureDetector(
@@ -93,12 +141,12 @@ class _LoginPageState extends State<LoginPage> {
               child:
                   Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
             ),
-            border: OutlineInputBorder(),
-            labelText: "Password",
-            hintText: "Enter Valid Password",
+            labelText: "Mot de passe",
+            hintText: "Votre mot de passe",
             icon: Icon(
-              Icons.lock,
-              color: Colors.grey,
+              Icons.wifi,
+              color: Colors.white,
+              size: 35,
             )),
       ),
     );
@@ -106,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
 
   _showFormActions() {
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 29),
       child: Column(
         children: [
           _isSubmitting == true
@@ -116,6 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                 )
               : SizedBox(
                   width: double.infinity,
+                  height: 50,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
@@ -124,12 +173,45 @@ class _LoginPageState extends State<LoginPage> {
                             textStyle:
                                 TextStyle(backgroundColor: Colors.indigo)),
                         child: Text(
-                          "Submit",
-                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          "Connexion".toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
                         onPressed: _submit),
                   ),
                 ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "N'avez vous pas de compte actif sur cette application ?",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          TextButton(
+              onPressed: (() {
+                Navigator.pushNamed(context, "/creercompte");
+              }),
+              child: Text(
+                "Creez-en un",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic),
+              )),
+          SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
@@ -155,6 +237,6 @@ class _LoginPageState extends State<LoginPage> {
         .read<firebaseAuth>()
         .signInWithEmailAndPassword(_email, _password);
 
-    Navigator.of(context).pushNamed("/welcome");
+    Navigator.of(context).pushNamed("/wrapper");
   }
 }

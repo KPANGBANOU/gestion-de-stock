@@ -8,7 +8,7 @@ import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/modele/budget_centre.dart';
 
 import 'package:projet/modele/depense.dart';
-import 'package:projet/modele/donnesServants.dart';
+import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/probleme.dart';
 import 'package:projet/modele/vente.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
@@ -45,6 +45,17 @@ class serviceBD {
       return "Echec";
     }
     return "Echec";
+  }
+
+  // accoder droits donnesUtilisateurs
+
+  Stream<List<donnesUtilisateur>> infoEmploye(String email) {
+    return _Ref.collection("users")
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .snapshots()
+        .map((snap) =>
+            snap.docs.map((e) => donnesUtilisateur.fromFiresotre(e)).toList());
   }
 
   // list of users
