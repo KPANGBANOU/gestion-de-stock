@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/bottomnavigation.dart';
+import 'package:projet/interface/info_utilisateur.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +60,22 @@ class ListeUtilisateurs extends StatelessWidget {
           itemBuilder: ((context, index) {
             donnesUtilisateur _donnes = _list_employes[index];
             return ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => InformationsUtilisateur(
+                            nom: _donnes.nom.toString(),
+                            prenom: _donnes.prenom.toString(),
+                            sexe: _donnes.sexe.toString(),
+                            date_naissance: _donnes.date_naissance.toString(),
+                            email: _donnes.email.toString(),
+                            role: _donnes.role.toString(),
+                            uid: _donnes.uid,
+                            telephone: _donnes.telephone.toString(),
+                            secteur_travail: _donnes.nom.toString()))));
+              },
+              onLongPress: () {},
               leading: Image.asset(
                 "images/homme.png",
                 width: 50,
