@@ -7,6 +7,10 @@ import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_mod
 import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
 import 'package:projet/interface/Bar_restaurant/liste_des_grands_modele.dart';
 import 'package:projet/interface/Bar_restaurant/liste_petits_modele.dart';
+import 'package:projet/interface/centre_informatique/centre_liquidite_list_credits.dart';
+import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
+import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
+import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +23,9 @@ import 'interface/Bar_restaurant/benefices.dart';
 import 'interface/Bar_restaurant/depenses.dart';
 import 'interface/Bar_restaurant/enregistrer_depense.dart';
 import 'interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
-import 'interface/Bar_restaurant/enregistrer_nouvel_stock.dart';
 import 'interface/Bar_restaurant/interface_bar_restaurant.dart';
 import 'interface/Bar_restaurant/liste_produits.dart';
-import 'interface/Bar_restaurant/nouveau_approvisionnement.dart';
+
 import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
 import 'interface/Bar_restaurant/rubrique_versement.dart';
@@ -35,6 +38,21 @@ import 'interface/Bar_restaurant/vente_bierre_grand_model.dart';
 import 'interface/Bar_restaurant/vente_bierre_petit_model.dart';
 import 'interface/accorder_droit.dart';
 import 'interface/accueil.dart';
+import 'interface/centre_informatique/centre_approvisionner_list_produits.dart';
+import 'interface/centre_informatique/centre_enregistrer_depense.dart';
+import 'interface/centre_informatique/centre_enregistrer_nouveau_produit.dart';
+import 'interface/centre_informatique/centre_enregistrer_nouveau_reseau_credit.dart';
+import 'interface/centre_informatique/centre_enregistrer_probleme.dart';
+import 'interface/centre_informatique/centre_list_employe_ayant_depense.dart';
+import 'interface/centre_informatique/centre_pertes.dart';
+import 'interface/centre_informatique/centre_approvisionnement.dart';
+import 'interface/centre_informatique/centre_benefices.dart';
+import 'interface/centre_informatique/centre_liquidite_credit.dart';
+import 'interface/centre_informatique/centre_produits.dart';
+import 'interface/centre_informatique/centre_rubrique_versement.dart';
+import 'interface/centre_informatique/centre_statistique_vente.dart';
+import 'interface/centre_informatique/centre_stock_physique.dart';
+import 'interface/centre_informatique/centre_vente_credit.dart';
 import 'interface/connexion.dart';
 import 'interface/creer_compte.dart';
 import 'interface/desactiver_compte.dart';
@@ -172,8 +190,6 @@ class MyApp extends StatelessWidget {
             "/barpertes": (context) => PertesBar(),
             "/barstatistiquedesventes": (context) => StatistiqueDesVentesBar(),
             "/barlisteproduits": (context) => ListeProduits(),
-            "/barnouveauapprovisionnement": (context) =>
-                NouveauApprovisionnement(),
             "/barstockphysiquepetitmodele": (context) =>
                 StockPhysiquePetitModel(),
             "/barstockphysiquegrandmodele": (context) =>
@@ -182,8 +198,6 @@ class MyApp extends StatelessWidget {
             "/login": (context) => LoginPage(),
             "/barsavanewproduct": (context) =>
                 EnregistrerNouvelBierreFormPage(),
-            "/barsavenewstock": (context) =>
-                BarEnregistrerNouvelStockFormPage(),
             "/barventepetitmodel": (context) => BarVenteBierrePetitModel(),
             "/barventegrandmodel": (context) => BarVenteBierreGrandModel(),
             "/barenregistrerdepense": (context) => BarEnregistrerDepense(),
@@ -199,6 +213,32 @@ class MyApp extends StatelessWidget {
             "/listedespetitsmodeles": (context) => ListeDesPetitsModel(),
             "/desactivercompte": (context) => DesactiverCompte(),
             "/supprimercompte": (context) => SuppressionCompte(),
+            "/centrebenefices": (context) => CentreBenefices(),
+            "/centrestatistiquevente": (context) => CentreStatistiqueVente(),
+            "/centrerubriqueversement": (context) => CentreRubriqueVersement(),
+            "/centreproduits": (context) => CentreListeProduits(),
+            "/centreventecredit": (context) => CentreVenteCredit(),
+            "/centreventelistproduit": (context) => CentreVenteListProduits(),
+            "/centreventeproduit": (context) => CentreVenteProduit(),
+            "/centreventelistcredits": (context) => CentreVenteListCredits(),
+            "/centreliquiditecredit": (context) => CentreLiquiditeCredit(),
+            "/centreliquiditelistcredit": (context) =>
+                CentreLiquiditeListCredits(),
+            "/centreenregistrerdepense": (context) =>
+                CentreEnregistrerDepense(),
+            "/centreenregistrerprobleme": (context) =>
+                CentreEnregistrerProbleme(),
+            "/centreenregistrernouveauproduit": (context) =>
+                CentreEnregistrerNouveauProduit(),
+            "/centreenregistrernouveaureseaucredit": (context) =>
+                CentreEnregistrerNouveauReseauCredit(),
+            "/centrelistemployeayantdepense": (context) =>
+                CentreListEmployeAyantDepense(),
+            "/centrepertes": (context) => CentrePertes(),
+            "/centrestockphysique": (context) => CentreStockPhysique(),
+            "/centreapprovisionnement": (context) => CentreApprovisionnement(),
+            "/centreapprovisionnementlistproduits": (context) =>
+                CentreApprovisionnerListProduits(),
           },
           initialRoute: "/wrapper"),
     );

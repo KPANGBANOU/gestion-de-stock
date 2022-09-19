@@ -5,27 +5,24 @@ import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin_bar.dart';
-import 'my_filter.dart';
+import '../Bar_restaurant/my_filter.dart';
 
-class ApprovisionnerGrandModele extends StatelessWidget {
-  ApprovisionnerGrandModele({super.key});
+class CentreApprovisionnement extends StatelessWidget {
+  CentreApprovisionnement({super.key});
 
   TextEditingController _quantite = TextEditingController();
   int quantite = 0;
-  String message = "";
 
   @override
   Widget build(BuildContext context) {
     final _bierre = Provider.of<donnesBierresGrandModel>(context);
     final _servicedb = Provider.of<serviceBD>(context);
     return Scaffold(
-      drawer: DrawerAdminBar(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        title: Text("Nouveau stock"),
+        title: Text("Nouvel stock"),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -37,8 +34,7 @@ class ApprovisionnerGrandModele extends StatelessWidget {
               height: 90,
             ),
             Text(
-              "Approvisionnement du stock de pétit modèle de bierre"
-                  .toUpperCase(),
+              "Réchargement de stock de produits ".toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black.withOpacity(.7),
@@ -51,7 +47,7 @@ class ApprovisionnerGrandModele extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Renseignez la quantité d'approvisionnement de la bièrre" +
+                "Renseignez la quantité d'approvisionnement du" +
                     _bierre.nom.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -101,7 +97,7 @@ class ApprovisionnerGrandModele extends StatelessWidget {
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
                       onPressed: (() {
-                        /*  quantite = int.parse(_quantite.text);
+                        /* quantite = int.parse(_quantite.text);
 
                         var result = _servicedb.addnewstock(
                             _bierre.uid,
@@ -115,6 +111,7 @@ class ApprovisionnerGrandModele extends StatelessWidget {
                           message = "Opération effectué avec succès !";
                           _quantite.clear();
                         }
+
                         final snakbar = SnackBar(
                           content: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -132,7 +129,7 @@ class ApprovisionnerGrandModele extends StatelessWidget {
                           behavior: SnackBarBehavior.floating,
                           margin: EdgeInsets.all(5),
                         );
-ScaffoldMessenger.of(context).showSnackBar(snakbar);*/
+                        ScaffoldMessenger.of(context).showSnackBar(snakbar);*/
                       }),
                     ))),
           ],
