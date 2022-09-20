@@ -34,7 +34,7 @@ class BarApprovisionnerGrandModele extends StatelessWidget {
                 type: "Grand modèle",
                 uid: this.id))
       ],
-      child: ApprovisionnerGrandModele(),
+      // child: ApprovisionnerGrandModele(),
     );
   }
 }

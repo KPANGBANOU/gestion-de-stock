@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +11,7 @@ import 'package:projet/interface/centre_informatique/centre_liquidite_list_credi
 import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
+import 'package:projet/modele/credit.dart';
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:provider/provider.dart';
 
@@ -122,6 +123,12 @@ class MyApp extends StatelessWidget {
                 date_naissance: "",
                 admin: false,
                 is_active: true)),
+        // list decredits reseaux
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_reseaux_credits),
+            initialData: <credit>[]),
 
         // stream of budget bar
 

@@ -6,6 +6,8 @@ import 'package:projet/modele/bierre_grand_model.dart';
 
 import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/modele/budget_centre.dart';
+import 'package:projet/modele/centre_vente.dart';
+import 'package:projet/modele/credit.dart';
 
 import 'package:projet/modele/depense.dart';
 import 'package:projet/modele/donnesservants.dart';
@@ -45,6 +47,43 @@ class serviceBD {
       return "Echec";
     }
     return "Echec";
+  }
+
+  // list de vente
+
+  Stream<List<centreVente>> cente_list_vente(String employe_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => centreVente.fromfirestore(e)).toList());
+  }
+
+  // ventre centre
+
+  Stream<centreVente> centre_vente(String employe_uid, String vente_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .doc(vente_uid)
+        .snapshots()
+        .map((event) => centreVente.fromfirestore(event));
+  }
+
+  // list de reseaux credits
+
+  Stream<List<credit>> get list_reseaux_credits {
+    return _Ref.collection("reseaux_communication").snapshots().map(
+        (event) => event.docs.map((e) => credit.fromfirestore(e)).toList());
+  }
+
+  // credit stream
+  Stream<credit> reseau_credit(String credit_uid) {
+    return _Ref.collection("reseaux_communication")
+        .doc(credit_uid)
+        .snapshots()
+        .map((event) => credit.fromfirestore(event));
   }
 
   // accoder droits donnesUtilisateurs

@@ -15,6 +15,9 @@ import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
+import 'centre_servant_bottom.dart';
+import 'centre_servant_drawer.dart';
+
 class WelcomeServantCentre extends StatelessWidget {
   WelcomeServantCentre({Key? key}) : super(key: key);
 
