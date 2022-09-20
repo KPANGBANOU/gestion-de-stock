@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field, unused_local_variable, non_constant_identifier_names, use_build_context_synchronously, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, unrelated_type_equality_checks, prefer_const_declarations, prefer_is_empty, override_on_non_overriding_member
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field, unused_local_variable, non_constant_identifier_names, use_build_context_synchronously, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, unrelated_type_equality_checks, prefer_const_declarations, prefer_is_empty, override_on_non_overriding_member, unnecessary_null_comparison, prefer_interpolation_to_compose_strings
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/base_donne/servicebasededonnees.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
-import 'package:projet/interface/Bar_restaurant/my_filter.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +15,14 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
   TextEditingController seuilAprovisionnement = TextEditingController();
 
   late int seuil = 0;
-  late int quantite = 0;
+  late int montant = 0;
   late String nom = "";
-  String message = "";
+  late bool result = true;
+
   @override
   Widget build(BuildContext context) {
     final utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
-    final service = Provider.of<serviceBD>(context);
 
     return Scaffold(
         backgroundColor: Colors.greenAccent,
@@ -32,7 +30,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            "Nouveau produit",
+            "Nouveau réseau",
             style: TextStyle(color: Colors.white.withOpacity(.8), fontSize: 25),
           ),
           backgroundColor: Colors.indigoAccent,
@@ -45,21 +43,39 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
             // ignore: prefer_const_literals_to_create_immutables
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: 40,
               ),
-              Text(
-                "Renseignez bien les informations svp".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 5,
-                    color: Colors.redAccent.withOpacity(.7)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Enregistrement d'un nouveau réseau de communication au srock "
+                      .toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
-                height: 30,
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Renseignez bien les champs svp !".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 5,
+                      color: Colors.redAccent.withOpacity(.7)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Text(
-                "Informations sur le nouveau réseau  de communication"
+                "Informations rélatives au nouveau réseau de communication"
                     .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -68,7 +84,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                     fontSize: 25),
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
@@ -93,14 +109,13 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextField(
                   controller: montantInitial,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [MyFilter()],
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
@@ -109,20 +124,19 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    labelText: "Montant initial",
-                    hintText: "Entrez le montant  initiale".toUpperCase(),
+                    hintText: "Entrez le montant initial",
+                    labelText: "montant initial".toUpperCase(),
                   ),
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextField(
                   controller: seuilAprovisionnement,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [MyFilter()],
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
@@ -131,7 +145,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    hintText: "Montant seuil d'approvisionnement",
+                    hintText: "Entrez le seuil d'approvisionnement",
                     labelText: "Seuil d'approvisionnement".toUpperCase(),
                   ),
                 ),
@@ -145,50 +159,101 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {
-                        /*  prix = int.parse(prixUnitaire.text);
-                        quantite = int.parse(quantiteInitial.text);
-                        seuil = int.parse(seuilAprovisionnement.text);
-                        var result = service.addNouvelBiar(
-                            nomProduit.text,
-                            type_bierre_selectionne,
-                            prix,
-                            quantite,
-                            quantite,
-                            seuil);
-                        if (result == "Failed") {
-                          message =
-                              "Ce type de bièrre existe déjà pour le type de modèle que vous avez selectionné";
-                        } else {
-                          message = "Opération effectué avec succès !";
-                          prixUnitaire.clear();
-                          quantiteInitial.clear();
-                          seuilAprovisionnement.clear();
-                          nomProduit.clear();
-                        }
+                      onPressed: () async {
+                        try {
+                          montant = int.parse(montantInitial.text);
+                          seuil = int.parse(seuilAprovisionnement.text);
+                          nom = nomReseau.text;
+                          await FirebaseFirestore.instance
+                              .collection("reseaux_communication")
+                              .doc(nom)
+                              .get()
+                              .then((onexist) {
+                            onexist.exists ? result = true : result = false;
+                          });
 
-                        final snakbar = SnackBar(
-                          content: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              message,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold),
+                          if (!result) {
+                            // si ce produit n'existespas encore
+                            await FirebaseFirestore.instance
+                                .collection("produits_centre")
+                                .doc(nom)
+                                .set({
+                              "nom": num,
+                              "montant_initial": montant,
+                              "montant_disponible": montant,
+                              "seuil_approvisionnement)": seuil,
+                              "created_at": DateTime.now(),
+                              "update_at": DateTime.now()
+                            });
+
+                            nomReseau.clear();
+                            montantInitial.clear();
+                            seuilAprovisionnement.clear();
+
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Le produit " +
+                                      nom +
+                                      " a été ajouté au stock avec succès",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.indigo,
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          } else {
+                            // si le produit existe
+
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Le produit que vous voudriez ajouter existe dejà dans la base de donnée !",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.redAccent.withOpacity(.8),
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          }
+
+                          // ignore: empty_catches
+                        } catch (e) {
+                          final snakbar = SnackBar(
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Une erreur inattendue s'esto produite pendant cette opération. Vérifiez votre connection internet et réessayez !",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                          backgroundColor: Colors.indigo,
-                          elevation: 10,
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.all(5),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snakbar);*/
-
-                        // ignore: prefer_interpolation_to_compose_strings
-
-                        // Navigator.of(context).pushNamed("/barsavanewproduct");
+                            backgroundColor: Colors.redAccent.withOpacity(.8),
+                            elevation: 10,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.all(5),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                        }
                       },
                       style: ElevatedButton.styleFrom(),
                       child: Padding(

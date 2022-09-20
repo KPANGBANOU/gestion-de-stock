@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, sort_child_properties_last, unrelated_type_equality_checks
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, sort_child_properties_last, unrelated_type_equality_checks, use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/base_donne/servicebasededonnees.dart';
+import 'package:projet/modele/credit.dart';
 import 'package:provider/provider.dart';
 
 import '../Bar_restaurant/my_filter.dart';
@@ -14,7 +15,7 @@ class CentreApprovisionnementCredit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _servicedb = Provider.of<serviceBD>(context);
+    final _credit = Provider.of<credit>(context);
     return Scaffold(
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
@@ -32,7 +33,8 @@ class CentreApprovisionnementCredit extends StatelessWidget {
               height: 90,
             ),
             Text(
-              "Réchargement de stock de crédits ".toUpperCase(),
+              "Réchargement de stock de ".toUpperCase() +
+                  _credit.nom.toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black.withOpacity(.7),
@@ -45,11 +47,11 @@ class CentreApprovisionnementCredit extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Renseignez le montant d'approvisionnement".toUpperCase(),
+                "Renseignez le montant d'approvisionnement",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.redAccent.withOpacity(.7),
-                  fontSize: 22,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -93,40 +95,74 @@ class CentreApprovisionnementCredit extends StatelessWidget {
                         "Enregistrez".toUpperCase(),
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
-                      onPressed: (() {
-                        /* quantite = int.parse(_quantite.text);
+                      onPressed: (() async {
+                        quantite = int.parse(_quantite.text);
 
-                        var result = _servicedb.addnewstock(
-                            _bierre.uid,
-                            quantite,
-                            _bierre.quantite_physique,
-                            _bierre.quantite_initial);
-                        if (result == "Failed") {
-                          message =
-                              "Ce type de bièrre existe déjà pour le type de modèle que vous avez selectionné";
-                        } else {
-                          message = "Opération effectué avec succès !";
+                        try {
+                          await FirebaseFirestore.instance
+                              .collection("reseaux_communication")
+                              .doc(_credit.uid)
+                              .update({
+                            "montant_disponible":
+                                _credit.montant_disponible + quantite,
+                            "montant_initial":
+                                _credit.montant_initial + quantite,
+                          });
+
                           _quantite.clear();
-                        }
 
-                        final snakbar = SnackBar(
-                          content: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              message,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold),
+                          final snakbar = SnackBar(
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Le réchargement de stock de " +
+                                      _credit.nom +
+                                      " a été effectué avec succès. Vous disponez maintenant de " +
+                                      _credit.montant_disponible.toString() +
+                                      " F de " +
+                                      _credit.nom +
+                                      "  en stock",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
-                          ),
-                          backgroundColor: Colors.indigo,
-                          elevation: 10,
-                          behavior: SnackBarBehavior.floating,
-                          margin: EdgeInsets.all(5),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snakbar);*/
+                            backgroundColor: Colors.indigo,
+                            elevation: 10,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.all(5),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                        } catch (e) {
+                          final snakbar = SnackBar(
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Une erreur inattendue s'est produite pendant le réchargement de stock de " +
+                                      _credit.nom +
+                                      "! Vérifiez votre connection internet et réessayez",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            backgroundColor: Colors.redAccent.withOpacity(.8),
+                            elevation: 10,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.all(5),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                        }
                       }),
                     ))),
           ],

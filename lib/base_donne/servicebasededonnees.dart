@@ -12,6 +12,7 @@ import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/depense.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/probleme.dart';
+import 'package:projet/modele/produit.dart';
 import 'package:projet/modele/vente.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
@@ -49,7 +50,23 @@ class serviceBD {
     return "Echec";
   }
 
-  // list de vente
+  // liste de produits
+
+  Stream<List<produits>> get list_produits_centre {
+    return _Ref.collection("produits_centre").snapshots().map(
+        (event) => event.docs.map((e) => produits.fromfirestore(e)).toList());
+  }
+
+  // produit du centre
+
+  Stream<produits> produit_centre(String produit_uid) {
+    return _Ref.collection("produits_centre")
+        .doc(produit_uid)
+        .snapshots()
+        .map((event) => produits.fromfirestore(event));
+  }
+
+  // list de vente de credits
 
   Stream<List<centreVente>> cente_list_vente(String employe_uid) {
     return _Ref.collection("users")

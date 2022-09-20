@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_facture_vente_credit.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/modele/budgetBar.dart';
+
+import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
 import 'package:projet/services/user.dart';
@@ -19,7 +20,7 @@ class CentreVenteCredit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _credit = Provider.of<credit>(context);
-    final _budget_centre = Provider.of<BudgetBar>(context);
+    final _budget_centre = Provider.of<budgetCentre>(context);
     final _donnes = Provider.of<donnesUtilisateur>(context);
     final _centre_vente = Provider.of<centreVente>(context);
 
@@ -199,7 +200,13 @@ class CentreVenteCredit extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: ((context) =>
-                                      CentreFactureVenteCredit())));
+                                      CentreFactureVenteCredit(
+                                        credit_montant_vendu: montant,
+                                        credit_uid: _credit.uid,
+                                        credit_nom: _credit.nom,
+                                        credit_montant_restant:
+                                            _credit.montant_disponible,
+                                      ))));
                         }
                         // ignore: empty_catches
                       } catch (e) {

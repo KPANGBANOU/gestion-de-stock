@@ -12,12 +12,14 @@ class produits {
   final int quantite_initial;
   final int quantite_physique;
   final int seuil_approvisionnement;
+  final int prix_unitaire;
   produits({
     required this.uid,
     required this.nom,
     required this.quantite_initial,
     required this.quantite_physique,
     required this.seuil_approvisionnement,
+    required this.prix_unitaire,
   });
 
   factory produits.fromfirestore(DocumentSnapshot document) {
@@ -26,6 +28,7 @@ class produits {
         nom: (document.data() as Map<String, dynamic>)['nom'],
         quantite_initial: (document.data() as Map)['quantite_initial'],
         quantite_physique: (document.data() as Map)['quantite_physique'],
+        prix_unitaire: (document.data() as Map)['prix_unitaire'],
         seuil_approvisionnement:
             (document.data() as Map)['seuil_approvisionnement']);
   }
@@ -36,6 +39,7 @@ class produits {
     int? quantite_initial,
     int? quantite_physique,
     int? seuil_approvisionnement,
+    int? prix_unitaire,
   }) {
     return produits(
       uid: uid ?? this.uid,
@@ -44,6 +48,7 @@ class produits {
       quantite_physique: quantite_physique ?? this.quantite_physique,
       seuil_approvisionnement:
           seuil_approvisionnement ?? this.seuil_approvisionnement,
+      prix_unitaire: prix_unitaire ?? this.prix_unitaire,
     );
   }
 
@@ -55,6 +60,7 @@ class produits {
     result.addAll({'quantite_initial': quantite_initial});
     result.addAll({'quantite_physique': quantite_physique});
     result.addAll({'seuil_approvisionnement': seuil_approvisionnement});
+    result.addAll({'prix_unitaire': prix_unitaire});
 
     return result;
   }
@@ -66,6 +72,7 @@ class produits {
       quantite_initial: map['quantite_initial']?.toInt() ?? 0,
       quantite_physique: map['quantite_physique']?.toInt() ?? 0,
       seuil_approvisionnement: map['seuil_approvisionnement']?.toInt() ?? 0,
+      prix_unitaire: map['prix_unitaire']?.toInt() ?? 0,
     );
   }
 
@@ -76,7 +83,7 @@ class produits {
 
   @override
   String toString() {
-    return 'produits(uid: $uid, nom: $nom, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement)';
+    return 'produits(uid: $uid, nom: $nom, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, prix_unitaire: $prix_unitaire)';
   }
 
   @override
@@ -88,7 +95,8 @@ class produits {
         other.nom == nom &&
         other.quantite_initial == quantite_initial &&
         other.quantite_physique == quantite_physique &&
-        other.seuil_approvisionnement == seuil_approvisionnement;
+        other.seuil_approvisionnement == seuil_approvisionnement &&
+        other.prix_unitaire == prix_unitaire;
   }
 
   @override
@@ -97,6 +105,7 @@ class produits {
         nom.hashCode ^
         quantite_initial.hashCode ^
         quantite_physique.hashCode ^
-        seuil_approvisionnement.hashCode;
+        seuil_approvisionnement.hashCode ^
+        prix_unitaire.hashCode;
   }
 }

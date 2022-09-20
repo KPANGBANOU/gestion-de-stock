@@ -12,6 +12,7 @@ import 'package:projet/interface/centre_informatique/centre_vente_list_credits.d
 import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
 import 'package:projet/modele/credit.dart';
+import 'package:projet/modele/produit.dart';
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:provider/provider.dart';
 
@@ -123,7 +124,14 @@ class MyApp extends StatelessWidget {
                 date_naissance: "",
                 admin: false,
                 is_active: true)),
-        // list decredits reseaux
+        // list de produits du centre
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_produits_centre),
+            initialData: <produits>[]),
+
+        // list de credits reseaux
 
         StreamProvider(
             create: ((context) =>
@@ -226,7 +234,7 @@ class MyApp extends StatelessWidget {
             "/centreproduits": (context) => CentreListeProduits(),
             "/centreventecredit": (context) => CentreVenteCredit(),
             "/centreventelistproduit": (context) => CentreVenteListProduits(),
-            "/centreventeproduit": (context) => CentreVenteProduit(),
+            "/centreventeproduit": (context) => CentreVenteProduits(),
             "/centreventelistcredits": (context) => CentreVenteListCredits(),
             "/centreliquiditecredit": (context) => CentreLiquiditeCredit(),
             "/centreliquiditelistcredit": (context) =>

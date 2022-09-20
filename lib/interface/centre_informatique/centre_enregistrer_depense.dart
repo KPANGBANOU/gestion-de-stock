@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/interface/Bar_restaurant/my_filter.dart';
-import 'package:projet/modele/budgetBar.dart';
+import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ class CentreEnregistrerDepense extends StatelessWidget {
     final _utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUser = Provider.of<donnesUtilisateur>(context);
     final _service = Provider.of<serviceBD>(context);
-    final _budget_bar = Provider.of<BudgetBar>(context);
+    final _budget_centre = Provider.of<budgetCentre>(context);
     return Scaffold(
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
@@ -107,9 +107,9 @@ class CentreEnregistrerDepense extends StatelessWidget {
 
                             await FirebaseFirestore.instance
                                 .collection("budget")
-                                .doc(_budget_bar.uid)
+                                .doc(_budget_centre.uid)
                                 .update({
-                              'depense': _budget_bar.depense + montant,
+                              'depense': _budget_centre.depense + montant,
                             });
 
                             _description.clear();

@@ -19,6 +19,7 @@ class CentreVenteListCredits extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
+          title: Text("Vente de crédits"),
           backgroundColor: Colors.indigo,
         ),
         body: Center(
@@ -36,40 +37,46 @@ class CentreVenteListCredits extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.indigo,
       ),
-      body: ListView.separated(
-          itemBuilder: ((context, index) {
-            credit _donnes = _list_credits[index];
-            return ListTile(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) =>
-                            StreamVenteCredit(credit_uid: _donnes.uid))));
-              },
-              leading: Image.asset(
-                "images/homme.png",
-                width: 40,
-                height: 40,
-                scale: 2.5,
-                fit: BoxFit.cover,
-              ),
-              title: Text(
-                _donnes.nom,
-                style: TextStyle(
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ListView.separated(
+              itemBuilder: ((context, index) {
+                credit _donnes = _list_credits[index];
+                return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                StreamVenteCredit(credit_uid: _donnes.uid))));
+                  },
+                  leading: Image.asset(
+                    "images/homme.png",
+                    width: 40,
+                    height: 40,
+                    scale: 2.5,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(
+                    _donnes.nom,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 23),
+                  ),
+                  subtitle: Text("Le montant disponible est de : " +
+                      _donnes.montant_disponible.toString()),
+                );
+              }),
+              separatorBuilder: ((context, index) => Divider(
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23),
-              ),
-              subtitle: Text("Le montant disponible est de : " +
-                  _donnes.montant_disponible.toString()),
-            );
-          }),
-          separatorBuilder: ((context, index) => Divider(
-                color: Colors.black,
-                height: 2,
-              )),
-          itemCount: _list_credits.length),
+                    height: 2,
+                  )),
+              itemCount: _list_credits.length),
+        ),
+      ),
     );
   }
 }
