@@ -7,8 +7,6 @@ import 'package:projet/base_donne/servicebasededonnees.dart';
 
 import 'package:projet/modele/bierre_grand_model.dart';
 
-import 'approvisionner_grand_modele.dart';
-
 class BarApprovisionnerGrandModele extends StatelessWidget {
   BarApprovisionnerGrandModele({
     Key? key,

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/interface/centre_informatique/stream_approvisionner_produit.dart';
-import 'package:projet/interface/centre_informatique/stream_vente_produit.dart';
 
 import 'package:projet/modele/produit.dart';
 import 'package:provider/provider.dart';

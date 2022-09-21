@@ -2,23 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
-import 'package:projet/interface/centre_informatique/stream_approvisionner_credit.dart';
-import 'package:projet/interface/centre_informatique/stream_update_reseau_credit.dart';
-import 'package:projet/modele/credit.dart';
+import 'package:projet/interface/centre_informatique/stream_approvisionner_produit.dart';
+import 'package:projet/interface/centre_informatique/stream_update_centre_produit.dart';
+import 'package:projet/modele/produit.dart';
 import 'package:provider/provider.dart';
 
-class CentreLiquiditeCredit extends StatelessWidget {
-  const CentreLiquiditeCredit({super.key});
+class CentreStockPhysiqueProduit extends StatelessWidget {
+  const CentreStockPhysiqueProduit({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _credit = Provider.of<credit>(context);
+    final _produit = Provider.of<produits>(context);
     return Scaffold(
       backgroundColor: Colors.greenAccent,
       drawer: DrawerAdminCentre(),
       appBar: AppBar(
         title: Text(
-          _credit.nom,
+          _produit.nom,
           style: TextStyle(
               color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
@@ -32,20 +32,24 @@ class CentreLiquiditeCredit extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             SizedBox(
-              height: 40,
+              height: 50,
             ),
-            Text(
-              "La liquidité de ".toUpperCase() +
-                  _credit.nom.toUpperCase() +
-                  " disponible en stock de l'entreprise".toUpperCase(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "La liquidité de ".toUpperCase() +
+                    _produit.nom +
+                    " disponible en stock de l'entreprise".toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(
-              height: 25,
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,53 +57,54 @@ class CentreLiquiditeCredit extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                Text("Montant initial :"),
-                Text(_credit.montant_initial.toString() + " F")
-              ],
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text("Montant vendu :"),
-                Text((_credit.montant_initial - _credit.montant_disponible)
-                        .toString() +
-                    " F")
-              ],
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text("Montant disponible :"),
-                Text(_credit.montant_disponible.toString() + " F")
+                Text("Quantité initiale :"),
+                Text(_produit.quantite_initial.toString())
               ],
             ),
             SizedBox(
               height: 15,
             ),
-            Text(
-              "Voudriez-vous récharger le stock de ".toUpperCase() +
-                  _credit.nom.toUpperCase() +
-                  " ?".toUpperCase(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.redAccent.withOpacity(.7),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text("Quantité vendue :"),
+                Text((_produit.quantite_initial - _produit.quantite_physique)
+                    .toString())
+              ],
             ),
             SizedBox(
-              height: 12,
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text("Quantité restante  :"),
+                Text(_produit.quantite_physique.toString())
+              ],
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Voudriez-vous récharchez le stock de ce produit ?"
+                    .toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.redAccent.withOpacity(.7),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 8,
             ),
             SizedBox(
                 width: double.infinity,
@@ -122,25 +127,29 @@ class CentreLiquiditeCredit extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: ((context) =>
-                                    StreamApprovisionnerCredit(
-                                        credit_uid: _credit.uid))));
+                                    StreamApprovisionnerProduit(
+                                        produit_uid: _produit.uid))));
                       },
                     ))),
             SizedBox(
-              height: 12,
+              height: 15,
             ),
-            Text(
-              "Voudriez-vous mettre è jour lesinformations de ".toUpperCase() +
-                  _credit.nom.toUpperCase() +
-                  " ?".toUpperCase(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Voudriez-vous mèttre à jour les informations de "
+                        .toUpperCase() +
+                    _produit.nom.toUpperCase() +
+                    " ?",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.redAccent.withOpacity(.7),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             SizedBox(
-              height: 12,
+              height: 8,
             ),
             SizedBox(
                 width: double.infinity,
@@ -152,7 +161,7 @@ class CentreLiquiditeCredit extends StatelessWidget {
                           textStyle: TextStyle(backgroundColor: Colors.indigo)),
                       // ignore: sort_child_properties_last
                       child: Text(
-                        "Mettre è jour".toUpperCase(),
+                        "Mèttre à jour".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -162,12 +171,13 @@ class CentreLiquiditeCredit extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => StreamUpdateCredit(
-                                    credit_uid: _credit.uid))));
+                                builder: ((context) =>
+                                    StreamUpdateCentreProduit(
+                                        produit_uid: _produit.uid))));
                       },
                     ))),
             SizedBox(
-              height: 20,
+              height: 25,
             )
           ],
         ),

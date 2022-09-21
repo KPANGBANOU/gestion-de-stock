@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
@@ -11,14 +10,12 @@ import 'package:projet/interface/centre_informatique/centre_liquidite_list_credi
 import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
-import 'package:projet/modele/credit.dart';
-import 'package:projet/modele/produit.dart';
+
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/parametres_admin.dart';
 
-import 'base_donne/servicebasededonnees.dart';
 import 'interface/Bar_restaurant/accueil_servant_bar.dart';
 import 'interface/Bar_restaurant/bar_signaler_probleme.dart';
 import 'interface/Bar_restaurant/benefices.dart';
@@ -45,7 +42,6 @@ import 'interface/centre_informatique/centre_enregistrer_depense.dart';
 import 'interface/centre_informatique/centre_enregistrer_nouveau_produit.dart';
 import 'interface/centre_informatique/centre_enregistrer_nouveau_reseau_credit.dart';
 import 'interface/centre_informatique/centre_enregistrer_probleme.dart';
-import 'interface/centre_informatique/centre_list_employe_ayant_depense.dart';
 import 'interface/centre_informatique/centre_pertes.dart';
 import 'interface/centre_informatique/centre_approvisionnement.dart';
 import 'interface/centre_informatique/centre_benefices.dart';
@@ -70,16 +66,10 @@ import 'interface/suppression_compte.dart';
 import 'interface/welcome.dart';
 import 'interface/wrapper.dart';
 import 'interface/zoom.dart';
-import 'modele/bieere_petit_model.dart';
-import 'modele/bierre_grand_model.dart';
-import 'modele/budgetBar.dart';
-import 'modele/budget_centre.dart';
-import 'modele/depense.dart';
 import 'services/change_admin_page.dart';
 import 'services/change_page.dart';
 import 'services/change_servant_page.dart';
 import 'services/registration.dart';
-import 'services/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,92 +89,16 @@ class MyApp extends StatelessWidget {
         Provider<firebaseAuth>(
           create: (_) => firebaseAuth(),
         ),
-
-        Provider<serviceBD>(
-          create: (_) => serviceBD(),
-        ),
         StreamProvider(
             create: (context) => context.read<firebaseAuth>().utilisateur,
             initialData: null),
-        // donnees de l'utilisateur
-
-        // donnes de l'utilisateur courament connecté
-        StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .donnes(FirebaseAuth.instance.currentUser!.uid)),
-            initialData: donnesUtilisateur(
-                uid: "",
-                nom: "",
-                prenom: "",
-                email: "",
-                telephone: "",
-                role: "",
-                sexe: "",
-                date_naissance: "",
-                admin: false,
-                is_active: true)),
-        // list de produits du centre
-
-        StreamProvider(
-            create: ((context) =>
-                context.read<serviceBD>().list_produits_centre),
-            initialData: <produits>[]),
-
-        // list de credits reseaux
-
-        StreamProvider(
-            create: ((context) =>
-                context.read<serviceBD>().list_reseaux_credits),
-            initialData: <credit>[]),
-
-        // stream of budget bar
-
-        StreamProvider(
-            create: ((context) => context.read<serviceBD>().budgetBardata),
-            initialData: BudgetBar(solde_total: 0, depense: 0, uid: "")),
-
-        // stream of budget centre
-        StreamProvider(
-            create: (context) => context.read<serviceBD>().budgetcentredata,
-            initialData: budgetCentre(solde_total: 0, depense: 0, uid: "")),
-        // list ge grand modeles de bierres
-        StreamProvider(
-            create: ((context) => context.read<serviceBD>().lisBiarGrandModel),
-            initialData: const <donnesBierresGrandModel>[]),
-        // list de petit model de bierres
-
-        StreamProvider(
-            create: ((context) =>
-                context.read<serviceBD>().listDonnesBierresPetitModele),
-            initialData: const <donneesBieerePetitModele>[]),
-
-        // list de vente
-
-        StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .mesdepense(FirebaseAuth.instance.currentUser!.uid)),
-            initialData: const <donnesDepense>[]),
-        // list of user
-
-        StreamProvider(
-            create: (context) =>
-                context.read<serviceBD>().listDonnesUtilisateur,
-            initialData: const <donnesUtilisateur>[]),
-
         ChangeNotifierProvider(create: (context) => changingPage()),
         ChangeNotifierProvider(create: (context) => changingServantPage()),
         ChangeNotifierProvider(create: (context) => changingAdminPage()),
         ChangeNotifierProvider(create: ((context) => changbierreid())),
       ],
       child: MaterialApp(
-          title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          color: Colors.cyan,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
           routes: {
             "/wrapper": (context) => Wrapper(),
             "/accueil": (context) => Accueil(),
@@ -231,7 +145,7 @@ class MyApp extends StatelessWidget {
             "/centrebenefices": (context) => CentreBenefices(),
             "/centrestatistiquevente": (context) => CentreStatistiqueVente(),
             "/centrerubriqueversement": (context) => CentreRubriqueVersement(),
-            "/centreproduits": (context) => CentreListeProduits(),
+            "/centreproduits": (context) => CentreListProduits(),
             "/centreventecredit": (context) => CentreVenteCredit(),
             "/centreventelistproduit": (context) => CentreVenteListProduits(),
             "/centreventeproduit": (context) => CentreVenteProduits(),
@@ -247,10 +161,9 @@ class MyApp extends StatelessWidget {
                 CentreEnregistrerNouveauProduit(),
             "/centreenregistrernouveaureseaucredit": (context) =>
                 CentreEnregistrerNouveauReseauCredit(),
-            "/centrelistemployeayantdepense": (context) =>
-                CentreListEmployeAyantDepense(),
             "/centrepertes": (context) => CentrePertes(),
-            "/centrestockphysique": (context) => CentreStockPhysique(),
+            "/centrestockphysique": (context) =>
+                CentreStockPhysiqueListProduits(),
             "/centreapprovisionnement": (context) => CentreApprovisionnement(),
             "/centreapprovisionnementlistproduits": (context) =>
                 CentreApprovisionnerListProduits(),

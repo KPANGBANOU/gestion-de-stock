@@ -28,6 +28,7 @@ class StreamVenteProduit extends StatelessWidget {
                 context.read<serviceBD>().produit_centre(produit_uid)),
             initialData: produits(
                 uid: produit_uid,
+                prix_unitaire: 0,
                 nom: "",
                 quantite_initial: 0,
                 quantite_physique: 0,
@@ -39,7 +40,7 @@ class StreamVenteProduit extends StatelessWidget {
             initialData: centreVente(
                 uid: produit_uid, nom_produit: "", quantite: 0, montant: 0)),
       ],
-      child: CentreVenteProduit(),
+      child: CentreVenteProduits(),
     );
   }
 }

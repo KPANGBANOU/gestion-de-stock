@@ -89,7 +89,8 @@ class CentreUpdateCredit extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: _credit.nom,
                   controller: nomReseau,
                   autofocus: true,
                   decoration: InputDecoration(
@@ -114,7 +115,8 @@ class CentreUpdateCredit extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: _credit.seuil_approvisionnement.toString(),
                   controller: seuilAprovisionnement,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(

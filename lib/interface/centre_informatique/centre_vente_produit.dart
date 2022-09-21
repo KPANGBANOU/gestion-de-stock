@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_facture_vente.dart';
-import 'package:projet/interface/centre_informatique/centre_facture_vente_credit.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/modele/centre_vente.dart';

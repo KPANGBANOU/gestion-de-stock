@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/interface/centre_informatique/stream_vente_credit.dart';
 import 'package:projet/interface/centre_informatique/stream_vente_produit.dart';
 
 import 'package:projet/modele/produit.dart';
@@ -22,6 +21,11 @@ class CentreVenteListProduits extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.indigo,
+          title: Text(
+            "Vente de produits",
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
         ),
         body: Center(
           child: CircularProgressIndicator(

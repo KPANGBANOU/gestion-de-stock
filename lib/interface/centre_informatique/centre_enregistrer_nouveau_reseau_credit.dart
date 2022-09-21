@@ -175,7 +175,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                           if (!result) {
                             // si ce produit n'existespas encore
                             await FirebaseFirestore.instance
-                                .collection("produits_centre")
+                                .collection("reseaux_communication")
                                 .doc(nom)
                                 .set({
                               "nom": num,
@@ -194,7 +194,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Le produit " +
+                                  "Le réseau " +
                                       nom +
                                       " a été ajouté au stock avec succès",
                                   textAlign: TextAlign.center,
@@ -217,7 +217,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Le produit que vous voudriez ajouter existe dejà dans la base de donnée !",
+                                  "Le réseau  que vous voudriez ajouter existe dejà dans la base de donnée !",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

@@ -1,9 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:projet/services/user.dart';
 
 import 'accoder_droits_second_page.dart';
 

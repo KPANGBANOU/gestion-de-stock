@@ -88,6 +88,15 @@ class serviceBD {
         .map((event) => centreVente.fromfirestore(event));
   }
 
+  Stream<List<vente>> list_vente(String employe_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .where('domaine', isEqualTo: 'Centre  informatique')
+        .snapshots()
+        .map((event) => event.docs.map((e) => vente.fromFirestore(e)).toList());
+  }
+
   // list de reseaux credits
 
   Stream<List<credit>> get list_reseaux_credits {

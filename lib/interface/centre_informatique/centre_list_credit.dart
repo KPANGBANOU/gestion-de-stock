@@ -3,20 +3,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/interface/centre_informatique/centre_stream_stock_produit.dart';
-import 'package:projet/interface/centre_informatique/stream_update_centre_produit.dart';
+import 'package:projet/interface/centre_informatique/stream_liquidite_credit.dart';
+import 'package:projet/interface/centre_informatique/stream_update_reseau_credit.dart';
+import 'package:projet/modele/credit.dart';
 
-import 'package:projet/modele/produit.dart';
 import 'package:provider/provider.dart';
 
-class CentreListProduits extends StatelessWidget {
-  const CentreListProduits({super.key});
+class CentreListCredits extends StatelessWidget {
+  const CentreListCredits({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _list_produits = Provider.of<List<produits>>(context);
+    final _list_credits = Provider.of<List<credit>>(context);
 
-    if (_list_produits.isEmpty) {
+    if (_list_credits.isEmpty) {
       return Scaffold(
         drawer: CentreServantdrawer(),
         appBar: AppBar(
@@ -24,7 +24,7 @@ class CentreListProduits extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.indigo,
           title: Text(
-            "Liste de produits",
+            "Liste de crédits",
             style: TextStyle(
                 color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
           ),
@@ -44,7 +44,7 @@ class CentreListProduits extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.indigo,
         title: Text(
-          "Liste de produits",
+          "Liste de crédits",
           style: TextStyle(
               color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
@@ -55,14 +55,14 @@ class CentreListProduits extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: ListView.separated(
               itemBuilder: ((context, index) {
-                produits _donnes = _list_produits[index];
+                credit _donnes = _list_credits[index];
                 return ListTile(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: ((context) => StreamStockPhysiqueProduit(
-                                produit_uid: _donnes.uid))));
+                            builder: ((context) => StreamLiquiditeCredit(
+                                credit_uid: _donnes.uid))));
                   },
                   leading: Image.asset(
                     "images/homme.png",
@@ -99,7 +99,7 @@ class CentreListProduits extends StatelessWidget {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Etes vous vraiment sur de vouloir supprimer ce produit de la base de données ?",
+                                        "Etes vous vraiment sur de vouloir supprimer ce réseau de la base de donnée ?",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.redAccent
@@ -120,7 +120,7 @@ class CentreListProduits extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: ((context) =>
-                                                            CentreListProduits())));
+                                                            CentreListCredits())));
                                               }),
                                               child: Text(
                                                 "Anuler",
@@ -135,7 +135,7 @@ class CentreListProduits extends StatelessWidget {
                                                   await FirebaseFirestore
                                                       .instance
                                                       .collection(
-                                                          "produits_centre")
+                                                          "reseaux_communication")
                                                       .doc(_donnes.uid)
                                                       .delete();
 
@@ -145,9 +145,9 @@ class CentreListProduits extends StatelessWidget {
                                                           const EdgeInsets.all(
                                                               8.0),
                                                       child: Text(
-                                                        "Le produit " +
+                                                        "Le réseau " +
                                                             _donnes.nom +
-                                                            " a été supprimé avec succès de la base de données",
+                                                            " a été supprimé avec succès de la base de donnée",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -171,7 +171,7 @@ class CentreListProduits extends StatelessWidget {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: ((context) =>
-                                                              CentreListProduits())));
+                                                              CentreListCredits())));
                                                   // ignore: empty_catches
                                                 } catch (e) {
                                                   final snakbar = SnackBar(
@@ -180,7 +180,7 @@ class CentreListProduits extends StatelessWidget {
                                                           const EdgeInsets.all(
                                                               8.0),
                                                       child: Text(
-                                                        "Une erreur inattendue s'est produite pendant la suppression de ce produit. Vérifiez votre connection internet et réessayez ! !",
+                                                        "Une erreur inattendue s'est produite pendant la suppression de ce réseau. Vérifiez votre connection internet et réessayez ! !",
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -205,7 +205,7 @@ class CentreListProduits extends StatelessWidget {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: ((context) =>
-                                                              CentreListProduits())));
+                                                              CentreListCredits())));
                                                 }
                                               }),
                                               child: Text(
@@ -233,8 +233,8 @@ class CentreListProduits extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        "La quantité disponible est: " +
-                            _donnes.quantite_physique.toString(),
+                        "Montant disponible : " +
+                            _donnes.montant_disponible.toString(),
                         style: TextStyle(color: Colors.black.withOpacity(.5)),
                       ),
                       TextButton(
@@ -242,9 +242,8 @@ class CentreListProduits extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) =>
-                                        StreamUpdateCentreProduit(
-                                            produit_uid: _donnes.uid))));
+                                    builder: ((context) => StreamUpdateCredit(
+                                        credit_uid: _donnes.uid))));
                           }),
                           child: Icon(
                             Icons.update,
@@ -258,7 +257,7 @@ class CentreListProduits extends StatelessWidget {
                     color: Colors.black,
                     height: 2,
                   )),
-              itemCount: _list_produits.length),
+              itemCount: _list_credits.length),
         ),
       ),
     );

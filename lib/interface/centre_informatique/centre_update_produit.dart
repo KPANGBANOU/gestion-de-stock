@@ -93,7 +93,8 @@ class CentreUpdateProduit extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: _produit.nom,
                   controller: nomProduit,
                   autofocus: true,
                   decoration: InputDecoration(
@@ -118,7 +119,8 @@ class CentreUpdateProduit extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: _produit.prix_unitaire.toString(),
                   controller: prix_unitaire,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -139,7 +141,8 @@ class CentreUpdateProduit extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: _produit.seuil_approvisionnement.toString(),
                   controller: seuilAprovisionnement,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
