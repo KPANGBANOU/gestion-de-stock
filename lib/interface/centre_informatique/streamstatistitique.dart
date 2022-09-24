@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_statistique_client.dart';
 import 'package:projet/modele/centre_vente.dart';
-import 'package:projet/modele/vente.dart';
+import 'package:projet/modele/donnesservants.dart';
+import 'package:projet/modele/vente_credit.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -26,8 +27,10 @@ class StreamStatistiqueVente extends StatelessWidget {
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
             create: ((context) =>
-                context.read<serviceBD>().donnes(utilisateur_uid)),
-            initialData: donnesUtilisateur(
+                context.read<serviceBD>().servant_data(utilisateur_uid)),
+            initialData: donnesServants(
+                domaine: "",
+                photo_url: "",
                 uid: utilisateur_uid,
                 nom: "",
                 prenom: "",
@@ -38,13 +41,14 @@ class StreamStatistiqueVente extends StatelessWidget {
                 admin: false,
                 date_naissance: "")),
         StreamProvider(
-            create: ((context) =>
-                context.read<serviceBD>().cente_list_vente(utilisateur_uid)),
+            create: ((context) => context
+                .read<serviceBD>()
+                .centre_list_vente_produits(utilisateur_uid)),
             initialData: <centreVente>[]),
         StreamProvider(
             create: ((context) =>
-                context.read<serviceBD>().list_vente(utilisateur_uid)),
-            initialData: <vente>[]),
+                context.read<serviceBD>().list_vente_credits(utilisateur_uid)),
+            initialData: <venteCredit>[]),
       ],
       child: CentreStatistiqueEmploye(),
     );

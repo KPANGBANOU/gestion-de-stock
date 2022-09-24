@@ -13,6 +13,8 @@ class donnesUtilisateur {
   final String? sexe;
   final String? date_naissance;
   final String uid;
+  final String domaine;
+  final String photo_url;
 
   final bool? admin;
   final bool? is_active;
@@ -25,12 +27,16 @@ class donnesUtilisateur {
     this.sexe,
     this.date_naissance,
     required this.uid,
+    required this.domaine,
+    required this.photo_url,
     this.admin,
     this.is_active,
   });
 
   factory donnesUtilisateur.fromFiresotre(DocumentSnapshot snap) {
     return donnesUtilisateur(
+        domaine: (snap.data() as Map<String, dynamic>)['domaine'],
+        photo_url: (snap.data() as Map<String, dynamic>)['photo_url'],
         uid: snap.id,
         nom: (snap.data() as Map<String, dynamic>)["nom"] ?? "",
         prenom: (snap.data() as Map<String, dynamic>)['prenom'],
@@ -52,6 +58,8 @@ class donnesUtilisateur {
     String? sexe,
     String? date_naissance,
     String? uid,
+    String? domaine,
+    String? photo_url,
     bool? admin,
     bool? is_active,
   }) {
@@ -64,6 +72,8 @@ class donnesUtilisateur {
       sexe: sexe ?? this.sexe,
       date_naissance: date_naissance ?? this.date_naissance,
       uid: uid ?? this.uid,
+      domaine: domaine ?? this.domaine,
+      photo_url: photo_url ?? this.photo_url,
       admin: admin ?? this.admin,
       is_active: is_active ?? this.is_active,
     );
@@ -94,6 +104,8 @@ class donnesUtilisateur {
       result.addAll({'date_naissance': date_naissance});
     }
     result.addAll({'uid': uid});
+    result.addAll({'domaine': domaine});
+    result.addAll({'photo_url': photo_url});
     if (admin != null) {
       result.addAll({'admin': admin});
     }
@@ -114,6 +126,8 @@ class donnesUtilisateur {
       sexe: map['sexe'],
       date_naissance: map['date_naissance'],
       uid: map['uid'] ?? '',
+      domaine: map['domaine'] ?? '',
+      photo_url: map['photo_url'] ?? '',
       admin: map['admin'],
       is_active: map['is_active'],
     );
@@ -126,7 +140,7 @@ class donnesUtilisateur {
 
   @override
   String toString() {
-    return 'donnesUtilisateur(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, admin: $admin, is_active: $is_active)';
+    return 'donnesUtilisateur(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, domaine: $domaine, photo_url: $photo_url, admin: $admin, is_active: $is_active)';
   }
 
   @override
@@ -142,6 +156,8 @@ class donnesUtilisateur {
         other.sexe == sexe &&
         other.date_naissance == date_naissance &&
         other.uid == uid &&
+        other.domaine == domaine &&
+        other.photo_url == photo_url &&
         other.admin == admin &&
         other.is_active == is_active;
   }
@@ -156,6 +172,8 @@ class donnesUtilisateur {
         sexe.hashCode ^
         date_naissance.hashCode ^
         uid.hashCode ^
+        domaine.hashCode ^
+        photo_url.hashCode ^
         admin.hashCode ^
         is_active.hashCode;
   }

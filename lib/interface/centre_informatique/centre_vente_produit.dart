@@ -18,7 +18,7 @@ class CentreVenteProduits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _produit = Provider.of<produits>(context);
+    final _produit = Provider.of<products>(context);
     final _budget_centre = Provider.of<budgetCentre>(context);
     final _donnes = Provider.of<donnesUtilisateur>(context);
     final _centre_vente = Provider.of<centreVente>(context);
@@ -117,7 +117,6 @@ class CentreVenteProduits extends StatelessWidget {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: _quantite,
-                  autofocus: true,
                   decoration: InputDecoration(
                       hintText: "Saisissez la quantité svp",
                       labelText: "Quantité de vente".toUpperCase()),
@@ -173,7 +172,7 @@ class CentreVenteProduits extends StatelessWidget {
                             "quantite": _centre_vente.quantite + quantite,
                             "montant": _centre_vente.montant +
                                 (quantite * _produit.prix_unitaire),
-                            'derniere_vente': DateTime.now()
+                            "derniere_vente": DateTime.now()
                           });
 
                           await FirebaseFirestore.instance
@@ -200,7 +199,7 @@ class CentreVenteProduits extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: ((context) => CentreFactureVente(
                                       prix_unitaire: _produit.prix_unitaire,
-                                      produit_nom: _produit.nom,
+                                      produit_nom: _produit.nom.toString(),
                                       produit_quantite_vendu: quantite,
                                       produit_quantite_physique:
                                           _produit.quantite_physique,

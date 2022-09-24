@@ -1,18 +1,31 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors, unused_local_variable, non_constant_identifier_names, must_be_immutable, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/approvisionnement.dart';
 
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/modele/bieere_petit_model.dart';
+import 'package:provider/provider.dart';
 
 class ApprovisionnementListPetitModele extends StatelessWidget {
   ApprovisionnementListPetitModele({
     Key? key,
   }) : super(key: key);
 
+  bool visible = false;
+
   @override
   Widget build(BuildContext context) {
+    final _list_petit_model =
+        Provider.of<List<donneesBieerePetitModele>>(context);
+
+    if (_list_petit_model.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+      );
+    }
+
     return Scaffold(
         drawer: DrawerAdminBar(),
         appBar: AppBar(

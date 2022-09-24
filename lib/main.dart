@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
@@ -10,12 +11,15 @@ import 'package:projet/interface/centre_informatique/centre_liquidite_list_credi
 import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
+import 'package:projet/modele/credit.dart';
 
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
+import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/parametres_admin.dart';
 
+import 'base_donne/servicebasededonnees.dart';
 import 'interface/Bar_restaurant/accueil_servant_bar.dart';
 import 'interface/Bar_restaurant/bar_signaler_probleme.dart';
 import 'interface/Bar_restaurant/benefices.dart';
@@ -66,6 +70,12 @@ import 'interface/suppression_compte.dart';
 import 'interface/welcome.dart';
 import 'interface/wrapper.dart';
 import 'interface/zoom.dart';
+import 'modele/bieere_petit_model.dart';
+import 'modele/bierre_grand_model.dart';
+import 'modele/budgetBar.dart';
+import 'modele/budget_centre.dart';
+import 'modele/depense.dart';
+import 'modele/produit.dart';
 import 'services/change_admin_page.dart';
 import 'services/change_page.dart';
 import 'services/change_servant_page.dart';
@@ -92,6 +102,65 @@ class MyApp extends StatelessWidget {
         StreamProvider(
             create: (context) => context.read<firebaseAuth>().utilisateur,
             initialData: null),
+        Provider<serviceBD>(create: (_) => serviceBD()),
+        StreamProvider(
+            create: ((context) => context
+                .read<serviceBD>()
+                .donnes(FirebaseAuth.instance.currentUser!.uid)),
+            initialData: donnesUtilisateur(
+                uid: "",
+                nom: "",
+                prenom: "",
+                email: "",
+                telephone: "",
+                role: "",
+                sexe: "",
+                date_naissance: "",
+                domaine: "",
+                photo_url: "",
+                admin: false,
+                is_active: true)),
+
+        StreamProvider(
+            create: ((context) => context.read<serviceBD>().budgetBardata),
+            initialData: BudgetBar(solde_total: 0, depense: 0, uid: "")),
+        StreamProvider(
+            create: (context) => context.read<serviceBD>().budgetcentredata,
+            initialData: budgetCentre(solde_total: 0, depense: 0, uid: "")),
+        // list ge grand modeles de bierres
+        StreamProvider(
+            create: ((context) => context.read<serviceBD>().lisBiarGrandModel),
+            initialData: const <donnesBierresGrandModel>[]),
+        // list de petit model de bierres
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().listDonnesBierresPetitModele),
+            initialData: const <donneesBieerePetitModele>[]),
+
+        // list de vente
+
+        StreamProvider(
+            create: ((context) => context
+                .read<serviceBD>()
+                .mesdepense(FirebaseAuth.instance.currentUser!.uid)),
+            initialData: const <donnesDepense>[]),
+        // list of user
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_reseaux_credits),
+            initialData: <credit>[]),
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_produits_centre),
+            initialData: <products>[]),
+
+        StreamProvider(
+            create: (context) =>
+                context.read<serviceBD>().listDonnesUtilisateur,
+            initialData: const <donnesUtilisateur>[]),
+
         ChangeNotifierProvider(create: (context) => changingPage()),
         ChangeNotifierProvider(create: (context) => changingServantPage()),
         ChangeNotifierProvider(create: (context) => changingAdminPage()),

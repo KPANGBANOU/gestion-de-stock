@@ -21,6 +21,8 @@ class StreamServantBar extends StatelessWidget {
             create: ((context) => context.read<serviceBD>().donnes(this.uid)),
             initialData: donnesUtilisateur(
                 uid: this.uid,
+                domaine: "",
+                photo_url: "",
                 nom: "",
                 prenom: "",
                 email: "",

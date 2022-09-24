@@ -92,7 +92,6 @@ class CentreUpdateCredit extends StatelessWidget {
                 child: TextFormField(
                   initialValue: _credit.nom,
                   controller: nomReseau,
-                  autofocus: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -105,7 +104,7 @@ class CentreUpdateCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    hintText: "Entrez le nouveau nom d",
+                    hintText: "Entrez le nouveau nom ",
                     labelText: "nouveau nom".toUpperCase(),
                   ),
                 ),
@@ -161,7 +160,7 @@ class CentreUpdateCredit extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de ce produit a été effectué avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,

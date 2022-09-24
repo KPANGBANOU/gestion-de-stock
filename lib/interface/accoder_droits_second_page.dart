@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/succes_accorder_droits.dart';
-import 'package:smart_select/smart_select.dart';
 
 class AccorderDroitsSecondPages extends StatelessWidget {
   AccorderDroitsSecondPages({
@@ -18,19 +17,19 @@ class AccorderDroitsSecondPages extends StatelessWidget {
   final String prenom;
   final String email;
   String _value = "Centre informatique";
-  List<S2Choice<String>> _options = [
+  /*List<S2Choice<String>> _options = [
     S2Choice(value: "", title: ""),
     S2Choice<String>(
         value: "Centre informatique", title: "Centre informatique"),
     S2Choice<String>(value: "Bar restaurant", title: "Bar restaurant")
-  ];
+  ];*/
 
   String _role = "Centre informatique";
-  List<S2Choice<String>> _roles = [
+  /*List<S2Choice<String>> _roles = [
     S2Choice(value: "", title: ""),
     S2Choice<String>(value: "Servant", title: "Servant"),
     S2Choice<String>(value: "Gérant", title: "Gérant")
-  ];
+  ];*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,12 +82,12 @@ class AccorderDroitsSecondPages extends StatelessWidget {
             SizedBox(
               height: 12,
             ),
-            SmartSelect<String>.single(
+            /* SmartSelect<String>.single(
               title: "Secteur de travail",
               value: _role,
               choiceItems: _roles,
               onChange: (S2SingleState<String> value) {},
-            ),
+            ),*/
             SizedBox(
               height: 30,
             ),
@@ -108,12 +107,12 @@ class AccorderDroitsSecondPages extends StatelessWidget {
             SizedBox(
               height: 12,
             ),
-            SmartSelect<String>.single(
+            /* SmartSelect<String>.single(
               title: "Secteur de travail",
               value: _value,
               choiceItems: _options,
               onChange: (S2SingleState<String> value) {},
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(

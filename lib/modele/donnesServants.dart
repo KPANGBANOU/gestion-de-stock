@@ -15,9 +15,10 @@ class donnesServants {
   final String? sexe;
   final String? date_naissance;
   final String uid;
-
-  final bool? admin;
-  final bool? is_active;
+  final String domaine;
+  final String photo_url;
+  final bool admin;
+  final bool is_active;
   donnesServants({
     this.nom,
     this.prenom,
@@ -27,12 +28,16 @@ class donnesServants {
     this.sexe,
     this.date_naissance,
     required this.uid,
-    this.admin,
-    this.is_active,
+    required this.domaine,
+    required this.photo_url,
+    required this.admin,
+    required this.is_active,
   });
 
   factory donnesServants.fromFiresotre(DocumentSnapshot snap) {
     return donnesServants(
+        domaine: (snap.data() as Map<String, dynamic>)['domaine'],
+        photo_url: (snap.data() as Map<String, dynamic>)['photo_url'],
         uid: snap.id,
         nom: (snap.data() as Map<String, dynamic>)["nom"] ?? "",
         prenom: (snap.data() as Map<String, dynamic>)['prenom'],
@@ -54,6 +59,8 @@ class donnesServants {
     String? sexe,
     String? date_naissance,
     String? uid,
+    String? domaine,
+    String? photo_url,
     bool? admin,
     bool? is_active,
   }) {
@@ -66,6 +73,8 @@ class donnesServants {
       sexe: sexe ?? this.sexe,
       date_naissance: date_naissance ?? this.date_naissance,
       uid: uid ?? this.uid,
+      domaine: domaine ?? this.domaine,
+      photo_url: photo_url ?? this.photo_url,
       admin: admin ?? this.admin,
       is_active: is_active ?? this.is_active,
     );
@@ -96,12 +105,10 @@ class donnesServants {
       result.addAll({'date_naissance': date_naissance});
     }
     result.addAll({'uid': uid});
-    if (admin != null) {
-      result.addAll({'admin': admin});
-    }
-    if (is_active != null) {
-      result.addAll({'is_active': is_active});
-    }
+    result.addAll({'domaine': domaine});
+    result.addAll({'photo_url': photo_url});
+    result.addAll({'admin': admin});
+    result.addAll({'is_active': is_active});
 
     return result;
   }
@@ -116,8 +123,10 @@ class donnesServants {
       sexe: map['sexe'],
       date_naissance: map['date_naissance'],
       uid: map['uid'] ?? '',
-      admin: map['admin'],
-      is_active: map['is_active'],
+      domaine: map['domaine'] ?? '',
+      photo_url: map['photo_url'] ?? '',
+      admin: map['admin'] ?? false,
+      is_active: map['is_active'] ?? false,
     );
   }
 
@@ -128,7 +137,7 @@ class donnesServants {
 
   @override
   String toString() {
-    return 'donnesServants(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, admin: $admin, is_active: $is_active)';
+    return 'donnesServants(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, domaine: $domaine, photo_url: $photo_url, admin: $admin, is_active: $is_active)';
   }
 
   @override
@@ -144,6 +153,8 @@ class donnesServants {
         other.sexe == sexe &&
         other.date_naissance == date_naissance &&
         other.uid == uid &&
+        other.domaine == domaine &&
+        other.photo_url == photo_url &&
         other.admin == admin &&
         other.is_active == is_active;
   }
@@ -158,6 +169,8 @@ class donnesServants {
         sexe.hashCode ^
         date_naissance.hashCode ^
         uid.hashCode ^
+        domaine.hashCode ^
+        photo_url.hashCode ^
         admin.hashCode ^
         is_active.hashCode;
   }

@@ -26,7 +26,7 @@ class StreamUpdateCentreProduit extends StatelessWidget {
         StreamProvider(
             create: ((context) =>
                 context.read<serviceBD>().produit_centre(produit_uid)),
-            initialData: produits(
+            initialData: products(
                 uid: produit_uid,
                 nom: "",
                 quantite_initial: 0,
@@ -36,7 +36,7 @@ class StreamUpdateCentreProduit extends StatelessWidget {
         StreamProvider(
             create: ((context) => context
                 .read<serviceBD>()
-                .centre_vente(_utilisateur.uid, produit_uid)),
+                .centre_vente_produit(_utilisateur.uid, produit_uid)),
             initialData: centreVente(
                 uid: produit_uid, nom_produit: "", quantite: 0, montant: 0)),
       ],

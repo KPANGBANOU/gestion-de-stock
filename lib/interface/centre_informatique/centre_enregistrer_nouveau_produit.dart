@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field, unused_local_variable, non_constant_identifier_names, use_build_context_synchronously, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, unrelated_type_equality_checks, prefer_const_declarations, prefer_is_empty, override_on_non_overriding_member, unnecessary_null_comparison, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field, unused_local_variable, non_constant_identifier_names, use_build_context_synchronously, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, unrelated_type_equality_checks, prefer_const_declarations, prefer_is_empty, override_on_non_overriding_member, unnecessary_null_comparison, prefer_interpolation_to_compose_strings, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.greenAccent,
+        drawer: DrawerAdminCentre(),
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -59,6 +61,20 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                 ),
               ),
               SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Informations rélatives au nouveau produit".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 25),
+                ),
+              ),
+              SizedBox(
                 height: 20,
               ),
               Padding(
@@ -68,29 +84,18 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 5,
+                      fontSize: 22,
+                      letterSpacing: 1,
                       color: Colors.redAccent.withOpacity(.7)),
                 ),
               ),
               SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Informations rélatives au nouveau produit".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 25),
-              ),
-              SizedBox(
-                height: 20,
+                height: 35,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 child: TextField(
                   controller: nomProduit,
-                  autofocus: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -172,39 +177,41 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               Padding(
                 padding:
                     const EdgeInsets.only(right: 15.0, left: 15, bottom: 40),
                 child: SizedBox(
                   width: double.infinity,
+                  height: 45,
                   child: ElevatedButton(
                       onPressed: () async {
+                        prix = int.parse(prixUnitaire.text);
+                        quantite = int.parse(quantiteInitial.text);
+                        seuil = int.parse(seuilAprovisionnement.text);
+                        nom = nomProduit.text;
+
                         try {
-                          prix = int.parse(prixUnitaire.text);
-                          quantite = int.parse(quantiteInitial.text);
-                          seuil = int.parse(seuilAprovisionnement.text);
-                          nom = nomProduit.text;
                           await FirebaseFirestore.instance
                               .collection("produits_centre")
                               .doc(nom)
                               .get()
-                              .then((onexist) {
-                            onexist.exists ? result = true : result = false;
+                              .then((value) {
+                            value.exists ? result = true : result = false;
                           });
 
-                          if (!result) {
+                          if (result == false) {
                             // si ce produit n'existespas encore
                             await FirebaseFirestore.instance
                                 .collection("produits_centre")
                                 .doc(nom)
                                 .set({
-                              "nom": num,
+                              "nom": nom,
                               "quantite_initial": quantite,
                               "quantite_physique": quantite,
                               "prix_unitaire": prix,
-                              "seuil_approvisionnement)": seuil,
+                              "seuil_approvisionnement": seuil,
                               "created_at": DateTime.now(),
                               "update_at": DateTime.now()
                             });
@@ -279,19 +286,23 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         }
                       },
-                      style: ElevatedButton.styleFrom(),
+                      style:
+                          TextButton.styleFrom(backgroundColor: Colors.indigo),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Enregistrer".toUpperCase(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
                       )),
                 ),
+              ),
+              SizedBox(
+                height: 30,
               )
             ],
           ),

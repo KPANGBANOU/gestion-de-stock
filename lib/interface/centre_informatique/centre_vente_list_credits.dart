@@ -60,7 +60,7 @@ class CentreVenteListCredits extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   title: Text(
-                    _donnes.nom,
+                    _donnes.nom.toString(),
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,

@@ -16,6 +16,7 @@ class CentreVenteCredit extends StatelessWidget {
 
   TextEditingController _montant = TextEditingController();
   int montant = 0;
+  late int montant_disponible = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class CentreVenteCredit extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Le montant de " +
-                    _credit.nom +
+                    _credit.nom.toString() +
                     " disponible en stock est : " +
                     _credit.montant_disponible.toString() +
                     " FCFA",
@@ -120,7 +121,6 @@ class CentreVenteCredit extends StatelessWidget {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: _montant,
-                  autofocus: true,
                   decoration: InputDecoration(
                       hintText: "Saisissez le montant",
                       labelText: "Montant de vente".toUpperCase()),
@@ -175,7 +175,7 @@ class CentreVenteCredit extends StatelessWidget {
                             "nom": _credit.nom,
                             "quantite": _centre_vente.quantite + montant,
                             "montant": _centre_vente.montant + montant,
-                            'derniere_vente': DateTime.now()
+                            "derniere_vente": DateTime.now()
                           });
 
                           await FirebaseFirestore.instance
@@ -203,9 +203,9 @@ class CentreVenteCredit extends StatelessWidget {
                                       CentreFactureVenteCredit(
                                         credit_montant_vendu: montant,
                                         credit_uid: _credit.uid,
-                                        credit_nom: _credit.nom,
+                                        credit_nom: _credit.nom.toString(),
                                         credit_montant_restant:
-                                            _credit.montant_disponible,
+                                            montant_disponible,
                                       ))));
                         }
                         // ignore: empty_catches

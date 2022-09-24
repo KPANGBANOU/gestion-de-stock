@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
 
     return Scaffold(
+        drawer: DrawerAdminCentre(),
         backgroundColor: Colors.greenAccent,
         appBar: AppBar(
           centerTitle: true,
@@ -58,7 +60,22 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 34,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Informations rélatives au nouveau réseau de communication"
+                      .toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 25),
+                ),
+              ),
+              SizedBox(
+                height: 24,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -66,31 +83,19 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                   "Renseignez bien les champs svp !".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 5,
+                      letterSpacing: 1,
                       color: Colors.redAccent.withOpacity(.7)),
                 ),
               ),
               SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Informations rélatives au nouveau réseau de communication"
-                    .toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 25),
-              ),
-              SizedBox(
-                height: 20,
+                height: 34,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 child: TextField(
                   controller: nomReseau,
-                  autofocus: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -154,8 +159,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                 height: 20,
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(right: 15.0, left: 15, bottom: 40),
+                padding: const EdgeInsets.only(right: 5.0, left: 5, bottom: 40),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -178,10 +182,10 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                                 .collection("reseaux_communication")
                                 .doc(nom)
                                 .set({
-                              "nom": num,
+                              "nom": nom,
                               "montant_initial": montant,
                               "montant_disponible": montant,
-                              "seuil_approvisionnement)": seuil,
+                              "seuil_approvisionnement": seuil,
                               "created_at": DateTime.now(),
                               "update_at": DateTime.now()
                             });
@@ -255,14 +259,15 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         }
                       },
-                      style: ElevatedButton.styleFrom(),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Enregistrer".toUpperCase(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),

@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
+import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/interface/centre_informatique/stream_liquidite_credit.dart';
 import 'package:projet/interface/centre_informatique/stream_update_reseau_credit.dart';
 import 'package:projet/modele/credit.dart';
@@ -18,7 +18,7 @@ class CentreListCredits extends StatelessWidget {
 
     if (_list_credits.isEmpty) {
       return Scaffold(
-        drawer: CentreServantdrawer(),
+        drawer: DrawerAdminCentre(),
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -38,7 +38,7 @@ class CentreListCredits extends StatelessWidget {
     }
 
     return Scaffold(
-      drawer: CentreServantdrawer(),
+      drawer: DrawerAdminCentre(),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
@@ -72,7 +72,7 @@ class CentreListCredits extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   title: Text(
-                    _donnes.nom,
+                    _donnes.nom.toString(),
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -146,7 +146,8 @@ class CentreListCredits extends StatelessWidget {
                                                               8.0),
                                                       child: Text(
                                                         "Le réseau " +
-                                                            _donnes.nom +
+                                                            _donnes.nom
+                                                                .toString() +
                                                             " a été supprimé avec succès de la base de donnée",
                                                         textAlign:
                                                             TextAlign.center,

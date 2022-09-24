@@ -12,7 +12,7 @@ class CentreVenteListProduits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _list_produits = Provider.of<List<produits>>(context);
+    final _list_produits = Provider.of<List<products>>(context);
 
     if (_list_produits.isEmpty) {
       return Scaffold(
@@ -53,7 +53,7 @@ class CentreVenteListProduits extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: ListView.separated(
               itemBuilder: ((context, index) {
-                produits _donnes = _list_produits[index];
+                products _donnes = _list_produits[index];
                 return ListTile(
                   onTap: () {
                     Navigator.push(
@@ -70,7 +70,7 @@ class CentreVenteListProduits extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   title: Text(
-                    _donnes.nom,
+                    _donnes.nom.toString(),
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,

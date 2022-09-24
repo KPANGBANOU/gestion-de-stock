@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/produit.dart';
 import 'package:provider/provider.dart';
 
@@ -9,12 +10,13 @@ class CentreApprovisionnement extends StatelessWidget {
   CentreApprovisionnement({super.key});
 
   TextEditingController _quantite = TextEditingController();
-  int quantite = 0;
+  late int quantite = 0;
 
   @override
   Widget build(BuildContext context) {
-    final _produit = Provider.of<produits>(context);
+    final _produit = Provider.of<products>(context);
     return Scaffold(
+      drawer: DrawerAdminCentre(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,
@@ -49,14 +51,34 @@ class CentreApprovisionnement extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
+            SizedBox(
+              height: 40,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Renseignez bien les informations rélatives à l'approvisionnement svp !",
+                "Vous disposez de  ".toUpperCase() +
+                    _produit.quantite_physique.toString().toUpperCase() +
+                    " unités de ce produit en stock".toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Renseignez bien les informations rélatives à l'approvisionnement svp !"
+                    .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.redAccent.withOpacity(.7),
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -87,88 +109,95 @@ class CentreApprovisionnement extends StatelessWidget {
             SizedBox(
               height: 50,
             ),
-            SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(backgroundColor: Colors.indigo)),
-                      child: Text(
-                        "Enregistrez".toUpperCase(),
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                      ),
-                      onPressed: (() async {
-                        quantite = int.parse(_quantite.text);
+            Padding(
+                padding: const EdgeInsets.only(
+                    left: 10.0, right: 10, top: 40, bottom: 70),
+                child: Container(
+                    color: Colors.indigo,
+                    child: SizedBox(
+                        width: double.infinity,
+                        child: TextButton(
+                          onPressed: (() async {
+                            quantite = int.parse(_quantite.text);
 
-                        try {
-                          await FirebaseFirestore.instance
-                              .collection("produits_centre")
-                              .doc(_produit.uid)
-                              .update({
-                            "quantite_initial":
-                                _produit.quantite_initial + quantite,
-                            "quantite_physique":
-                                _produit.quantite_physique + quantite,
-                          });
+                            try {
+                              await FirebaseFirestore.instance
+                                  .collection("produits_centre")
+                                  .doc(_produit.uid)
+                                  .update({
+                                "quantite_initial":
+                                    _produit.quantite_initial + quantite,
+                                "quantite_physique":
+                                    _produit.quantite_physique + quantite,
+                              });
 
-                          _quantite.clear();
+                              _quantite.clear();
 
-                          final snakbar = SnackBar(
-                            content: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le réchargement de stock de " +
-                                      _produit.nom +
-                                      " a été effectué avec succès. Vous disponez maintenant de " +
-                                      _produit.quantite_physique.toString() +
-                                      " " +
-                                      _produit.nom +
-                                      "  en stock",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Le réchargement de stock de " +
+                                          _produit.nom +
+                                          " a été effectué avec succès. Vous disponez maintenant de " +
+                                          _produit.quantite_physique
+                                              .toString() +
+                                          " " +
+                                          _produit.nom +
+                                          "  en stock",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            backgroundColor: Colors.indigo,
-                            elevation: 10,
-                            behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.all(5),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                        } catch (e) {
-                          final snakbar = SnackBar(
-                            content: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Une erreur inattendue s'est produite pendant le réchargement de stock de " +
-                                      _produit.nom +
-                                      "! Vérifiez votre connection internet et réessayez",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                backgroundColor: Colors.indigo,
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            } catch (e) {
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Une erreur inattendue s'est produite pendant le réchargement de stock de " +
+                                          _produit.nom.toString() +
+                                          "! Vérifiez votre connection internet et réessayez",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            backgroundColor: Colors.redAccent.withOpacity(.8),
-                            elevation: 10,
-                            behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.all(5),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                        }
-                      }),
-                    ))),
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            }
+                          }),
+                          child: Text(
+                            "Réchargez le stock".toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )))),
           ],
         ),
       ),

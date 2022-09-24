@@ -11,7 +11,7 @@ class CentreInterfacePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _donnes = Provider.of<donnesUtilisateur>(context);
+    final _donnes = Provider.of<donnesUtilisateur?>(context);
     return Scaffold(
       backgroundColor: Colors.greenAccent,
       drawer: DrawerAdminCentre(),
@@ -79,7 +79,7 @@ class CentreInterfacePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                _donnes.prenom.toString() +
+                _donnes!.prenom.toString() +
                     " , explorez les services de l'entreprise Déo Gracias",
                 textAlign: TextAlign.center,
                 style: TextStyle(

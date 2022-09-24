@@ -1,6 +1,16 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, camel_case_types, unused_local_variable, must_be_immutable, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:projet/interface/centre_informatique/centre_approvisionner_list_produits.dart';
+import 'package:projet/interface/centre_informatique/centre_enregistrer_nouveau_produit.dart';
+import 'package:projet/interface/centre_informatique/centre_enregistrer_nouveau_reseau_credit.dart';
+import 'package:projet/interface/centre_informatique/stream_statistique_centre.dart';
+import 'package:projet/interface/centre_informatique/centre_approvisionner_list_reseaux_credit.dart';
+import 'package:projet/interface/centre_informatique/centre_benefices.dart';
+import 'package:projet/interface/centre_informatique/centre_liquidite_list_credits.dart';
+import 'package:projet/interface/centre_informatique/centre_produits.dart';
+import 'package:projet/interface/centre_informatique/centre_rubrique_versement.dart';
+import 'package:projet/interface/centre_informatique/centre_stock_physique.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 
@@ -90,55 +100,107 @@ class DrawerAdminCentre extends StatelessWidget {
               ListTile(
                 title: Text("Bénéfices réalisées".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centrebenefices");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => CentreBenefices())));
                 },
               ),
               ListTile(
                 title: Text("Rubrique de versement".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centrerubrique");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => CentreRubriqueVersement())));
                 },
               ),
               ListTile(
                 title: Text("Statistique de vente".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centrestatistiquevente");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => StreamStatistiqueCentre())));
                 },
               ),
               ListTile(
                 title: Text("Liquidité de crédit".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centreliquiditecredit");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreLiquiditeListCredits())));
                 },
               ),
               ListTile(
                 title: Text("Etat du stock".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centrestockphysique");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreStockPhysiqueListProduits())));
                 },
               ),
               ListTile(
                 title: Text("Rechargement de crédits".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centreapprovisionnement");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreApprovisionnerListReseauxCredit())));
                 },
               ),
               ListTile(
                 title: Text("Approvisionnement".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centreapprovisionnement");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreApprovisionnerListProduits())));
                 },
               ),
               ListTile(
                 title: Text("Liquidité de crédit".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centreliquiditecredit");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreLiquiditeListCredits())));
                 },
               ),
               ListTile(
-                title: Text("Les produits du centre".toUpperCase()),
+                title: Text("Liste des produits du centre".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/centreproduits");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => CentreListProduits())));
+                },
+              ),
+              ListTile(
+                title: Text("Nouveau produit".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreEnregistrerNouveauProduit())));
+                },
+              ),
+              ListTile(
+                title: Text("Nouveau crédit".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreEnregistrerNouveauReseauCredit())));
                 },
               ),
               ListTile(

@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, avoid_print
 
 import 'package:flutter/material.dart';
+
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/interface/centre_informatique/stream_approvisionner_produit.dart';
-
 import 'package:projet/modele/produit.dart';
 import 'package:provider/provider.dart';
 
@@ -12,9 +12,9 @@ class CentreApprovisionnerListProduits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _list_produits = Provider.of<List<produits>>(context);
+    final _list_products = Provider.of<List<products>>(context);
 
-    if (_list_produits.isEmpty) {
+    if (_list_products.isEmpty) {
       return Scaffold(
         drawer: DrawerAdminCentre(),
         appBar: AppBar(
@@ -49,42 +49,43 @@ class CentreApprovisionnerListProduits extends StatelessWidget {
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
+        child: ListView.separated(
           scrollDirection: Axis.vertical,
-          child: ListView.separated(
-              itemBuilder: ((context, index) {
-                produits _donnes = _list_produits[index];
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => StreamApprovisionnerProduit(
-                                produit_uid: _donnes.uid))));
-                  },
-                  leading: Image.asset(
-                    "images/homme.png",
-                    width: 40,
-                    height: 40,
-                    scale: 2.5,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(
-                    _donnes.nom,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 23),
-                  ),
-                  subtitle: Text("La quantité disponible est: " +
-                      _donnes.quantite_physique.toString()),
-                );
-              }),
-              separatorBuilder: ((context, index) => Divider(
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
+          itemCount: _list_products.length,
+          itemBuilder: ((context, index) {
+            products _donnes = _list_products[index];
+            return ListTile(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => StreamApprovisionnerProduit(
+                            produit_uid: _donnes.uid))));
+              },
+              leading: Image.asset(
+                "images/homme.png",
+                width: 40,
+                height: 40,
+                scale: 2.5,
+                fit: BoxFit.cover,
+              ),
+              title: Text(
+                _donnes.nom,
+                style: TextStyle(
                     color: Colors.black,
-                    height: 2,
-                  )),
-              itemCount: _list_produits.length),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23),
+              ),
+              subtitle: Text("Le stock disponible est de : " +
+                  _donnes.quantite_physique.toString()),
+            );
+          }),
+          separatorBuilder: ((context, index) => Divider(
+                color: Colors.black,
+                height: 2,
+              )),
         ),
       ),
     );

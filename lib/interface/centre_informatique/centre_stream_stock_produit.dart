@@ -25,7 +25,7 @@ class StreamStockPhysiqueProduit extends StatelessWidget {
         StreamProvider(
             create: ((context) =>
                 context.read<serviceBD>().produit_centre(produit_uid)),
-            initialData: produits(
+            initialData: products(
                 uid: produit_uid,
                 prix_unitaire: 0,
                 nom: "",
@@ -33,7 +33,7 @@ class StreamStockPhysiqueProduit extends StatelessWidget {
                 quantite_physique: 0,
                 seuil_approvisionnement: 0)),
       ],
-      child: CentreStockPhysiqueProduit(),
+      child: CentreStocjPhysiqueProduit(),
     );
   }
 }

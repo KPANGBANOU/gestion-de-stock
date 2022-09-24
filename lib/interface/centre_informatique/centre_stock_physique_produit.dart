@@ -1,18 +1,20 @@
-// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, must_be_immutable, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:projet/interface/centre_informatique/centre_stock_physique.dart';
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/interface/centre_informatique/stream_approvisionner_produit.dart';
 import 'package:projet/interface/centre_informatique/stream_update_centre_produit.dart';
 import 'package:projet/modele/produit.dart';
 import 'package:provider/provider.dart';
 
-class CentreStockPhysiqueProduit extends StatelessWidget {
-  const CentreStockPhysiqueProduit({super.key});
+class CentreStocjPhysiqueProduit extends StatelessWidget {
+  CentreStocjPhysiqueProduit({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _produit = Provider.of<produits>(context);
+    final _produit = Provider.of<products>(context);
+
     return Scaffold(
       backgroundColor: Colors.greenAccent,
       drawer: DrawerAdminCentre(),
@@ -32,79 +34,119 @@ class CentreStockPhysiqueProduit extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             SizedBox(
-              height: 50,
+              height: 40,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "La liquidité de ".toUpperCase() +
-                    _produit.nom +
-                    " disponible en stock de l'entreprise".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
+            Text(
+              "La liquidité de ".toUpperCase() +
+                  _produit.nom.toUpperCase() +
+                  " disponible en stock de l'entreprise".toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 45,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Text(
+                        "Quantité initiale :".toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Quantité vendue :".toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Stock physique :".toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Text(
+                        _produit.quantite_initial.toString(),
+                        style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        (_produit.quantite_initial - _produit.quantite_physique)
+                            .toString(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        _produit.quantite_physique.toString(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
             SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text("Quantité initiale :"),
-                Text(_produit.quantite_initial.toString())
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text("Quantité vendue :"),
-                Text((_produit.quantite_initial - _produit.quantite_physique)
-                    .toString())
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text("Quantité restante  :"),
-                Text(_produit.quantite_physique.toString())
-              ],
-            ),
-            SizedBox(
-              height: 25,
+              height: 65,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Voudriez-vous récharchez le stock de ce produit ?"
-                    .toUpperCase(),
+                "Voudriez-vous récharger le stock de ".toUpperCase() +
+                    _produit.nom.toUpperCase() +
+                    " ?".toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.redAccent.withOpacity(.7),
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
-              height: 8,
+              height: 12,
             ),
             SizedBox(
                 width: double.infinity,
@@ -113,10 +155,11 @@ class CentreStockPhysiqueProduit extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo,
                           textStyle: TextStyle(backgroundColor: Colors.indigo)),
                       // ignore: sort_child_properties_last
                       child: Text(
-                        "Réchargez le stock".toUpperCase(),
+                        "Réchargez le stock ".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -132,24 +175,24 @@ class CentreStockPhysiqueProduit extends StatelessWidget {
                       },
                     ))),
             SizedBox(
-              height: 15,
+              height: 42,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Voudriez-vous mèttre à jour les informations de "
+                "Voudriez-vous mettre è jour les informations de "
                         .toUpperCase() +
                     _produit.nom.toUpperCase() +
-                    " ?",
+                    " ?".toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.redAccent.withOpacity(.7),
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
-              height: 8,
+              height: 12,
             ),
             SizedBox(
                 width: double.infinity,
@@ -158,10 +201,11 @@ class CentreStockPhysiqueProduit extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(backgroundColor: Colors.indigo)),
+                          backgroundColor: Colors.redAccent.withOpacity(.7),
+                          textStyle: TextStyle()),
                       // ignore: sort_child_properties_last
                       child: Text(
-                        "Mèttre à jour".toUpperCase(),
+                        "Mise à jour ".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -177,7 +221,52 @@ class CentreStockPhysiqueProduit extends StatelessWidget {
                       },
                     ))),
             SizedBox(
-              height: 25,
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Voudriez-vous mettre è jour les informations de "
+                        .toUpperCase() +
+                    _produit.nom.toUpperCase() +
+                    " ?".toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo,
+                          textStyle: TextStyle()),
+                      // ignore: sort_child_properties_last
+                      child: Text(
+                        "Liste des produits ".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) =>
+                                    CentreStockPhysiqueListProduits())));
+                      },
+                    ))),
+            SizedBox(
+              height: 40,
             )
           ],
         ),

@@ -36,7 +36,7 @@ class StreamUpdateCredit extends StatelessWidget {
         StreamProvider(
             create: ((context) => context
                 .read<serviceBD>()
-                .centre_vente(_utilisateur.uid, credit_uid)),
+                .vente_credit(_utilisateur.uid, credit_uid)),
             initialData: centreVente(
                 uid: credit_uid, nom_produit: "", quantite: 0, montant: 0)),
       ],

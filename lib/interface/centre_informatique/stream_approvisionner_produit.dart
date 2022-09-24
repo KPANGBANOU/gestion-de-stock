@@ -25,7 +25,7 @@ class StreamApprovisionnerProduit extends StatelessWidget {
         StreamProvider(
             create: ((context) =>
                 context.read<serviceBD>().produit_centre(produit_uid)),
-            initialData: produits(
+            initialData: products(
                 uid: produit_uid,
                 prix_unitaire: 0,
                 nom: "",

@@ -2,18 +2,20 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/produit.dart';
-
 import 'package:projet/services/user.dart';
-import 'package:provider/provider.dart';
 
 class CentreUpdateProduit extends StatelessWidget {
-  CentreUpdateProduit({Key? key}) : super(key: key);
+  CentreUpdateProduit({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  TextEditingController nomProduit = TextEditingController();
+  final nomProduit = TextEditingController();
   TextEditingController seuilAprovisionnement = TextEditingController();
   TextEditingController prix_unitaire = TextEditingController();
 
@@ -26,7 +28,7 @@ class CentreUpdateProduit extends StatelessWidget {
   Widget build(BuildContext context) {
     final utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
-    final _produit = Provider.of<produits>(context);
+    final _produit = Provider.of<products>(context);
     final _vente = Provider.of<centreVente>(context);
 
     return Scaffold(
@@ -94,9 +96,7 @@ class CentreUpdateProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 child: TextFormField(
-                  initialValue: _produit.nom,
                   controller: nomProduit,
-                  autofocus: true,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -120,7 +120,6 @@ class CentreUpdateProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextFormField(
-                  initialValue: _produit.prix_unitaire.toString(),
                   controller: prix_unitaire,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -142,7 +141,6 @@ class CentreUpdateProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextFormField(
-                  initialValue: _produit.seuil_approvisionnement.toString(),
                   controller: seuilAprovisionnement,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
