@@ -98,7 +98,7 @@ class DrawerAdminCentre extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Bénéfices réalisées".toUpperCase()),
+                title: Text("Bénéfices et pertes".toUpperCase()),
                 onTap: () {
                   Navigator.push(
                       context,

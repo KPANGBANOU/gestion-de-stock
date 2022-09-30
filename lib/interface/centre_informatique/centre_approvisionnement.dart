@@ -19,6 +19,7 @@ class CentreApprovisionnement extends StatelessWidget {
       drawer: DrawerAdminCentre(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         centerTitle: true,
         elevation: 0,
         title: Text(

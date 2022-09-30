@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
+import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class CentreEnregistrerProbleme extends StatelessWidget {
     final _service = Provider.of<serviceBD>(context);
     final _donnesUser = Provider.of<donnesUtilisateur>(context);
     return Scaffold(
+      drawer: CentreServantdrawer(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,

@@ -99,10 +99,11 @@ class CentreVenteProduits extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Renseignez bien les informations rélatives à la vente svp ",
+                "Renseignez bien les informations rélatives à la vente svp "
+                    .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.redAccent.withOpacity(.7),
                     fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
@@ -128,15 +129,15 @@ class CentreVenteProduits extends StatelessWidget {
             ),
             SizedBox(
               width: double.infinity,
-              height: 60,
+              height: 70,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(backgroundColor: Colors.indigo)),
+                        backgroundColor: Colors.indigo, textStyle: TextStyle()),
                     // ignore: sort_child_properties_last
                     child: Text(
-                      "Enregistrez la vente",
+                      "Enregistrez la vente".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
@@ -165,9 +166,9 @@ class CentreVenteProduits extends StatelessWidget {
                           await FirebaseFirestore.instance
                               .collection("users")
                               .doc(_donnes.uid)
-                              .collection("ventes")
+                              .collection("centre_vente_produits")
                               .doc(_centre_vente.uid)
-                              .update({
+                              .set({
                             "nom": _produit.nom,
                             "quantite": _centre_vente.quantite + quantite,
                             "montant": _centre_vente.montant +
@@ -178,9 +179,10 @@ class CentreVenteProduits extends StatelessWidget {
                           await FirebaseFirestore.instance
                               .collection("budget")
                               .doc(_budget_centre.uid)
-                              .update({
+                              .set({
                             "solde_total": _budget_centre.solde_total +
                                 (quantite * _produit.prix_unitaire),
+                            "depense": _budget_centre.depense,
                           });
 
                           await FirebaseFirestore.instance

@@ -1,52 +1,53 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// ignore_for_file: non_constant_identifier_names, camel_case_types, unnecessary_this
+// ignore_for_file: camel_case_types
 
 class donnesUtilisateur {
-  final String? nom;
-  final String? prenom;
-  final String? email;
-  final String? telephone;
-  final String? role;
-  final String? sexe;
-  final String? date_naissance;
+  final String nom;
+  final String prenom;
+  final String email;
+  final String telephone;
+  final String role;
+  final String sexe;
+  final String date_naissance;
   final String uid;
   final String domaine;
   final String photo_url;
-
-  final bool? admin;
-  final bool? is_active;
+  final bool admin;
+  final bool is_active;
   donnesUtilisateur({
-    this.nom,
-    this.prenom,
-    this.email,
-    this.telephone,
-    this.role,
-    this.sexe,
-    this.date_naissance,
+    required this.nom,
+    required this.prenom,
+    required this.email,
+    required this.telephone,
+    required this.role,
+    required this.sexe,
+    required this.date_naissance,
     required this.uid,
     required this.domaine,
     required this.photo_url,
-    this.admin,
-    this.is_active,
+    required this.admin,
+    required this.is_active,
   });
 
   factory donnesUtilisateur.fromFiresotre(DocumentSnapshot snap) {
     return donnesUtilisateur(
-        domaine: (snap.data() as Map<String, dynamic>)['domaine'],
-        photo_url: (snap.data() as Map<String, dynamic>)['photo_url'],
+        nom: (snap.data() as Map<String, dynamic>)["nom"],
+        prenom: (snap.data() as Map<String, dynamic>)["prenom"],
+        email: (snap.data() as Map<String, dynamic>)["email"],
+        telephone: (snap.data() as Map<String, dynamic>)["telephone"],
+        role: (snap.data() as Map<String, dynamic>)["role"],
+        sexe: (snap.data() as Map<String, dynamic>)["sexe"],
+        date_naissance: (snap.data() as Map<String, dynamic>)["date_naissance"],
         uid: snap.id,
-        nom: (snap.data() as Map<String, dynamic>)["nom"] ?? "",
-        prenom: (snap.data() as Map<String, dynamic>)['prenom'],
-        email: (snap.data() as Map<String, dynamic>)['email'],
-        telephone: (snap.data() as Map<String, dynamic>)['telephone'],
-        role: (snap.data() as Map<String, dynamic>)['role'],
-        sexe: (snap.data() as Map<String, dynamic>)['sexe'],
-        date_naissance: (snap.data() as Map<String, dynamic>)['date_naissance'],
-        admin: (snap.data() as Map<String, dynamic>)['admin'],
-        is_active: (snap.data() as Map<String, dynamic>)['is_active']);
+        domaine: (snap.data() as Map<String, dynamic>)["domaine"],
+        photo_url: (snap.data() as Map<String, dynamic>)["photo_url"],
+        admin: (snap.data() as Map)["admin"],
+        is_active: (snap.data() as Map)["is_active"]);
   }
 
   donnesUtilisateur copyWith({
@@ -82,54 +83,36 @@ class donnesUtilisateur {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    if (nom != null) {
-      result.addAll({'nom': nom});
-    }
-    if (prenom != null) {
-      result.addAll({'prenom': prenom});
-    }
-    if (email != null) {
-      result.addAll({'email': email});
-    }
-    if (telephone != null) {
-      result.addAll({'telephone': telephone});
-    }
-    if (role != null) {
-      result.addAll({'role': role});
-    }
-    if (sexe != null) {
-      result.addAll({'sexe': sexe});
-    }
-    if (date_naissance != null) {
-      result.addAll({'date_naissance': date_naissance});
-    }
+    result.addAll({'nom': nom});
+    result.addAll({'prenom': prenom});
+    result.addAll({'email': email});
+    result.addAll({'telephone': telephone});
+    result.addAll({'role': role});
+    result.addAll({'sexe': sexe});
+    result.addAll({'date_naissance': date_naissance});
     result.addAll({'uid': uid});
     result.addAll({'domaine': domaine});
     result.addAll({'photo_url': photo_url});
-    if (admin != null) {
-      result.addAll({'admin': admin});
-    }
-    if (is_active != null) {
-      result.addAll({'is_active': is_active});
-    }
+    result.addAll({'admin': admin});
+    result.addAll({'is_active': is_active});
 
     return result;
   }
 
   factory donnesUtilisateur.fromMap(Map<String, dynamic> map) {
     return donnesUtilisateur(
-      nom: map['nom'],
-      prenom: map['prenom'],
-      email: map['email'],
-      telephone: map['telephone'],
-      role: map['role'],
-      sexe: map['sexe'],
-      date_naissance: map['date_naissance'],
+      nom: map['nom'] ?? '',
+      prenom: map['prenom'] ?? '',
+      email: map['email'] ?? '',
+      telephone: map['telephone'] ?? '',
+      role: map['role'] ?? '',
+      sexe: map['sexe'] ?? '',
+      date_naissance: map['date_naissance'] ?? '',
       uid: map['uid'] ?? '',
       domaine: map['domaine'] ?? '',
       photo_url: map['photo_url'] ?? '',
-      admin: map['admin'],
-      is_active: map['is_active'],
+      admin: map['admin'] ?? false,
+      is_active: map['is_active'] ?? false,
     );
   }
 

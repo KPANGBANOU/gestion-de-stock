@@ -6,7 +6,6 @@ import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/vente_credit.dart';
 
-import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
@@ -21,7 +20,6 @@ class StreamStatistiqueVente extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _utilisateur = Provider.of<Utilisateur>(context);
     return MultiProvider(
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),

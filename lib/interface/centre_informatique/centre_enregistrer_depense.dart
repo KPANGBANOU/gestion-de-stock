@@ -2,8 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/base_donne/servicebasededonnees.dart';
-import 'package:projet/interface/Bar_restaurant/my_filter.dart';
+import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -19,15 +18,16 @@ class CentreEnregistrerDepense extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUser = Provider.of<donnesUtilisateur>(context);
-    final _service = Provider.of<serviceBD>(context);
+
     final _budget_centre = Provider.of<budgetCentre>(context);
     return Scaffold(
+      drawer: CentreServantdrawer(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         title: Text(
-          "Enregistrer dedépenses",
+          "Enregistrer de dépenses",
           style: TextStyle(fontSize: 20, color: Colors.white.withOpacity(.8)),
         ),
       ),
@@ -52,17 +52,19 @@ class CentreEnregistrerDepense extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 4.0, right: 4, bottom: 50),
                 child: Text(
-                  "Décrivez brièvement la dépense que vous voudriez enregistrer",
+                  "Décrivez brièvement la dépense que vous voudriez enregistrer"
+                      .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white.withOpacity(.9), fontSize: 24),
+                      color: Colors.white.withOpacity(.8),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24),
                 ),
               ),
               Padding(
                 padding:
                     const EdgeInsets.only(left: 15.0, right: 15, bottom: 20),
                 child: TextField(
-                    autofocus: true,
                     controller: _description,
                     decoration: InputDecoration(
                       hintText: "Description",
@@ -76,7 +78,6 @@ class CentreEnregistrerDepense extends StatelessWidget {
                 ),
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  inputFormatters: [MyFilter()],
                   controller: _montant,
                   decoration: InputDecoration(
                     hintText: "Montant dépensé",
@@ -108,8 +109,9 @@ class CentreEnregistrerDepense extends StatelessWidget {
                             await FirebaseFirestore.instance
                                 .collection("budget")
                                 .doc(_budget_centre.uid)
-                                .update({
+                                .set({
                               'depense': _budget_centre.depense + montant,
+                              "solde_total": _budget_centre.solde_total,
                             });
 
                             _description.clear();

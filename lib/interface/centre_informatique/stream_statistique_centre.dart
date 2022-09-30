@@ -16,7 +16,7 @@ class StreamStatistiqueCentre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _utilisateur = Provider.of<Utilisateur>(context);
+    final _utilisateur = Provider.of<Utilisateur?>(context);
     return MultiProvider(
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),

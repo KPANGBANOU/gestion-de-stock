@@ -48,54 +48,51 @@ class StatistiqueListeServantsBar extends StatelessWidget {
           ),
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.99,
-            child: ListView.separated(
-                separatorBuilder: (_, __) => const Divider(),
-                itemCount: _list_servants.length,
-                itemBuilder: ((context, index) {
-                  donnesServants _donnes = _list_servants[index];
-                  return ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  StreamServantBar(uid: _donnes.uid))));
-                    },
-                    leading: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.indigo,
-                      child: ClipOval(
-                        child: Image.asset(
-                          'images/homme.png',
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                          scale: 2.5,
-                        ),
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: ListView.separated(
+              separatorBuilder: ((context, index) => Divider()),
+              itemCount: _list_servants.length,
+              itemBuilder: ((context, index) {
+                donnesServants _donnes = _list_servants[index];
+                return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                StreamServantBar(uid: _donnes.uid))));
+                  },
+                  leading: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.indigo,
+                    child: ClipOval(
+                      child: Image.asset(
+                        'images/homme.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                        scale: 2.5,
                       ),
                     ),
-                    title: Text(
-                      _donnes.prenom.toString() +
-                          " " +
-                          _donnes.nom.toString().toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                    subtitle: Text(
-                      _donnes.role.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black12),
-                    ),
-                  );
-                })),
-          ),
+                  ),
+                  title: Text(
+                    _donnes.prenom.toString() +
+                        " " +
+                        _donnes.nom.toString().toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  subtitle: Text(
+                    _donnes.role.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black12),
+                  ),
+                );
+              })),
         ));
   }
 }

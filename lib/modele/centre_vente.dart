@@ -21,7 +21,7 @@ class centreVente {
   factory centreVente.fromfirestore(DocumentSnapshot doc) {
     return centreVente(
         uid: doc.id,
-        nom_produit: (doc.data() as Map<String, dynamic>)['nom_produit'],
+        nom_produit: (doc.data() as Map<String, dynamic>)['nom'],
         quantite: (doc.data() as Map)['quantite'],
         montant: (doc.data() as Map)['montant']);
   }

@@ -1,97 +1,92 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/modele/bieere_petit_model.dart';
+import 'package:provider/provider.dart';
 
-class StockPhysiquePetitModel extends StatelessWidget {
-  StockPhysiquePetitModel({Key? key}) : super(key: key);
+import 'stream_liquidite_petit_model.dart';
 
-  final _bierre = FirebaseFirestore.instance.collectionGroup("bierres");
+class LiquiditeListPetitModele extends StatelessWidget {
+  const LiquiditeListPetitModele({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: _bierre
-            .orderBy("nom", descending: false)
-            .where("type", isEqualTo: "Pétit modèle")
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Scaffold(
-              backgroundColor: Colors.greenAccent,
-              appBar: AppBar(
-                backgroundColor: Colors.indigoAccent,
-                centerTitle: true,
-                elevation: 0,
-                title: Text(
-                  "Pétit modèle",
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(.8), fontSize: 22),
-                ),
-              ),
-              body: Center(
-                child: Text(
-                  "Une erreur inattendur s'est produite. Vérifiez votre connection et réessayer.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.redAccent.withOpacity(.7), fontSize: 25),
-                ),
-              ),
-            );
-          }
+    final _list_produits = Provider.of<List<donneesBieerePetitModele>>(context);
 
-          if (!snapshot.hasData) {
-            return Scaffold(
-              backgroundColor: Colors.greenAccent,
-              appBar: AppBar(
-                backgroundColor: Colors.indigoAccent,
-                centerTitle: true,
-                elevation: 0,
-                title: Text(
-                  "Pétit modèle",
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(.8), fontSize: 22),
-                ),
-              ),
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
+    if (_list_produits.isEmpty) {
+      return Scaffold(
+        drawer: DrawerAdminBar(),
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+          title: Text(
+            "Liquidité de pétit modèle",
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.cyanAccent,
+          ),
+        ),
+      );
+    }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              backgroundColor: Colors.greenAccent,
-              appBar: AppBar(
-                backgroundColor: Colors.indigoAccent,
-                centerTitle: true,
-                elevation: 0,
-                title: Text(
-                  "Pétit modèle",
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(.8), fontSize: 22),
+    return Scaffold(
+      drawer: DrawerAdminBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.indigo,
+        title: Text(
+          "Liquidité des bièrres",
+          style: TextStyle(
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemBuilder: ((context, index) {
+              donneesBieerePetitModele _donnes = _list_produits[index];
+              return ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => StreamStockPhysiquePetitModele(
+                              produit_uid: _donnes.uid))));
+                },
+                leading: Image.asset(
+                  "images/homme.png",
+                  width: 40,
+                  height: 40,
+                  scale: 2.5,
+                  fit: BoxFit.cover,
                 ),
-              ),
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.indigoAccent,
-              title: Text(
-                "Pétit modèle",
-                style: TextStyle(
-                    color: Colors.white.withOpacity(.8), fontSize: 22),
-              ),
-            ),
-            body: Center(
-              child: Text("Petit modele"),
-            ),
-          );
-        });
+                title: Text(
+                  _donnes.nom.toString(),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23),
+                ),
+                subtitle: Text("La quantité disponible est de : " +
+                    _donnes.quantite_physique.toString()),
+              );
+            }),
+            separatorBuilder: ((context, index) => Divider(
+                  color: Colors.black,
+                  height: 1,
+                )),
+            itemCount: _list_produits.length),
+      ),
+    );
   }
 }

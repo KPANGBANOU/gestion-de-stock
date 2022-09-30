@@ -37,7 +37,10 @@ class StreamVenteCredit extends StatelessWidget {
                 .read<serviceBD>()
                 .vente_credit(_utilisateur.uid, credit_uid)),
             initialData: venteCredit(
-                uid: credit_uid, nom: "", montant: 0, derniere_vente: "")),
+              uid: credit_uid,
+              nom: "",
+              montant: 0,
+            )),
       ],
       child: CentreVenteCredit(),
     );

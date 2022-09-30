@@ -475,7 +475,8 @@ class _RegisterPageState extends State<RegisterPage> {
       "timestamp": DateTime.now(),
       "admin": false,
       "is_active": true,
-      "secteur_travail": "",
+      "domaine": "",
+      "photo_url": "",
     });
     /* uid: auth.currentUser!.uid,
         */

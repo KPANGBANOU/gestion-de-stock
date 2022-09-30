@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_enregistrer_probleme.dart';
@@ -60,57 +60,44 @@ class CentreFactureVenteCredit extends StatelessWidget {
             SizedBox(
               height: 25,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text(
-                  "Montant total de vente: ",
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  credit_montant_vendu.toString() + " F",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text(
-                  "Montant restant en stock: ",
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  credit_montant_restant.toString() + " F",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                )
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Text(
+                    "Montant total de vente: ".toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    credit_montant_vendu.toString() + " FCFA",
+                    style: TextStyle(
+                        color: Colors.redAccent.withOpacity(.8),
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: 25,
             ),
             SizedBox(
                 width: double.infinity,
-                height: 60,
+                height: 50,
                 child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(backgroundColor: Colors.indigo)),
+                          backgroundColor: Colors.green,
+                          textStyle: TextStyle()),
                       // ignore: sort_child_properties_last
                       child: Text(
-                        "Vendre du ".toUpperCase() + credit_nom.toUpperCase(),
+                        "Vendre encore du ".toUpperCase() +
+                            credit_nom.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
@@ -123,15 +110,16 @@ class CentreFactureVenteCredit extends StatelessWidget {
                       },
                     ))),
             SizedBox(
-              height: 12,
+              height: 32,
             ),
             SizedBox(
                 width: double.infinity,
-                height: 60,
+                height: 50,
                 child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo,
                           textStyle: TextStyle(backgroundColor: Colors.indigo)),
                       // ignore: sort_child_properties_last
                       child: Text(
@@ -148,16 +136,17 @@ class CentreFactureVenteCredit extends StatelessWidget {
                       },
                     ))),
             SizedBox(
-              height: 12,
+              height: 32,
             ),
             SizedBox(
                 width: double.infinity,
-                height: 60,
+                height: 50,
                 child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(backgroundColor: Colors.indigo)),
+                          backgroundColor: Colors.green,
+                          textStyle: TextStyle()),
                       // ignore: sort_child_properties_last
                       child: Text(
                         "Vendre autres produits".toUpperCase(),
@@ -173,7 +162,7 @@ class CentreFactureVenteCredit extends StatelessWidget {
                       },
                     ))),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -181,7 +170,7 @@ class CentreFactureVenteCredit extends StatelessWidget {
                 "Avez vous rencontré un problème pendant l'enregistrement de cette vente ?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.redAccent.withOpacity(.8),
+                    color: Colors.white.withOpacity(.9),
                     fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
@@ -191,12 +180,13 @@ class CentreFactureVenteCredit extends StatelessWidget {
             ),
             SizedBox(
                 width: double.infinity,
-                height: 60,
+                height: 50,
                 child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(backgroundColor: Colors.indigo)),
+                          backgroundColor: Colors.redAccent.withOpacity(.5),
+                          textStyle: TextStyle()),
                       // ignore: sort_child_properties_last
                       child: Text(
                         "Signalez le problème ".toUpperCase(),
@@ -213,7 +203,7 @@ class CentreFactureVenteCredit extends StatelessWidget {
                     ))),
             SizedBox(
               height: 30,
-            )
+            ),
           ],
         ),
       ),

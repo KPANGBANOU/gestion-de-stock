@@ -1,10 +1,17 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, camel_case_types, unused_local_variable, must_be_immutable, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
+import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
+import 'package:projet/interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
+import 'package:projet/interface/Bar_restaurant/statistique_liste_servants.dart';
+import 'package:projet/interface/Bar_restaurant/stockphysiquedesgrandtmodel.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
+
+import 'stockphysiquepetitmodel.dart';
 
 class DrawerAdminBar extends StatelessWidget {
   DrawerAdminBar({Key? key}) : super(key: key);
@@ -88,7 +95,7 @@ class DrawerAdminBar extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Bénéfices réalisées".toUpperCase()),
+                title: Text("Bénéfices et pertess".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/barbenefices");
                 },
@@ -102,27 +109,59 @@ class DrawerAdminBar extends StatelessWidget {
               ListTile(
                 title: Text("Statistique de vente".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/barstatistiquedesventes");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StatistiqueListeServantsBar())));
                 },
               ),
               ListTile(
-                title: Text("Etat du stock".toUpperCase()),
+                title: Text("Liquidité de grand modèles".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/barstockphysique");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => LiquiditeListGrandModele())));
+                },
+              ),
+              ListTile(
+                title: Text("Liquidité de pétit modèles".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => LiquiditeListPetitModele())));
                 },
               ),
               ListTile(
                 title: Text("Approvisionner de pétit modèle".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, "/approvisionnementlistpetitmodele");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              ApprovisionnementListPetitModele())));
                 },
               ),
               ListTile(
                 title: Text("Approvisionner de grand modèle".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(
-                      context, "/approvisionnementlistgrandmodele");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              ApprovisionnementListGrandModele())));
+                },
+              ),
+              ListTile(
+                title: Text("Nouveau produit".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              EnregistrerNouvelBierreFormPage())));
                 },
               ),
               ListTile(

@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, dead_code, prefer_final_fields, prefer_typing_uninitialized_variables, empty_constructor_bodies, non_constant_identifier_names, unused_local_variable, unused_element
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
 
@@ -17,16 +18,24 @@ import 'package:projet/modele/vente.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
+
 import 'package:projet/services/user.dart';
 
 class serviceBD {
   final FirebaseFirestore _Ref = FirebaseFirestore.instance;
 // user data
-  Stream<donnesUtilisateur> donnes(String? uid) {
+  Stream<donnesUtilisateur> donnes(String user_uid) {
     return _Ref.collection("users")
-        .doc(uid)
+        .doc(user_uid)
         .snapshots()
         .map((snap) => donnesUtilisateur.fromFiresotre(snap));
+  }
+
+  Stream<donnesUtilisateur> get currentuserdata {
+    return _Ref.collection("users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .snapshots()
+        .map((event) => donnesUtilisateur.fromFiresotre(event));
   }
 
   Future<String> addUser(String uid, String nom, String prenom, String sexe,
@@ -72,7 +81,7 @@ class serviceBD {
   Stream<List<centreVente>> centre_list_vente_produits(String employe_uid) {
     return _Ref.collection("users")
         .doc(employe_uid)
-        .collection("ventes")
+        .collection("centre_vente_produits")
         .snapshots()
         .map((event) =>
             event.docs.map((e) => centreVente.fromfirestore(e)).toList());
@@ -84,7 +93,7 @@ class serviceBD {
       String employe_uid, String produit_uid) {
     return _Ref.collection("users")
         .doc(employe_uid)
-        .collection("ventes")
+        .collection("centre_vente_produits")
         .doc(produit_uid)
         .snapshots()
         .map((event) => centreVente.fromfirestore(event));
@@ -112,16 +121,16 @@ class serviceBD {
   Stream<List<venteCredit>> list_vente_credits(String employe_uid) {
     return _Ref.collection("users")
         .doc(employe_uid)
-        .collection("vente_credit")
+        .collection("vente_credits")
         .snapshots()
         .map((event) =>
             event.docs.map((e) => venteCredit.fromFirestore(e)).toList());
   }
 
-  Stream<venteCredit> vente_credit(String credit_uid, String user_uid) {
+  Stream<venteCredit> vente_credit(String user_uid, String credit_uid) {
     return _Ref.collection("users")
         .doc(user_uid)
-        .collection("vente_credit")
+        .collection("vente_credits")
         .doc(credit_uid)
         .snapshots()
         .map((event) => venteCredit.fromFirestore(event));
@@ -315,6 +324,7 @@ class serviceBD {
         .map((event) =>
             event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
   }
+
   // enregistrer une nouvelle bierre
 
   Future<String> addNouvelBiar(

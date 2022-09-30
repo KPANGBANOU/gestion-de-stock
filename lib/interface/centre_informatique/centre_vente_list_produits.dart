@@ -49,43 +49,43 @@ class CentreVenteListProduits extends StatelessWidget {
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: ListView.separated(
-              itemBuilder: ((context, index) {
-                products _donnes = _list_produits[index];
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) =>
-                                StreamVenteProduit(produit_uid: _donnes.uid))));
-                  },
-                  leading: Image.asset(
-                    "images/homme.png",
-                    width: 40,
-                    height: 40,
-                    scale: 2.5,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(
-                    _donnes.nom.toString(),
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 23),
-                  ),
-                  subtitle: Text("La quantité disponible est: " +
-                      _donnes.quantite_physique.toString()),
-                );
-              }),
-              separatorBuilder: ((context, index) => Divider(
-                    color: Colors.black,
-                    height: 2,
-                  )),
-              itemCount: _list_produits.length),
-        ),
+        child: ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemBuilder: ((context, index) {
+              products _donnes = _list_produits[index];
+              return ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamVenteProduit(produit_uid: _donnes.uid))));
+                },
+                leading: Image.asset(
+                  "images/homme.png",
+                  width: 40,
+                  height: 40,
+                  scale: 2.5,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(
+                  _donnes.nom.toString(),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23),
+                ),
+                subtitle: Text("La quantité disponible est: " +
+                    _donnes.quantite_physique.toString()),
+              );
+            }),
+            separatorBuilder: ((context, index) => Divider(
+                  color: Colors.black,
+                  height: 2,
+                )),
+            itemCount: _list_produits.length),
       ),
     );
   }

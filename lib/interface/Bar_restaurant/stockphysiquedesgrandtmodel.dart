@@ -1,26 +1,32 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
-import 'package:projet/interface/centre_informatique/streamstatistitique.dart';
-import 'package:projet/modele/donnesservants.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/interface/centre_informatique/centre_stream_stock_produit.dart';
+import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:provider/provider.dart';
 
-class CentreStatistiqueVente extends StatelessWidget {
-  const CentreStatistiqueVente({super.key});
+import 'stream_liquidite_grand_modele.dart';
+
+class LiquiditeListGrandModele extends StatelessWidget {
+  const LiquiditeListGrandModele({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _list_employes = Provider.of<List<donnesServants>>(context);
+    final _list_produits = Provider.of<List<donnesBierresGrandModel>>(context);
 
-    if (_list_employes.isEmpty) {
+    if (_list_produits.isEmpty) {
       return Scaffold(
-        drawer: DrawerAdminCentre(),
+        drawer: DrawerAdminBar(),
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
-          title: Text("Statistique de vente"),
           backgroundColor: Colors.indigo,
+          title: Text(
+            "Liquidité de grand modèle",
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
         ),
         body: Center(
           child: CircularProgressIndicator(
@@ -31,32 +37,32 @@ class CentreStatistiqueVente extends StatelessWidget {
     }
 
     return Scaffold(
-      drawer: DrawerAdminCentre(),
+      drawer: DrawerAdminBar(),
       appBar: AppBar(
-        title: Text(
-          "Statistique des ventes",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
-        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.indigo,
+        title: Text(
+          "Liquidité des bièrres",
+          style: TextStyle(
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        ),
       ),
       body: SizedBox(
-        height: 100, //MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
         child: ListView.separated(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: ScrollPhysics(),
             itemBuilder: ((context, index) {
-              donnesServants _donnes = _list_employes[index];
+              donnesBierresGrandModel _donnes = _list_produits[index];
               return ListTile(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => StreamStatistiqueVente(
-                              utilisateur_uid: _donnes.uid))));
+                          builder: ((context) => StreamStockPhysiqueGrandModele(
+                              produit_uid: _donnes.uid))));
                 },
                 leading: Image.asset(
                   "images/homme.png",
@@ -66,20 +72,21 @@ class CentreStatistiqueVente extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 title: Text(
-                  _donnes.prenom.toString() + " " + _donnes.nom.toString(),
+                  _donnes.nom.toString(),
                   style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 23),
                 ),
-                subtitle: Text("Ajouté le  : " + _donnes.nom.toString()),
+                subtitle: Text("La quantité disponible est de : " +
+                    _donnes.quantite_physique.toString()),
               );
             }),
             separatorBuilder: ((context, index) => Divider(
                   color: Colors.black,
-                  height: 2,
+                  height: 1,
                 )),
-            itemCount: _list_employes.length),
+            itemCount: _list_produits.length),
       ),
     );
   }

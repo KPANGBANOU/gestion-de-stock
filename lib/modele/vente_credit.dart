@@ -10,33 +10,29 @@ class venteCredit {
   final String uid;
   final String nom;
   final int montant;
-  final String derniere_vente;
   venteCredit({
     required this.uid,
     required this.nom,
     required this.montant,
-    required this.derniere_vente,
   });
 
   factory venteCredit.fromFirestore(DocumentSnapshot snap) {
     return venteCredit(
-        uid: snap.id,
-        nom: (snap.data() as Map<String, dynamic>)['nom_reseau'],
-        montant: (snap.data() as Map)['montant'],
-        derniere_vente: (snap.data() as Map)['date_dernierre_vente']);
+      uid: snap.id,
+      nom: (snap.data() as Map<String, dynamic>)['nom'],
+      montant: (snap.data() as Map)['montant'],
+    );
   }
 
   venteCredit copyWith({
     String? uid,
     String? nom,
     int? montant,
-    String? derniere_vente,
   }) {
     return venteCredit(
       uid: uid ?? this.uid,
       nom: nom ?? this.nom,
       montant: montant ?? this.montant,
-      derniere_vente: derniere_vente ?? this.derniere_vente,
     );
   }
 
@@ -46,7 +42,6 @@ class venteCredit {
     result.addAll({'uid': uid});
     result.addAll({'nom': nom});
     result.addAll({'montant': montant});
-    result.addAll({'derniere_vente': derniere_vente});
 
     return result;
   }
@@ -56,7 +51,6 @@ class venteCredit {
       uid: map['uid'] ?? '',
       nom: map['nom'] ?? '',
       montant: map['montant']?.toInt() ?? 0,
-      derniere_vente: map['derniere_vente'] ?? '',
     );
   }
 
@@ -66,9 +60,7 @@ class venteCredit {
       venteCredit.fromMap(json.decode(source));
 
   @override
-  String toString() {
-    return 'venteCredit(uid: $uid, nom: $nom, montant: $montant, derniere_vente: $derniere_vente)';
-  }
+  String toString() => 'venteCredit(uid: $uid, nom: $nom, montant: $montant)';
 
   @override
   bool operator ==(Object other) {
@@ -77,15 +69,9 @@ class venteCredit {
     return other is venteCredit &&
         other.uid == uid &&
         other.nom == nom &&
-        other.montant == montant &&
-        other.derniere_vente == derniere_vente;
+        other.montant == montant;
   }
 
   @override
-  int get hashCode {
-    return uid.hashCode ^
-        nom.hashCode ^
-        montant.hashCode ^
-        derniere_vente.hashCode;
-  }
+  int get hashCode => uid.hashCode ^ nom.hashCode ^ montant.hashCode;
 }

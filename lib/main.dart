@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, prefer_const_constructors_in_immutables, must_be_immutable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,11 +32,10 @@ import 'interface/Bar_restaurant/liste_produits.dart';
 import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
 import 'interface/Bar_restaurant/rubrique_versement.dart';
-import 'interface/Bar_restaurant/statistique_des_ventes_bar.dart';
 
 import 'interface/Bar_restaurant/stock_physique.dart';
-import 'interface/Bar_restaurant/stockphysiquegrandmodel.dart';
 import 'interface/Bar_restaurant/stockphysiquepetitmodel.dart';
+
 import 'interface/Bar_restaurant/vente_bierre_grand_model.dart';
 import 'interface/Bar_restaurant/vente_bierre_petit_model.dart';
 import 'interface/accorder_droit.dart';
@@ -75,6 +74,7 @@ import 'modele/bierre_grand_model.dart';
 import 'modele/budgetBar.dart';
 import 'modele/budget_centre.dart';
 import 'modele/depense.dart';
+import 'modele/donnesservants.dart';
 import 'modele/produit.dart';
 import 'services/change_admin_page.dart';
 import 'services/change_page.dart';
@@ -89,10 +89,14 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  String uid = "";
 
   @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      uid = FirebaseAuth.instance.currentUser!.uid;
+    }
     // ignore: dead_code
     return MultiProvider(
       providers: [
@@ -104,9 +108,13 @@ class MyApp extends StatelessWidget {
             initialData: null),
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .donnes(FirebaseAuth.instance.currentUser!.uid)),
+            create: ((context) => context.read<serviceBD>().servantBar),
+            initialData: <donnesServants>[]),
+        StreamProvider(
+            create: ((context) => context.read<serviceBD>().currentuserdata),
+            /* catchError: ((context, error) {
+              print(error.toString());
+            })*/
             initialData: donnesUtilisateur(
                 uid: "",
                 nom: "",
@@ -186,12 +194,6 @@ class MyApp extends StatelessWidget {
             "/barbenefices": (context) => BeneficeBar(),
             "/bardepenses": (context) => DepensesBar(),
             "/barpertes": (context) => PertesBar(),
-            "/barstatistiquedesventes": (context) => StatistiqueDesVentesBar(),
-            "/barlisteproduits": (context) => ListeProduits(),
-            "/barstockphysiquepetitmodele": (context) =>
-                StockPhysiquePetitModel(),
-            "/barstockphysiquegrandmodele": (context) =>
-                StockPhysiqueGrandModel(),
             "/welcome": (context) => WelcomePage(),
             "/login": (context) => LoginPage(),
             "/barsavanewproduct": (context) =>

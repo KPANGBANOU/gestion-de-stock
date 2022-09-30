@@ -6,8 +6,8 @@ import 'package:projet/interface/centre_informatique/centre_facture_vente_credit
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 
 import 'package:projet/modele/budget_centre.dart';
-import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
+import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +22,8 @@ class CentreVenteCredit extends StatelessWidget {
   Widget build(BuildContext context) {
     final _credit = Provider.of<credit>(context);
     final _budget_centre = Provider.of<budgetCentre>(context);
-    final _donnes = Provider.of<donnesUtilisateur>(context);
-    final _centre_vente = Provider.of<centreVente>(context);
+    final _donnes = Provider.of<Utilisateur>(context);
+    final _centre_vente = Provider.of<venteCredit>(context);
 
     if (_credit == null) {
       return Scaffold(
@@ -80,33 +80,16 @@ class CentreVenteCredit extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 55,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Le montant de " +
-                    _credit.nom.toString() +
-                    " disponible en stock est : " +
-                    _credit.montant_disponible.toString() +
-                    " FCFA",
+                "Renseignez bien les informations rélatives à la vente svp "
+                    .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Renseignez bien les informations rélatives à la vente svp ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(.7),
                     fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
@@ -128,19 +111,20 @@ class CentreVenteCredit extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 18,
+              height: 22,
             ),
             SizedBox(
               width: double.infinity,
-              height: 60,
+              height: 70,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.indigo,
                         textStyle: TextStyle(backgroundColor: Colors.indigo)),
                     // ignore: sort_child_properties_last
                     child: Text(
-                      "Enregistrez la vente",
+                      "Enregistrez la vente".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
@@ -169,11 +153,10 @@ class CentreVenteCredit extends StatelessWidget {
                           await FirebaseFirestore.instance
                               .collection("users")
                               .doc(_donnes.uid)
-                              .collection("ventes")
+                              .collection("vente_credits")
                               .doc(_centre_vente.uid)
-                              .update({
+                              .set({
                             "nom": _credit.nom,
-                            "quantite": _centre_vente.quantite + montant,
                             "montant": _centre_vente.montant + montant,
                             "derniere_vente": DateTime.now()
                           });
@@ -181,8 +164,9 @@ class CentreVenteCredit extends StatelessWidget {
                           await FirebaseFirestore.instance
                               .collection("budget")
                               .doc(_budget_centre.uid)
-                              .update({
+                              .set({
                             "solde_total": _budget_centre.solde_total + montant,
+                            "depense": _budget_centre.depense
                           });
 
                           await FirebaseFirestore.instance
@@ -205,7 +189,7 @@ class CentreVenteCredit extends StatelessWidget {
                                         credit_uid: _credit.uid,
                                         credit_nom: _credit.nom.toString(),
                                         credit_montant_restant:
-                                            montant_disponible,
+                                            _credit.montant_disponible,
                                       ))));
                         }
                         // ignore: empty_catches
