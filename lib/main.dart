@@ -52,7 +52,7 @@ import 'interface/centre_informatique/centre_stock_physique.dart';
 import 'interface/centre_informatique/centre_vente_credit.dart';
 import 'interface/connexion.dart';
 import 'interface/creer_compte.dart';
-import 'interface/desactiver_compte.dart';
+
 import 'interface/home.dart';
 import 'interface/information_employe.dart';
 import 'interface/interface_centre_informatique.dart';
@@ -203,7 +203,6 @@ class MyApp extends StatelessWidget {
             "/nouveauservice": (context) => NouveauService(),
             "/listedesgrandsmodeles": (context) => ListeDesGrandModel(),
             "/listedespetitsmodeles": (context) => ListeDesPetitsModel(),
-            "/desactivercompte": (context) => DesactiverCompte(),
             "/supprimercompte": (context) => SuppressionCompte(),
             "/centrebenefices": (context) => CentreBenefices(),
             "/centrestatistiquevente": (context) => CentreStatistiqueVente(),

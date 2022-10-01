@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/interface/Bar_restaurant/stream_approvisionner_grand_model.dart';
+import 'package:projet/interface/Bar_restaurant/stream_update_grand_modele.dart';
 import 'package:projet/interface/centre_informatique/centre_stock_physique.dart';
-import 'package:projet/interface/centre_informatique/stream_approvisionner_produit.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:provider/provider.dart';
 
@@ -169,7 +170,7 @@ class LiquiditeGrandModele extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: ((context) =>
-                                    StreamApprovisionnerProduit(
+                                    StreamApprovisionnerGrandModele(
                                         produit_uid: _produit.uid))));
                       },
                     ))),

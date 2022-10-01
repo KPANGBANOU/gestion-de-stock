@@ -28,17 +28,7 @@ class ListeUtilisateurs extends StatelessWidget {
             ),
           ),
         ),
-        body: Center(
-          child: Text(
-            "Il n'y a aucun employé enregistré dans la base  de données de cette entreprise"
-                .toUpperCase(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.redAccent.withOpacity(.8),
-                fontSize: 22,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -75,7 +65,6 @@ class ListeUtilisateurs extends StatelessWidget {
                             telephone: _donnes.telephone.toString(),
                             secteur_travail: _donnes.nom.toString()))));
               },
-              onLongPress: () {},
               leading: Image.asset(
                 "images/homme.png",
                 width: 50,
@@ -89,12 +78,12 @@ class ListeUtilisateurs extends StatelessWidget {
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
-                _donnes.role.toString(),
+                "Ajouté le : " + _donnes.role.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             );
           }),
-          separatorBuilder: (_, __) => const Divider(),
+          separatorBuilder: ((context, index) => Divider()),
           itemCount: _list_employes.length),
       bottomNavigationBar: bottomNavigation(),
     );

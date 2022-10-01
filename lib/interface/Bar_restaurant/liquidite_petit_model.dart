@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/interface/Bar_restaurant/stream_approvisionner_petit_model.dart';
+import 'package:projet/interface/Bar_restaurant/stream_update_petit_modele.dart';
 import 'package:projet/interface/centre_informatique/centre_stock_physique.dart';
-import 'package:projet/interface/centre_informatique/stream_approvisionner_produit.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:provider/provider.dart';
 
@@ -169,7 +170,7 @@ class LiquiditePetitModele extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: ((context) =>
-                                    StreamApprovisionnerProduit(
+                                    StreamApprovisionnerPetitModele(
                                         produit_uid: _produit.uid))));
                       },
                     ))),
@@ -214,7 +215,7 @@ class LiquiditePetitModele extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => StreamUpdateGrandModele(
+                                builder: ((context) => StreamUpdatePetitModele(
                                     produit_uid: _produit.uid))));
                       },
                     ))),
