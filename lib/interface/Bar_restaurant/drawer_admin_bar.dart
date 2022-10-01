@@ -101,12 +101,6 @@ class DrawerAdminBar extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Rubrique de versement".toUpperCase()),
-                onTap: () {
-                  Navigator.pushNamed(context, "/barrubrique");
-                },
-              ),
-              ListTile(
                 title: Text("Statistique de vente".toUpperCase()),
                 onTap: () {
                   Navigator.push(
@@ -141,7 +135,7 @@ class DrawerAdminBar extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              ApprovisionnementListPetitModele())));
+                              ApprovisionnerListPetitModele())));
                 },
               ),
               ListTile(
@@ -151,7 +145,7 @@ class DrawerAdminBar extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              ApprovisionnementListGrandModele())));
+                              ApprovisionnerListGrandModele())));
                 },
               ),
               ListTile(

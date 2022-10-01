@@ -3,8 +3,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
-import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
 import 'package:projet/interface/Bar_restaurant/liste_des_grands_modele.dart';
 import 'package:projet/interface/Bar_restaurant/liste_petits_modele.dart';
 import 'package:projet/interface/centre_informatique/centre_liquidite_list_credits.dart';
@@ -27,14 +25,12 @@ import 'interface/Bar_restaurant/depenses.dart';
 import 'interface/Bar_restaurant/enregistrer_depense.dart';
 import 'interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
 import 'interface/Bar_restaurant/interface_bar_restaurant.dart';
-import 'interface/Bar_restaurant/liste_produits.dart';
 
 import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
 import 'interface/Bar_restaurant/rubrique_versement.dart';
 
 import 'interface/Bar_restaurant/stock_physique.dart';
-import 'interface/Bar_restaurant/stockphysiquepetitmodel.dart';
 
 import 'interface/Bar_restaurant/vente_bierre_grand_model.dart';
 import 'interface/Bar_restaurant/vente_bierre_petit_model.dart';
@@ -205,10 +201,6 @@ class MyApp extends StatelessWidget {
             "/profil": (context) => ProfilUtilisateur(),
             "/parametresadmin": (context) => ParametresAdmin(),
             "/nouveauservice": (context) => NouveauService(),
-            "/approvisionnementlistgrandmodele": (context) =>
-                ApprovisionnementListGrandModele(),
-            "/approvisionnementlistpetitmodele": (context) =>
-                ApprovisionnementListPetitModele(),
             "/listedesgrandsmodeles": (context) => ListeDesGrandModel(),
             "/listedespetitsmodeles": (context) => ListeDesPetitsModel(),
             "/desactivercompte": (context) => DesactiverCompte(),
