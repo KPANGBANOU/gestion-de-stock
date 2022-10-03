@@ -87,6 +87,46 @@ class serviceBD {
             event.docs.map((e) => centreVente.fromfirestore(e)).toList());
   }
 
+  Stream<List<ventePetitModele>> list_vente_petit_modele(String employe_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .where("type", isEqualTo: "Pétit modèle")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
+  }
+
+  Stream<ventePetitModele> vente_petit_modele(
+      String employe_uid, String bierre_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .doc(bierre_uid)
+        .snapshots()
+        .map((event) => ventePetitModele.fromFirestore(event));
+  }
+
+  Stream<List<venteGrandModele>> list_vente_grand_modele(String employe_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .where("type", isEqualTo: "Grand modèle")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
+  }
+
+  Stream<venteGrandModele> vente_grand_modele(
+      String employe_uid, String bierre_uid) {
+    return _Ref.collection("users")
+        .doc(employe_uid)
+        .collection("ventes")
+        .doc(bierre_uid)
+        .snapshots()
+        .map((event) => venteGrandModele.fromFirestore(event));
+  }
+
   // ventre centre
 
   Stream<centreVente> centre_vente_produit(
@@ -197,6 +237,7 @@ class serviceBD {
   Stream<List<donneesBieerePetitModele>> get listDonnesBierresPetitModele {
     return _Ref.collection("bierres")
         .where("type", isEqualTo: "Pétit modèle")
+        //.orderBy("created_at")
         .snapshots()
         .map((documents) => documents.docs
             .map((snap) => donneesBieerePetitModele.fromFirestore(snap))
@@ -238,7 +279,8 @@ class serviceBD {
 
   Stream<List<donnesBierresGrandModel>> get lisBiarGrandModel {
     return _Ref.collection("bierres")
-        .where('type', isEqualTo: 'Grand modèle')
+        .where("type", isEqualTo: "Grand modèle")
+        // .orderBy("created_at")
         .snapshots()
         .map((documents) => documents.docs
             .map((snap) => donnesBierresGrandModel.fromFirestore(snap))
@@ -306,7 +348,7 @@ class serviceBD {
     return _Ref.collection("users")
         .doc(user_uid)
         .collection("ventes")
-        .where('category', isEqualTo: 'Pétit modèle')
+        .where('type', isEqualTo: 'Pétit modèle')
         .snapshots()
         .map((event) =>
             event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
@@ -319,7 +361,7 @@ class serviceBD {
     return _Ref.collection("users")
         .doc(user_uid)
         .collection("ventes")
-        .where('category', isEqualTo: 'Grand modèle')
+        .where('type', isEqualTo: 'Grand modèle')
         .snapshots()
         .map((event) =>
             event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());

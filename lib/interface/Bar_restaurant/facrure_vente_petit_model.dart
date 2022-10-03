@@ -1,15 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
-
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/interface/Bar_restaurant/liste_des_grands_modele.dart';
+import 'package:projet/interface/Bar_restaurant/liste_petits_modele.dart';
+import 'package:projet/interface/Bar_restaurant/stream_vente_petit_modele.dart';
 import 'package:projet/interface/centre_informatique/centre_enregistrer_probleme.dart';
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
-import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
-import 'package:projet/interface/centre_informatique/stream_vente_produit.dart';
 
-class CentreFactureVente extends StatelessWidget {
-  CentreFactureVente({
+class FactureVenteBarPetitModele extends StatelessWidget {
+  FactureVenteBarPetitModele({
     Key? key,
     required this.produit_nom,
     required this.produit_quantite_vendu,
@@ -30,7 +29,7 @@ class CentreFactureVente extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.greenAccent,
-      drawer: CentreServantdrawer(),
+      drawer: servantdrawer(),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
@@ -64,35 +63,30 @@ class CentreFactureVente extends StatelessWidget {
             SizedBox(
               height: 25,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text(
-                      "Produit vendu: ".toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Text(
+                    "Produit vendu: ".toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
-                      width: 80,
-                    ),
-                    Text(
-                      produit_nom.toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  Text(
+                    produit_nom.toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.green, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
             ),
             SizedBox(
@@ -217,8 +211,8 @@ class CentreFactureVente extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => StreamVenteProduit(
-                                    produit_uid: produit_uid))));
+                                builder: ((context) =>
+                                    StreamVentePetitModele(uid: produit_uid))));
                       },
                     ))),
             SizedBox(
@@ -235,7 +229,7 @@ class CentreFactureVente extends StatelessWidget {
                           textStyle: TextStyle()),
                       // ignore: sort_child_properties_last
                       child: Text(
-                        "Vendre autres produits ".toUpperCase(),
+                        "Vendre autres bièrres ".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
@@ -243,8 +237,7 @@ class CentreFactureVente extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) =>
-                                    CentreVenteListProduits())));
+                                builder: ((context) => ListeDesPetitsModel())));
                       },
                     ))),
             SizedBox(
@@ -261,7 +254,7 @@ class CentreFactureVente extends StatelessWidget {
                           textStyle: TextStyle()),
                       // ignore: sort_child_properties_last
                       child: Text(
-                        "Vendre du crédit".toUpperCase(),
+                        "Bièrres grand modèle".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
@@ -269,8 +262,7 @@ class CentreFactureVente extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) =>
-                                    CentreVenteListCredits())));
+                                builder: ((context) => ListeDesGrandModel())));
                       },
                     ))),
             SizedBox(

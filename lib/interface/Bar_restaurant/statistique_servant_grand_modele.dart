@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings, prefer_const_constructors
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings, prefer_const_constructors, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +20,9 @@ class StatistiqueServantGrandModel extends StatelessWidget {
   Widget build(BuildContext context) {
     final _donnesUtilisateur = Provider.of<donnesServants>(context);
     final _listVentegrandmodel = Provider.of<List<venteGrandModele>>(context);
+    _listVentegrandmodel.forEach((element) {
+      total_grand_model = total_grand_model + element.montant;
+    });
     if (grand_model_lenght <= 5) {
       grand_model_sizebox = 180;
     } else if (grand_model_lenght <= 20) {

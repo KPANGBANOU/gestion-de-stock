@@ -28,6 +28,7 @@ class StreamUpdateCredit extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().reseau_credit(credit_uid)),
             initialData: credit(
+                benefice: 0,
                 uid: credit_uid,
                 nom: "",
                 montant_initial: 0,

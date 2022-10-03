@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
 
+import 'update_grand_modele.dart';
+
 class StreamUpdateGrandModele extends StatelessWidget {
   StreamUpdateGrandModele({
     Key? key,
@@ -27,6 +29,8 @@ class StreamUpdateGrandModele extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().bierreGrandModele(produit_uid)),
             initialData: donnesBierresGrandModel(
+                benefice: 0,
+                prix_unitaire_achat: 0,
                 prix_unitaire: 0,
                 quantite_initial: 0,
                 quantite_physique: 0,

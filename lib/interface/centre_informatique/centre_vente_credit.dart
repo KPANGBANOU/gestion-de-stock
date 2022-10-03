@@ -164,9 +164,8 @@ class CentreVenteCredit extends StatelessWidget {
                           await FirebaseFirestore.instance
                               .collection("budget")
                               .doc(_budget_centre.uid)
-                              .set({
+                              .update({
                             "solde_total": _budget_centre.solde_total + montant,
-                            "depense": _budget_centre.depense
                           });
 
                           await FirebaseFirestore.instance

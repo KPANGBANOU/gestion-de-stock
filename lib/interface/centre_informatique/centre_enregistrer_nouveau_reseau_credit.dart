@@ -182,6 +182,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                                 .collection("reseaux_communication")
                                 .doc(nom)
                                 .set({
+                              "benefice": 0,
                               "nom": nom,
                               "montant_initial": montant,
                               "montant_disponible": montant,

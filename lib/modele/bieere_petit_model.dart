@@ -12,6 +12,8 @@ class donneesBieerePetitModele {
   final String nom;
   final String type;
   final String uid;
+  final int benefice;
+  final int prix_unitaire_achat;
   donneesBieerePetitModele({
     required this.prix_unitaire,
     required this.quantite_initial,
@@ -20,10 +22,13 @@ class donneesBieerePetitModele {
     required this.nom,
     required this.type,
     required this.uid,
+    required this.benefice,
+    required this.prix_unitaire_achat,
   });
 
   factory donneesBieerePetitModele.fromFirestore(DocumentSnapshot document) {
     return donneesBieerePetitModele(
+        benefice: (document.data() as Map)['benefice'],
         prix_unitaire: (document.data() as Map)['prix_unitaire'],
         quantite_initial: (document.data() as Map)['quantite_initial'],
         quantite_physique: (document.data() as Map)['quantite_physique'],
@@ -31,7 +36,8 @@ class donneesBieerePetitModele {
             (document.data() as Map)['seuil_approvisionnement'],
         nom: (document.data() as Map<String, dynamic>)['nom'],
         type: (document.data() as Map<String, dynamic>)['type'],
-        uid: (document.id));
+        uid: (document.id),
+        prix_unitaire_achat: (document.data() as Map)['prix_unitaire_achat']);
   }
 
   donneesBieerePetitModele copyWith({
@@ -42,6 +48,8 @@ class donneesBieerePetitModele {
     String? nom,
     String? type,
     String? uid,
+    int? benefice,
+    int? prix_unitaire_achat,
   }) {
     return donneesBieerePetitModele(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
@@ -52,19 +60,25 @@ class donneesBieerePetitModele {
       nom: nom ?? this.nom,
       type: type ?? this.type,
       uid: uid ?? this.uid,
+      benefice: benefice ?? this.benefice,
+      prix_unitaire_achat: prix_unitaire_achat ?? this.prix_unitaire_achat,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'prix_unitaire': prix_unitaire,
-      'quantite_initial': quantite_initial,
-      'quantite_physique': quantite_physique,
-      'seuil_approvisionnement': seuil_approvisionnement,
-      'nom': nom,
-      'type': type,
-      'uid': uid,
-    };
+    final result = <String, dynamic>{};
+
+    result.addAll({'prix_unitaire': prix_unitaire});
+    result.addAll({'quantite_initial': quantite_initial});
+    result.addAll({'quantite_physique': quantite_physique});
+    result.addAll({'seuil_approvisionnement': seuil_approvisionnement});
+    result.addAll({'nom': nom});
+    result.addAll({'type': type});
+    result.addAll({'uid': uid});
+    result.addAll({'benefice': benefice});
+    result.addAll({'prix_unitaire_achat': prix_unitaire_achat});
+
+    return result;
   }
 
   factory donneesBieerePetitModele.fromMap(Map<String, dynamic> map) {
@@ -76,6 +90,8 @@ class donneesBieerePetitModele {
       nom: map['nom'] ?? '',
       type: map['type'] ?? '',
       uid: map['uid'] ?? '',
+      benefice: map['benefice']?.toInt() ?? 0,
+      prix_unitaire_achat: map['prix_unitaire_achat']?.toInt() ?? 0,
     );
   }
 
@@ -86,7 +102,7 @@ class donneesBieerePetitModele {
 
   @override
   String toString() {
-    return 'donneesBieerePetitModele(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid)';
+    return 'donneesBieerePetitModele(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid, benefice: $benefice, prix_unitaire_achat: $prix_unitaire_achat)';
   }
 
   @override
@@ -100,7 +116,9 @@ class donneesBieerePetitModele {
         other.seuil_approvisionnement == seuil_approvisionnement &&
         other.nom == nom &&
         other.type == type &&
-        other.uid == uid;
+        other.uid == uid &&
+        other.benefice == benefice &&
+        other.prix_unitaire_achat == prix_unitaire_achat;
   }
 
   @override
@@ -111,6 +129,8 @@ class donneesBieerePetitModele {
         seuil_approvisionnement.hashCode ^
         nom.hashCode ^
         type.hashCode ^
-        uid.hashCode;
+        uid.hashCode ^
+        benefice.hashCode ^
+        prix_unitaire_achat.hashCode;
   }
 }

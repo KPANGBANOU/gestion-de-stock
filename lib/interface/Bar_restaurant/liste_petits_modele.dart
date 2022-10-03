@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, must_be_immutable, prefer_final_fields, unused_field, prefer_const_constructors_in_immutables, non_constant_identifier_names, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, must_be_immutable, prefer_final_fields, unused_field, prefer_const_constructors_in_immutables, non_constant_identifier_names, unnecessary_null_comparison, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
@@ -53,48 +53,47 @@ class ListeDesPetitsModel extends StatelessWidget {
           ),
           backgroundColor: Colors.indigo,
         ),
-        backgroundColor: Colors.greenAccent,
         drawer: servantdrawer(),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: ListView.separated(
-                separatorBuilder: (_, __) => const Divider(),
-                itemCount: _bierre_petit_modele.length,
-                itemBuilder: ((context, index) {
-                  donneesBieerePetitModele _donnes =
-                      _bierre_petit_modele[index];
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              separatorBuilder: ((context, index) => Divider()),
+              itemCount: _bierre_petit_modele.length,
+              itemBuilder: ((context, index) {
+                donneesBieerePetitModele _donnes = _bierre_petit_modele[index];
 
-                  return ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  StreamVentePetitModele(uid: _donnes.uid))));
-                    },
-                    leading: Image.asset(
-                      'images/bierres.jpeg',
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                      scale: 2.5,
-                    ),
-                    title: Text(
-                      _donnes.nom.toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                    subtitle: Text(
-                      _donnes.type,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  );
-                })),
-          ),
+                return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                StreamVentePetitModele(uid: _donnes.uid))));
+                  },
+                  leading: Image.asset(
+                    'images/bierres.jpeg',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                    scale: 2.5,
+                  ),
+                  title: Text(
+                    _donnes.nom.toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  subtitle: Text(
+                    "La quantité disponible est de : " +
+                        _donnes.quantite_physique.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                );
+              })),
         ));
   }
 }

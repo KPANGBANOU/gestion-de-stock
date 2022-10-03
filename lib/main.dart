@@ -30,10 +30,6 @@ import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
 import 'interface/Bar_restaurant/rubrique_versement.dart';
 
-import 'interface/Bar_restaurant/stock_physique.dart';
-
-import 'interface/Bar_restaurant/vente_bierre_grand_model.dart';
-import 'interface/Bar_restaurant/vente_bierre_petit_model.dart';
 import 'interface/accorder_droit.dart';
 import 'interface/accueil.dart';
 import 'interface/centre_informatique/centre_approvisionner_list_produits.dart';
@@ -127,10 +123,12 @@ class MyApp extends StatelessWidget {
 
         StreamProvider(
             create: ((context) => context.read<serviceBD>().budgetBardata),
-            initialData: BudgetBar(solde_total: 0, depense: 0, uid: "")),
+            initialData:
+                BudgetBar(benefice: 0, solde_total: 0, depense: 0, uid: "")),
         StreamProvider(
             create: (context) => context.read<serviceBD>().budgetcentredata,
-            initialData: budgetCentre(solde_total: 0, depense: 0, uid: "")),
+            initialData:
+                budgetCentre(benefice: 0, solde_total: 0, depense: 0, uid: "")),
         // list ge grand modeles de bierres
         StreamProvider(
             create: ((context) => context.read<serviceBD>().lisBiarGrandModel),
@@ -185,7 +183,6 @@ class MyApp extends StatelessWidget {
             "/infoEmploye": (context) => InfoEmploye(),
             "/accorderDroits": (context) => DroitsEmployes(),
             "/home": (context) => HomePage(),
-            "/barstockphysique": (context) => StockPhysique(),
             "/barrubrique": (context) => RubriqueVersement(),
             "/barbenefices": (context) => BeneficeBar(),
             "/bardepenses": (context) => DepensesBar(),
@@ -194,8 +191,6 @@ class MyApp extends StatelessWidget {
             "/login": (context) => LoginPage(),
             "/barsavanewproduct": (context) =>
                 EnregistrerNouvelBierreFormPage(),
-            "/barventepetitmodel": (context) => BarVenteBierrePetitModel(),
-            "/barventegrandmodel": (context) => BarVenteBierreGrandModel(),
             "/barenregistrerdepense": (context) => BarEnregistrerDepense(),
             "/barsignalerprobleme": (context) => BarSignalerProbleme(),
             "/profil": (context) => ProfilUtilisateur(),

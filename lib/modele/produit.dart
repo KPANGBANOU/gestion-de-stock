@@ -13,6 +13,8 @@ class products {
   final int seuil_approvisionnement;
   final String nom;
   final String uid;
+  final int benefice;
+  final int prix_unitaire_achat;
   products({
     required this.prix_unitaire,
     required this.quantite_initial,
@@ -20,10 +22,14 @@ class products {
     required this.seuil_approvisionnement,
     required this.nom,
     required this.uid,
+    required this.benefice,
+    required this.prix_unitaire_achat,
   });
 
   factory products.fromFirestore(DocumentSnapshot document) {
     return products(
+        benefice: (document.data() as Map)['benefice'],
+        prix_unitaire_achat: (document.data() as Map)['prix_unitaire_achat'],
         prix_unitaire: (document.data() as Map)['prix_unitaire'],
         quantite_initial: (document.data() as Map)['quantite_initial'],
         quantite_physique: (document.data() as Map)['quantite_physique'],
@@ -40,6 +46,8 @@ class products {
     int? seuil_approvisionnement,
     String? nom,
     String? uid,
+    int? benefice,
+    int? prix_unitaire_achat,
   }) {
     return products(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
@@ -49,6 +57,8 @@ class products {
           seuil_approvisionnement ?? this.seuil_approvisionnement,
       nom: nom ?? this.nom,
       uid: uid ?? this.uid,
+      benefice: benefice ?? this.benefice,
+      prix_unitaire_achat: prix_unitaire_achat ?? this.prix_unitaire_achat,
     );
   }
 
@@ -61,6 +71,8 @@ class products {
     result.addAll({'seuil_approvisionnement': seuil_approvisionnement});
     result.addAll({'nom': nom});
     result.addAll({'uid': uid});
+    result.addAll({'benefice': benefice});
+    result.addAll({'prix_unitaire_achat': prix_unitaire_achat});
 
     return result;
   }
@@ -73,6 +85,8 @@ class products {
       seuil_approvisionnement: map['seuil_approvisionnement']?.toInt() ?? 0,
       nom: map['nom'] ?? '',
       uid: map['uid'] ?? '',
+      benefice: map['benefice']?.toInt() ?? 0,
+      prix_unitaire_achat: map['prix_unitaire_achat']?.toInt() ?? 0,
     );
   }
 
@@ -83,7 +97,7 @@ class products {
 
   @override
   String toString() {
-    return 'products(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, uid: $uid)';
+    return 'products(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, uid: $uid, benefice: $benefice, prix_unitaire_achat: $prix_unitaire_achat)';
   }
 
   @override
@@ -96,7 +110,9 @@ class products {
         other.quantite_physique == quantite_physique &&
         other.seuil_approvisionnement == seuil_approvisionnement &&
         other.nom == nom &&
-        other.uid == uid;
+        other.uid == uid &&
+        other.benefice == benefice &&
+        other.prix_unitaire_achat == prix_unitaire_achat;
   }
 
   @override
@@ -106,6 +122,8 @@ class products {
         quantite_physique.hashCode ^
         seuil_approvisionnement.hashCode ^
         nom.hashCode ^
-        uid.hashCode;
+        uid.hashCode ^
+        benefice.hashCode ^
+        prix_unitaire_achat.hashCode;
   }
 }

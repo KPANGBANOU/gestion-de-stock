@@ -22,8 +22,8 @@ class venteGrandModele {
 
   factory venteGrandModele.fromFirestore(DocumentSnapshot document) {
     return venteGrandModele(
-        nom_bierre: (document.data() as Map)['nom_bierre'],
-        category: (document.data() as Map)['category'],
+        nom_bierre: (document.data() as Map<String, dynamic>)['nom_bierre'],
+        category: (document.data() as Map<String, dynamic>)['type'],
         quantite: (document.data() as Map)['quantite'],
         montant: (document.data() as Map)['montant'],
         uid: document.id);

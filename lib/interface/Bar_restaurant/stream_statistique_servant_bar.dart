@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
+import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
-import 'package:projet/services/user.dart';
+
 import 'package:provider/provider.dart';
 
 import 'statistique_servant_bar.dart';
@@ -18,8 +19,8 @@ class StreamServantBar extends StatelessWidget {
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
-            create: ((context) => context.read<serviceBD>().donnes(this.uid)),
-            initialData: donnesUtilisateur(
+            create: ((context) => context.read<serviceBD>().servant_data(uid)),
+            initialData: donnesServants(
                 uid: this.uid,
                 domaine: "",
                 photo_url: "",

@@ -14,6 +14,8 @@ class donnesBierresGrandModel {
   final String nom;
   final String type;
   final String uid;
+  final int prix_unitaire_achat;
+  final int benefice;
   donnesBierresGrandModel({
     required this.prix_unitaire,
     required this.quantite_initial,
@@ -22,17 +24,21 @@ class donnesBierresGrandModel {
     required this.nom,
     required this.type,
     required this.uid,
+    required this.prix_unitaire_achat,
+    required this.benefice,
   });
 
   factory donnesBierresGrandModel.fromFirestore(DocumentSnapshot document) {
     return donnesBierresGrandModel(
-        prix_unitaire: (document.data() as Map)['prix_unitaire'],
-        quantite_initial: (document.data() as Map)['quantite_initial'],
-        quantite_physique: (document.data() as Map)['quantite_physique'],
+        benefice: (document.data() as Map)['benefice'],
+        prix_unitaire_achat: (document.data() as Map)["prix_unitaire_achat"],
+        prix_unitaire: (document.data() as Map)["prix_unitaire"],
+        quantite_initial: (document.data() as Map)["quantite_initial"],
+        quantite_physique: (document.data() as Map)["quantite_physique"],
         seuil_approvisionnement:
-            (document.data() as Map)['seuil_approvisionnement'],
-        nom: (document.data() as Map<String, dynamic>)['nom'],
-        type: (document.data() as Map<String, dynamic>)['type'],
+            (document.data() as Map)["seuil_approvisionnement"],
+        nom: (document.data() as Map<String, dynamic>)["nom"],
+        type: (document.data() as Map<String, dynamic>)["type"],
         uid: (document.id));
   }
 
@@ -44,6 +50,8 @@ class donnesBierresGrandModel {
     String? nom,
     String? type,
     String? uid,
+    int? prix_unitaire_achat,
+    int? benefice,
   }) {
     return donnesBierresGrandModel(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
@@ -54,19 +62,25 @@ class donnesBierresGrandModel {
       nom: nom ?? this.nom,
       type: type ?? this.type,
       uid: uid ?? this.uid,
+      prix_unitaire_achat: prix_unitaire_achat ?? this.prix_unitaire_achat,
+      benefice: benefice ?? this.benefice,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'prix_unitaire': prix_unitaire,
-      'quantite_initial': quantite_initial,
-      'quantite_physique': quantite_physique,
-      'seuil_approvisionnement': seuil_approvisionnement,
-      'nom': nom,
-      'type': type,
-      'uid': uid,
-    };
+    final result = <String, dynamic>{};
+
+    result.addAll({'prix_unitaire': prix_unitaire});
+    result.addAll({'quantite_initial': quantite_initial});
+    result.addAll({'quantite_physique': quantite_physique});
+    result.addAll({'seuil_approvisionnement': seuil_approvisionnement});
+    result.addAll({'nom': nom});
+    result.addAll({'type': type});
+    result.addAll({'uid': uid});
+    result.addAll({'prix_unitaire_achat': prix_unitaire_achat});
+    result.addAll({'benefice': benefice});
+
+    return result;
   }
 
   factory donnesBierresGrandModel.fromMap(Map<String, dynamic> map) {
@@ -78,6 +92,8 @@ class donnesBierresGrandModel {
       nom: map['nom'] ?? '',
       type: map['type'] ?? '',
       uid: map['uid'] ?? '',
+      prix_unitaire_achat: map['prix_unitaire_achat']?.toInt() ?? 0,
+      benefice: map['benefice']?.toInt() ?? 0,
     );
   }
 
@@ -88,7 +104,7 @@ class donnesBierresGrandModel {
 
   @override
   String toString() {
-    return 'donnesBierresGrandModel(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, uantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid)';
+    return 'donnesBierresGrandModel(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid, prix_unitaire_achat: $prix_unitaire_achat, benefice: $benefice)';
   }
 
   @override
@@ -102,7 +118,9 @@ class donnesBierresGrandModel {
         other.seuil_approvisionnement == seuil_approvisionnement &&
         other.nom == nom &&
         other.type == type &&
-        other.uid == uid;
+        other.uid == uid &&
+        other.prix_unitaire_achat == prix_unitaire_achat &&
+        other.benefice == benefice;
   }
 
   @override
@@ -113,6 +131,8 @@ class donnesBierresGrandModel {
         seuil_approvisionnement.hashCode ^
         nom.hashCode ^
         type.hashCode ^
-        uid.hashCode;
+        uid.hashCode ^
+        prix_unitaire_achat.hashCode ^
+        benefice.hashCode;
   }
 }

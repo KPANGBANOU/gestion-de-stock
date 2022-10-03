@@ -189,6 +189,9 @@ class CentreVenteProduits extends StatelessWidget {
                               .collection("produits_centre")
                               .doc(_produit.uid)
                               .update({
+                            'benefice': _produit.benefice +
+                                (quantite * _produit.prix_unitaire -
+                                    quantite * _produit.prix_unitaire_achat),
                             "quantite_physique":
                                 _produit.quantite_physique - quantite,
                           });

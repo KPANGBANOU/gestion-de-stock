@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/approvisionner_grand_modele.dart';
-import 'package:projet/modele/bieere_petit_model.dart';
+
+import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +25,10 @@ class StreamApprovisionnerGrandModele extends StatelessWidget {
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
             create: ((context) =>
-                context.read<serviceBD>().bierreData(produit_uid)),
-            initialData: donneesBieerePetitModele(
+                context.read<serviceBD>().bierreGrandModele(produit_uid)),
+            initialData: donnesBierresGrandModel(
+                benefice: 0,
+                prix_unitaire_achat: 0,
                 prix_unitaire: 0,
                 quantite_initial: 0,
                 quantite_physique: 0,

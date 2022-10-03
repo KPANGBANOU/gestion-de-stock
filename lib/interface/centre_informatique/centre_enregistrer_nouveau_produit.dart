@@ -15,11 +15,13 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
   TextEditingController quantiteInitial = TextEditingController();
   TextEditingController prixUnitaire = TextEditingController();
   TextEditingController seuilAprovisionnement = TextEditingController();
+  TextEditingController prix_unitaire_achat = TextEditingController();
   late int prix = 0;
   late int seuil = 0;
   late int quantite = 0;
   late String nom = "";
   late bool result = true;
+  late int prix_achat = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +121,27 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextField(
+                  controller: prix_unitaire_achat,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.white),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 1, color: Color.fromARGB(255, 66, 125, 145)),
+                    ),
+                    hintText: "Entrez le prix unitaire d'achat",
+                    labelText: "Prix unitaire d'achat".toUpperCase(),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0, left: 15),
+                child: TextField(
                   controller: prixUnitaire,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -129,8 +152,8 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    hintText: "Entrez le prix unitaire",
-                    labelText: "Prix unitaire".toUpperCase(),
+                    hintText: "Entrez le prix unitaire de vente",
+                    labelText: "Prix unitaire vente".toUpperCase(),
                   ),
                 ),
               ),
@@ -191,6 +214,7 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                         quantite = int.parse(quantiteInitial.text);
                         seuil = int.parse(seuilAprovisionnement.text);
                         nom = nomProduit.text;
+                        prix_achat = int.parse(prix_unitaire_achat.text);
 
                         try {
                           await FirebaseFirestore.instance
@@ -208,9 +232,11 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                                 .doc(nom)
                                 .set({
                               "nom": nom,
+                              "benefice": 0,
                               "quantite_initial": quantite,
                               "quantite_physique": quantite,
                               "prix_unitaire": prix,
+                              "prix_unitaire_achat": prix_achat,
                               "seuil_approvisionnement": seuil,
                               "created_at": DateTime.now(),
                               "update_at": DateTime.now()

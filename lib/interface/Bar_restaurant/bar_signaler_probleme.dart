@@ -23,9 +23,9 @@ class BarSignalerProbleme extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.indigo,
         title: Text(
-          "Déo Gracias",
+          "Problème rencontré",
           style: TextStyle(
               color: Colors.white.withOpacity(.8),
               fontSize: 22,
@@ -68,8 +68,8 @@ class BarSignalerProbleme extends StatelessWidget {
                 child: TextField(
                     controller: _description,
                     decoration: InputDecoration(
-                      hintText: "Description",
-                      labelText: "Description",
+                      hintText: "Descrivre le problème svp",
+                      labelText: "Description du problème",
                     )),
               ),
               Padding(
@@ -147,7 +147,7 @@ class BarSignalerProbleme extends StatelessWidget {
                           child: Text(
                             "Enregistrez".toUpperCase(),
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),

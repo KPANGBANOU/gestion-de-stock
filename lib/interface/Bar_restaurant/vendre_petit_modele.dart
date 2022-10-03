@@ -3,8 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
-import 'package:projet/interface/Bar_restaurant/facture_vente_bar.dart';
-import 'package:projet/interface/Bar_restaurant/my_filter.dart';
+import 'package:projet/interface/Bar_restaurant/facrure_vente_petit_model.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/services/user.dart';
@@ -66,7 +65,7 @@ class VentePetitModele extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Renseignement bien svp les informations rélatives à la vente"
+                "Renseignement bien svp les informations rélatives à la vente svp"
                     .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -83,10 +82,9 @@ class VentePetitModele extends StatelessWidget {
               child: TextField(
                 controller: _quantite,
                 keyboardType: TextInputType.phone,
-                inputFormatters: [MyFilter()],
                 decoration: InputDecoration(
+                  labelText: "Saisissez la quantité vendue svp ",
                   hintText: "Quantité vendue",
-                  labelText: "Quantité vendue",
                 ),
               ),
             ),
@@ -95,10 +93,12 @@ class VentePetitModele extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
-                color: Colors.indigo,
-                child: TextButton(
+                height: 50,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.indigo, textStyle: TextStyle()),
                     onPressed: (() async {
                       quantite = int.parse(_quantite.text);
                       montant = quantite * _bierre.prix_unitaire;
@@ -111,6 +111,7 @@ class VentePetitModele extends StatelessWidget {
                               .collection("ventes")
                               .doc(_bierre.uid)
                               .set({
+                            'type': "Pétit modèle",
                             'nom_bierre': _bierre.nom,
                             'category': _bierre.type,
                             'quantite': _vente.quantite + quantite,
@@ -123,6 +124,9 @@ class VentePetitModele extends StatelessWidget {
                               .collection("bierres")
                               .doc(_bierre.uid)
                               .update({
+                            'benefice': _bierre.benefice +
+                                (quantite * _bierre.prix_unitaire -
+                                    quantite * _bierre.prix_unitaire_achat),
                             'quantite_physique':
                                 _bierre.quantite_physique - quantite,
                           });
@@ -131,6 +135,9 @@ class VentePetitModele extends StatelessWidget {
                               .collection("budget")
                               .doc(_budget_bar.uid)
                               .update({
+                            'benefice': _budget_bar.benefice +
+                                (quantite * _bierre.prix_unitaire -
+                                    quantite * _bierre.prix_unitaire_achat),
                             'solde_total': _budget_bar.solde_total + montant,
                           });
 
@@ -140,18 +147,23 @@ class VentePetitModele extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => FactureVenteBar(
-                                      montant: montant,
-                                      uid: _bierre.uid,
-                                      quantite: quantite,
-                                      prix_unitaire: _bierre.prix_unitaire,
-                                      nom: _bierre.nom,
-                                      category: _bierre.type))));
+                                  builder: ((context) =>
+                                      FactureVenteBarPetitModele(
+                                          produit_nom: _bierre.nom,
+                                          produit_quantite_vendu: quantite,
+                                          produit_quantite_physique:
+                                              _bierre.quantite_physique -
+                                                  quantite,
+                                          produit_uid: _bierre.uid,
+                                          montant_vente: quantite *
+                                              _bierre.quantite_physique,
+                                          prix_unitaire:
+                                              _bierre.prix_unitaire))));
                         } else {
                           // ignore: prefer_interpolation_to_compose_strings
-                          message = "Stock de  " +
+                          message = "Erreur ! \n Le stock de  " +
                               _bierre.nom +
-                              " insuffisant pour effectuer cette achat. IL nereste que " +
+                              " insuffisant pour effectuer cet achat. IL nereste que " +
                               _bierre.quantite_physique.toString() +
                               " en stock !";
 
@@ -162,12 +174,12 @@ class VentePetitModele extends StatelessWidget {
                                 message,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.redAccent.withOpacity(.7),
+                                    color: Colors.white,
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                            backgroundColor: Colors.indigo,
+                            backgroundColor: Colors.redAccent.withOpacity(.7),
                             elevation: 10,
                             behavior: SnackBarBehavior.floating,
                             margin: EdgeInsets.all(5),
@@ -190,7 +202,7 @@ class VentePetitModele extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          backgroundColor: Colors.indigo,
+                          backgroundColor: Colors.redAccent.withOpacity(.7),
                           elevation: 10,
                           behavior: SnackBarBehavior.floating,
                           margin: EdgeInsets.all(5),
@@ -202,7 +214,9 @@ class VentePetitModele extends StatelessWidget {
                       "Enregistrez".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
                     )),
               ),
             )

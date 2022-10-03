@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
-import 'package:projet/interface/centre_informatique/centre_stream_stock_produit.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +42,7 @@ class LiquiditeListGrandModele extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.indigo,
         title: Text(
-          "Liquidité des bièrres",
+          "Liquidité de bièrres",
           style: TextStyle(
               color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),

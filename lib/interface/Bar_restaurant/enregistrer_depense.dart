@@ -26,10 +26,11 @@ class BarEnregistrerDepense extends StatelessWidget {
       drawer: servantdrawer(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         centerTitle: true,
         elevation: 0,
         title: Text(
-          "Dépense",
+          "Dépense effectuées",
           style: TextStyle(fontSize: 20, color: Colors.white.withOpacity(.8)),
         ),
       ),
@@ -67,8 +68,8 @@ class BarEnregistrerDepense extends StatelessWidget {
                     autofocus: true,
                     controller: _description,
                     decoration: InputDecoration(
-                      hintText: "Description",
-                      labelText: "Description",
+                      hintText: "Descrivez la dépense svp",
+                      labelText: "Description de la dépense",
                     )),
               ),
               Padding(
@@ -81,8 +82,8 @@ class BarEnregistrerDepense extends StatelessWidget {
                   inputFormatters: [MyFilter()],
                   controller: _montant,
                   decoration: InputDecoration(
-                    hintText: "Montant dépensé",
-                    labelText: "Montant",
+                    hintText: "Saisissez le montant depensé svp",
+                    labelText: "Montant dépensé",
                   ),
                 ),
               ),
