@@ -26,6 +26,7 @@ class StreamStockPhysiqueGrandModele extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().bierreGrandModele(produit_uid)),
             initialData: donnesBierresGrandModel(
+                montant_vendu: 0,
                 benefice: 0,
                 prix_unitaire_achat: 0,
                 prix_unitaire: 0,

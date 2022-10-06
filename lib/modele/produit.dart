@@ -15,6 +15,7 @@ class products {
   final String uid;
   final int benefice;
   final int prix_unitaire_achat;
+  final int montant_vendu;
   products({
     required this.prix_unitaire,
     required this.quantite_initial,
@@ -24,10 +25,12 @@ class products {
     required this.uid,
     required this.benefice,
     required this.prix_unitaire_achat,
+    required this.montant_vendu,
   });
 
   factory products.fromFirestore(DocumentSnapshot document) {
     return products(
+        montant_vendu: (document.data() as Map)['montant_vendu'],
         benefice: (document.data() as Map)['benefice'],
         prix_unitaire_achat: (document.data() as Map)['prix_unitaire_achat'],
         prix_unitaire: (document.data() as Map)['prix_unitaire'],
@@ -48,6 +51,7 @@ class products {
     String? uid,
     int? benefice,
     int? prix_unitaire_achat,
+    int? montant_vendu,
   }) {
     return products(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
@@ -59,6 +63,7 @@ class products {
       uid: uid ?? this.uid,
       benefice: benefice ?? this.benefice,
       prix_unitaire_achat: prix_unitaire_achat ?? this.prix_unitaire_achat,
+      montant_vendu: montant_vendu ?? this.montant_vendu,
     );
   }
 
@@ -73,6 +78,7 @@ class products {
     result.addAll({'uid': uid});
     result.addAll({'benefice': benefice});
     result.addAll({'prix_unitaire_achat': prix_unitaire_achat});
+    result.addAll({'montant_vendu': montant_vendu});
 
     return result;
   }
@@ -87,6 +93,7 @@ class products {
       uid: map['uid'] ?? '',
       benefice: map['benefice']?.toInt() ?? 0,
       prix_unitaire_achat: map['prix_unitaire_achat']?.toInt() ?? 0,
+      montant_vendu: map['montant_vendu']?.toInt() ?? 0,
     );
   }
 
@@ -97,7 +104,7 @@ class products {
 
   @override
   String toString() {
-    return 'products(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, uid: $uid, benefice: $benefice, prix_unitaire_achat: $prix_unitaire_achat)';
+    return 'products(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, uid: $uid, benefice: $benefice, prix_unitaire_achat: $prix_unitaire_achat, montant_vendu: $montant_vendu)';
   }
 
   @override
@@ -112,7 +119,8 @@ class products {
         other.nom == nom &&
         other.uid == uid &&
         other.benefice == benefice &&
-        other.prix_unitaire_achat == prix_unitaire_achat;
+        other.prix_unitaire_achat == prix_unitaire_achat &&
+        other.montant_vendu == montant_vendu;
   }
 
   @override
@@ -124,6 +132,7 @@ class products {
         nom.hashCode ^
         uid.hashCode ^
         benefice.hashCode ^
-        prix_unitaire_achat.hashCode;
+        prix_unitaire_achat.hashCode ^
+        montant_vendu.hashCode;
   }
 }

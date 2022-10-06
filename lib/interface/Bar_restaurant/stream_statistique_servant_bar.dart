@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/modele/donnesservants.dart';
+import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
 
@@ -43,6 +44,10 @@ class StreamServantBar extends StatelessWidget {
                 .read<serviceBD>()
                 .list_vente_servant_bar_grand_modele(this.uid)),
             initialData: <venteGrandModele>[]),
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_vente_credits(this.uid)),
+            initialData: <venteCredit>[])
       ],
       child: StatistiqueServantBar(),
     );

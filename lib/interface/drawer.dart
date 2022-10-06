@@ -61,7 +61,7 @@ class DrawerHome extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  "restaurant bar".toUpperCase(),
+                  "Bar restaurant".toUpperCase(),
                   style: TextStyle(color: Colors.green),
                 ),
                 onTap: () {

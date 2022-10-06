@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../modele/donnesservants.dart';
-import '../../modele/vente_credit.dart';
 import '../../modele/vente_grand_modele.dart';
 import '../../modele/vente_petit_modele.dart';
 import 'drawer_admin_bar.dart';
 
-class StatistiqueGeneneralServant extends StatelessWidget {
-  StatistiqueGeneneralServant({super.key});
+class StatistiqueGrandPetitModele extends StatelessWidget {
+  StatistiqueGrandPetitModele({super.key});
 
   late int peti_model_lenght = 0;
   late int grand_model_lenght = 0;
@@ -19,9 +18,6 @@ class StatistiqueGeneneralServant extends StatelessWidget {
   late int total_petit_model = 0;
   late int total_grand_model = 0;
   late int totaux = 0;
-  late int credit_lenght = 0;
-  late double credit_sizebox = 0;
-  late int total_credit = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +27,6 @@ class StatistiqueGeneneralServant extends StatelessWidget {
     peti_model_lenght = _listVentepetitmodel.length;
     grand_model_lenght = _listVentegrandmodel.length;
 
-    final _listVenteCredit = Provider.of<List<venteCredit>>(context);
-    credit_lenght = _listVenteCredit.length;
-
-    _listVenteCredit.forEach((element) {
-      total_credit = total_credit + element.montant;
-    });
-
-    if (credit_lenght <= 5) {
-      credit_sizebox = 180;
-    } else if (credit_lenght <= 20) {
-      credit_sizebox = 350;
-    } else if (credit_lenght <= 30) {
-      credit_sizebox = 500;
-    } else if (credit_lenght <= 50) {
-      credit_sizebox = 600;
-    } else {
-      credit_sizebox = MediaQuery.of(context).size.height;
-    }
-
     _listVentegrandmodel.forEach((element) {
       total_grand_model = total_grand_model + element.montant;
     });
@@ -58,7 +35,7 @@ class StatistiqueGeneneralServant extends StatelessWidget {
       total_petit_model = total_petit_model + element.montant;
     });
 
-    totaux = total_petit_model + total_grand_model + total_credit;
+    totaux = total_petit_model + total_grand_model;
 
     if (grand_model_lenght <= 5) {
       grand_model_sizebox = 180;
@@ -69,7 +46,7 @@ class StatistiqueGeneneralServant extends StatelessWidget {
     } else if (grand_model_lenght <= 50) {
       grand_model_sizebox = 600;
     } else {
-      grand_model_sizebox = MediaQuery.of(context).size.height;
+      grand_model_sizebox = 700;
     }
 
     if (peti_model_lenght <= 5) {
@@ -81,7 +58,7 @@ class StatistiqueGeneneralServant extends StatelessWidget {
     } else if (peti_model_lenght <= 50) {
       petit_model_sizebox = 600;
     } else {
-      petit_model_sizebox = MediaQuery.of(context).size.height;
+      petit_model_sizebox = 700;
     }
     return Scaffold(
         backgroundColor: Colors.greenAccent,
@@ -361,118 +338,13 @@ class StatistiqueGeneneralServant extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    "Vente de crédits".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.redAccent.withOpacity(.7),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    color: Colors.indigo,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Crédit",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Montant vendu",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: credit_sizebox,
-                    child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        itemBuilder: ((context, index) {
-                          venteCredit _credit = _listVenteCredit[index];
-
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Text(
-                                  _credit.nom.toUpperCase(),
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Text(
-                                  _credit.montant.toString() + " FCFA",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          );
-                        }),
-                        separatorBuilder: ((context, index) => Divider()),
-                        itemCount: _listVenteCredit.length),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    color: Colors.indigo,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Montant total",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            total_credit.toString() + " FCFA",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 22,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Statistique général de vente  ".toUpperCase(),
+                      "Statistique général de vente de ".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 22,

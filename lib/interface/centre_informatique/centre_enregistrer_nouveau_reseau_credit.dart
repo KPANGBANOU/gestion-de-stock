@@ -14,11 +14,13 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
   TextEditingController nomReseau = TextEditingController();
   TextEditingController montantInitial = TextEditingController();
   TextEditingController seuilAprovisionnement = TextEditingController();
+  TextEditingController benefice_5000 = TextEditingController();
 
   late int seuil = 0;
   late int montant = 0;
   late String nom = "";
   late bool result = true;
+  late int benefice_sur_5000 = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
             "Nouveau réseau",
             style: TextStyle(color: Colors.white.withOpacity(.8), fontSize: 25),
           ),
-          backgroundColor: Colors.indigoAccent,
+          backgroundColor: Colors.indigo,
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -129,8 +131,31 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    hintText: "Entrez le montant initial",
-                    labelText: "montant initial".toUpperCase(),
+                    labelText: "Entrez le montant initial svp",
+                    hintText: "montant initial".toUpperCase(),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0, left: 15),
+                child: TextField(
+                  controller: benefice_5000,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.white),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 1, color: Color.fromARGB(255, 66, 125, 145)),
+                    ),
+                    labelText:
+                        "Entrez le bénéfice à gagner sur montant de 5000 F svp !",
+                    hintText:
+                        "Bénéfice du cecrédit sur montant 5000 F".toUpperCase(),
                   ),
                 ),
               ),
@@ -150,8 +175,8 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    hintText: "Entrez le seuil d'approvisionnement",
-                    labelText: "Seuil d'approvisionnement".toUpperCase(),
+                    labelText: "Entrez le seuil d'approvisionnement",
+                    hintText: "Seuil d'approvisionnement".toUpperCase(),
                   ),
                 ),
               ),
@@ -165,6 +190,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         try {
+                          benefice_sur_5000 = int.parse(benefice_5000.text);
                           montant = int.parse(montantInitial.text);
                           seuil = int.parse(seuilAprovisionnement.text);
                           nom = nomReseau.text;
@@ -182,6 +208,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                                 .collection("reseaux_communication")
                                 .doc(nom)
                                 .set({
+                              "benefice_sur_5000": benefice_sur_5000,
                               "benefice": 0,
                               "nom": nom,
                               "montant_initial": montant,
@@ -194,6 +221,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                             nomReseau.clear();
                             montantInitial.clear();
                             seuilAprovisionnement.clear();
+                            benefice_5000.clear();
 
                             final snakbar = SnackBar(
                               content: Padding(

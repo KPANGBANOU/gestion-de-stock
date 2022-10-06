@@ -97,7 +97,7 @@ class CentreBenefices extends StatelessWidget {
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          _budget_centre.solde_total.toString() + " FCFA",
+                          _budget_centre.solde_total.toString() + " F",
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         )
@@ -119,12 +119,12 @@ class CentreBenefices extends StatelessWidget {
                         Text(
                           "Dépense totale".toUpperCase(),
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          _budget_centre.depense.toString() + " FCFA",
+                          _budget_centre.depense.toString() + " F",
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -142,14 +142,14 @@ class CentreBenefices extends StatelessWidget {
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
                         Text(
-                          "Pertes rélisées".toUpperCase(),
+                          "Pertes réalisées".toUpperCase(),
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          pertes.toString() + " FCFA",
+                          pertes.toString() + " F",
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -167,12 +167,12 @@ class CentreBenefices extends StatelessWidget {
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
                         Text(
-                          "Bénéfice reélisés".toUpperCase(),
+                          "Bénéfice réalisés".toUpperCase(),
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          benefice.toString() + " FCFA",
+                          benefice.toString() + " F",
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         )

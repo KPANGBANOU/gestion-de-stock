@@ -16,6 +16,7 @@ class donnesBierresGrandModel {
   final String uid;
   final int prix_unitaire_achat;
   final int benefice;
+  final int montant_vendu;
   donnesBierresGrandModel({
     required this.prix_unitaire,
     required this.quantite_initial,
@@ -26,10 +27,12 @@ class donnesBierresGrandModel {
     required this.uid,
     required this.prix_unitaire_achat,
     required this.benefice,
+    required this.montant_vendu,
   });
 
   factory donnesBierresGrandModel.fromFirestore(DocumentSnapshot document) {
     return donnesBierresGrandModel(
+        montant_vendu: (document.data() as Map)['montant_vendu'],
         benefice: (document.data() as Map)['benefice'],
         prix_unitaire_achat: (document.data() as Map)["prix_unitaire_achat"],
         prix_unitaire: (document.data() as Map)["prix_unitaire"],
@@ -52,6 +55,7 @@ class donnesBierresGrandModel {
     String? uid,
     int? prix_unitaire_achat,
     int? benefice,
+    int? montant_vendu,
   }) {
     return donnesBierresGrandModel(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
@@ -64,6 +68,7 @@ class donnesBierresGrandModel {
       uid: uid ?? this.uid,
       prix_unitaire_achat: prix_unitaire_achat ?? this.prix_unitaire_achat,
       benefice: benefice ?? this.benefice,
+      montant_vendu: montant_vendu ?? this.montant_vendu,
     );
   }
 
@@ -79,6 +84,7 @@ class donnesBierresGrandModel {
     result.addAll({'uid': uid});
     result.addAll({'prix_unitaire_achat': prix_unitaire_achat});
     result.addAll({'benefice': benefice});
+    result.addAll({'montant_vendu': montant_vendu});
 
     return result;
   }
@@ -94,6 +100,7 @@ class donnesBierresGrandModel {
       uid: map['uid'] ?? '',
       prix_unitaire_achat: map['prix_unitaire_achat']?.toInt() ?? 0,
       benefice: map['benefice']?.toInt() ?? 0,
+      montant_vendu: map['montant_vendu']?.toInt() ?? 0,
     );
   }
 
@@ -104,7 +111,7 @@ class donnesBierresGrandModel {
 
   @override
   String toString() {
-    return 'donnesBierresGrandModel(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid, prix_unitaire_achat: $prix_unitaire_achat, benefice: $benefice)';
+    return 'donnesBierresGrandModel(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid, prix_unitaire_achat: $prix_unitaire_achat, benefice: $benefice, montant_vendu: $montant_vendu)';
   }
 
   @override
@@ -120,7 +127,8 @@ class donnesBierresGrandModel {
         other.type == type &&
         other.uid == uid &&
         other.prix_unitaire_achat == prix_unitaire_achat &&
-        other.benefice == benefice;
+        other.benefice == benefice &&
+        other.montant_vendu == montant_vendu;
   }
 
   @override
@@ -133,6 +141,7 @@ class donnesBierresGrandModel {
         type.hashCode ^
         uid.hashCode ^
         prix_unitaire_achat.hashCode ^
-        benefice.hashCode;
+        benefice.hashCode ^
+        montant_vendu.hashCode;
   }
 }

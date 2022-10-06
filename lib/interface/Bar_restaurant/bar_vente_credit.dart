@@ -2,17 +2,19 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/centre_informatique/centre_facture_vente_credit.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
+import 'package:projet/modele/budgetBar.dart';
 
-import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
-class CentreVenteCredit extends StatelessWidget {
-  CentreVenteCredit({super.key});
+import 'bar_facture_vente_credit.dart';
+
+class BarVenteCredit extends StatelessWidget {
+  BarVenteCredit({super.key});
 
   TextEditingController _montant = TextEditingController();
   int montant = 0;
@@ -21,9 +23,9 @@ class CentreVenteCredit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _credit = Provider.of<credit>(context);
-    final _budget_centre = Provider.of<budgetCentre>(context);
+    final _budget_bar = Provider.of<BudgetBar>(context);
     final _donnes = Provider.of<Utilisateur>(context);
-    final _centre_vente = Provider.of<venteCredit>(context);
+    final _bar_vente = Provider.of<venteCredit>(context);
 
     if (_credit == null) {
       return Scaffold(
@@ -48,7 +50,7 @@ class CentreVenteCredit extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.greenAccent,
-      drawer: CentreServantdrawer(),
+      drawer: servantdrawer(),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
@@ -154,20 +156,20 @@ class CentreVenteCredit extends StatelessWidget {
                               .collection("users")
                               .doc(_donnes.uid)
                               .collection("vente_credits")
-                              .doc(_centre_vente.uid)
+                              .doc(_bar_vente.uid)
                               .set({
                             "nom": _credit.nom,
-                            "montant": _centre_vente.montant + montant,
+                            "montant": _bar_vente.montant + montant,
                             "derniere_vente": DateTime.now()
                           });
 
                           await FirebaseFirestore.instance
                               .collection("budget")
-                              .doc(_budget_centre.uid)
+                              .doc(_budget_bar.uid)
                               .update({
-                            "benefice": _budget_centre.benefice +
+                            "benefice": _budget_bar.benefice +
                                 (montant * _credit.benefice_sur_5000) / 5000,
-                            "solde_total": _budget_centre.solde_total + montant,
+                            "solde_total": _budget_bar.solde_total + montant,
                           });
 
                           await FirebaseFirestore.instance
@@ -186,8 +188,7 @@ class CentreVenteCredit extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) =>
-                                      CentreFactureVenteCredit(
+                                  builder: ((context) => FactureVenteCreditBar(
                                         credit_montant_vendu: montant,
                                         credit_uid: _credit.uid,
                                         credit_nom: _credit.nom.toString(),

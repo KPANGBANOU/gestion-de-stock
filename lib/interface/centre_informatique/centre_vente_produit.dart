@@ -180,6 +180,10 @@ class CentreVenteProduits extends StatelessWidget {
                               .collection("budget")
                               .doc(_budget_centre.uid)
                               .set({
+                            "benefice": _budget_centre.benefice +
+                                (quantite *
+                                    (_produit.prix_unitaire -
+                                        _produit.prix_unitaire_achat)),
                             "solde_total": _budget_centre.solde_total +
                                 (quantite * _produit.prix_unitaire),
                             "depense": _budget_centre.depense,

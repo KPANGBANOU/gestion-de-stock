@@ -8,7 +8,7 @@ import 'package:projet/interface/Bar_restaurant/facture_vente_bar.dart';
 
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:projet/modele/budgetBar.dart';
-import 'package:projet/modele/vente.dart';
+import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class VenteGrandModele extends StatelessWidget {
     final _user = Provider.of<Utilisateur>(context);
     final _budget_bar = Provider.of<BudgetBar>(context);
     final _serice = Provider.of<serviceBD>(context);
-    final _vente = Provider.of<vente>(context);
+    final _vente = Provider.of<venteGrandModele>(context);
     return Scaffold(
       drawer: servantdrawer(),
       backgroundColor: Colors.greenAccent,

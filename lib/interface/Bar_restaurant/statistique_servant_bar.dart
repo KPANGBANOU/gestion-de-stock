@@ -5,11 +5,17 @@ import 'package:projet/interface/Bar_restaurant/statistique_servant_petit_mode.d
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 import 'package:projet/interface/Bar_restaurant/statistique_general_servant.dart';
 import 'package:projet/interface/Bar_restaurant/statistique_servant_grand_modele.dart';
+import 'package:projet/modele/vente_credit.dart';
 
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
+
+import 'statiistique_grand_modelecredit.dart';
+import 'statistique_credit_servant_bar.dart';
+import 'statistique_grandpetitmodele.dart';
+import 'statistiquepetitmodelcredit.dart';
 
 class StatistiqueServantBar extends StatelessWidget {
   StatistiqueServantBar({super.key});
@@ -19,8 +25,11 @@ class StatistiqueServantBar extends StatelessWidget {
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
     final _listVentepetitmodel = Provider.of<List<ventePetitModele>>(context);
     final _listVentegrandmodel = Provider.of<List<venteGrandModele>>(context);
+    final _list_credits = Provider.of<List<venteCredit>>(context);
 
-    if (_listVentepetitmodel.isEmpty && _listVentegrandmodel.isEmpty) {
+    if (_listVentepetitmodel.isEmpty &&
+        _listVentegrandmodel.isEmpty &&
+        _list_credits.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
         drawer: DrawerAdminBar(),
@@ -40,12 +49,40 @@ class StatistiqueServantBar extends StatelessWidget {
       );
     }
 
-    if (_listVentepetitmodel.isNotEmpty && _listVentegrandmodel.isEmpty) {
+    if (_listVentepetitmodel.isNotEmpty &&
+        _listVentegrandmodel.isEmpty &&
+        _list_credits.isEmpty) {
       return StatistiqueServantPetitModel();
     }
 
-    if (_listVentepetitmodel.isEmpty && _listVentegrandmodel.isNotEmpty) {
+    if (_listVentepetitmodel.isEmpty &&
+        _listVentegrandmodel.isNotEmpty &&
+        _list_credits.isEmpty) {
       return StatistiqueServantGrandModel();
+    }
+
+    if (_listVentegrandmodel.isEmpty &&
+        _listVentepetitmodel.isEmpty &&
+        _list_credits.isNotEmpty) {
+      return StatistiqueCreditServantBar();
+    }
+
+    if (_listVentegrandmodel.isNotEmpty &&
+        _listVentepetitmodel.isNotEmpty &&
+        _list_credits.isEmpty) {
+      return StatistiqueGrandPetitModele();
+    }
+
+    if (_listVentegrandmodel.isEmpty &&
+        _listVentepetitmodel.isNotEmpty &&
+        _list_credits.isNotEmpty) {
+      return StatistiquePetitModeleCredit();
+    }
+
+    if (_listVentegrandmodel.isNotEmpty &&
+        _list_credits.isNotEmpty &&
+        _listVentepetitmodel.isEmpty) {
+      return StatistiqueGrandModeleCredit();
     }
 
     return StatistiqueGeneneralServant();

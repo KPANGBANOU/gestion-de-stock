@@ -14,6 +14,7 @@ class donneesBieerePetitModele {
   final String uid;
   final int benefice;
   final int prix_unitaire_achat;
+  final int montant_vendu;
   donneesBieerePetitModele({
     required this.prix_unitaire,
     required this.quantite_initial,
@@ -24,10 +25,12 @@ class donneesBieerePetitModele {
     required this.uid,
     required this.benefice,
     required this.prix_unitaire_achat,
+    required this.montant_vendu,
   });
 
   factory donneesBieerePetitModele.fromFirestore(DocumentSnapshot document) {
     return donneesBieerePetitModele(
+        montant_vendu: (document.data() as Map)['montant_vendu'],
         benefice: (document.data() as Map)['benefice'],
         prix_unitaire: (document.data() as Map)['prix_unitaire'],
         quantite_initial: (document.data() as Map)['quantite_initial'],
@@ -50,6 +53,7 @@ class donneesBieerePetitModele {
     String? uid,
     int? benefice,
     int? prix_unitaire_achat,
+    int? montant_vendu,
   }) {
     return donneesBieerePetitModele(
       prix_unitaire: prix_unitaire ?? this.prix_unitaire,
@@ -62,6 +66,7 @@ class donneesBieerePetitModele {
       uid: uid ?? this.uid,
       benefice: benefice ?? this.benefice,
       prix_unitaire_achat: prix_unitaire_achat ?? this.prix_unitaire_achat,
+      montant_vendu: montant_vendu ?? this.montant_vendu,
     );
   }
 
@@ -77,6 +82,7 @@ class donneesBieerePetitModele {
     result.addAll({'uid': uid});
     result.addAll({'benefice': benefice});
     result.addAll({'prix_unitaire_achat': prix_unitaire_achat});
+    result.addAll({'montant_vendu': montant_vendu});
 
     return result;
   }
@@ -92,6 +98,7 @@ class donneesBieerePetitModele {
       uid: map['uid'] ?? '',
       benefice: map['benefice']?.toInt() ?? 0,
       prix_unitaire_achat: map['prix_unitaire_achat']?.toInt() ?? 0,
+      montant_vendu: map['montant_vendu']?.toInt() ?? 0,
     );
   }
 
@@ -102,7 +109,7 @@ class donneesBieerePetitModele {
 
   @override
   String toString() {
-    return 'donneesBieerePetitModele(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid, benefice: $benefice, prix_unitaire_achat: $prix_unitaire_achat)';
+    return 'donneesBieerePetitModele(prix_unitaire: $prix_unitaire, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, nom: $nom, type: $type, uid: $uid, benefice: $benefice, prix_unitaire_achat: $prix_unitaire_achat, montant_vendu: $montant_vendu)';
   }
 
   @override
@@ -118,7 +125,8 @@ class donneesBieerePetitModele {
         other.type == type &&
         other.uid == uid &&
         other.benefice == benefice &&
-        other.prix_unitaire_achat == prix_unitaire_achat;
+        other.prix_unitaire_achat == prix_unitaire_achat &&
+        other.montant_vendu == montant_vendu;
   }
 
   @override
@@ -131,6 +139,7 @@ class donneesBieerePetitModele {
         type.hashCode ^
         uid.hashCode ^
         benefice.hashCode ^
-        prix_unitaire_achat.hashCode;
+        prix_unitaire_achat.hashCode ^
+        montant_vendu.hashCode;
   }
 }

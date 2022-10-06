@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/interface/Bar_restaurant/vendre_grand_modele.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
-import 'package:projet/modele/vente.dart';
+import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -19,9 +19,10 @@ class SecondStreamVenteGrandModele extends StatelessWidget {
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
-            create: ((context) =>
-                context.read<serviceBD>().ventedata(_bierre.uid, _user.uid)),
-            initialData: vente(
+            create: ((context) => context
+                .read<serviceBD>()
+                .vente_grand_modele(_user.uid, _bierre.uid)),
+            initialData: venteGrandModele(
                 uid: _bierre.uid,
                 quantite: 0,
                 montant: 0,

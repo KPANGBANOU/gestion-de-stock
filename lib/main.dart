@@ -28,7 +28,6 @@ import 'interface/Bar_restaurant/interface_bar_restaurant.dart';
 
 import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
-import 'interface/Bar_restaurant/rubrique_versement.dart';
 
 import 'interface/accorder_droit.dart';
 import 'interface/accueil.dart';
@@ -183,7 +182,6 @@ class MyApp extends StatelessWidget {
             "/infoEmploye": (context) => InfoEmploye(),
             "/accorderDroits": (context) => DroitsEmployes(),
             "/home": (context) => HomePage(),
-            "/barrubrique": (context) => RubriqueVersement(),
             "/barbenefices": (context) => BeneficeBar(),
             "/bardepenses": (context) => DepensesBar(),
             "/barpertes": (context) => PertesBar(),

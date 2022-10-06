@@ -19,76 +19,10 @@ class Bar extends StatelessWidget {
       backgroundColor: Colors.greenAccent,
       drawer: DrawerAdminBar(),
       appBar: AppBar(
-        actions: [
-          TextButton(
-              onPressed: () {
-                showGeneralDialog(
-                  barrierLabel: "Menu",
-                  barrierDismissible: true,
-                  barrierColor: Colors.black.withOpacity(0.5),
-                  transitionDuration: Duration(milliseconds: 700),
-                  context: context,
-                  pageBuilder: (context, anim1, anim2) {
-                    return Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 40, left: 152, right: 12),
-                        height: 200,
-                        child: SizedBox.expand(
-                            child: Column(
-                          // ignore: prefer_const_literals_to_create_immutables
-
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20.0),
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, "/barsavanewproduct");
-                                  },
-                                  child: Text(
-                                    'Nouvelle bièrre',
-                                    style: TextStyle(color: Colors.black),
-                                  )),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, "/barlistebierres");
-                                },
-                                child: Text(
-                                  'Listes des bières',
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, "/parametresadmin");
-                                },
-                                child: Text(
-                                  'Paramètres',
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                          ],
-                        )),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Icon(
-                Icons.more_vert_outlined,
-                color: Colors.white,
-              ))
-        ],
         centerTitle: true,
         elevation: 0,
         title: Text(
-          "Gestion du bar",
+          "Bar restaurant ",
           style: TextStyle(
               color: Colors.white.withOpacity(.8),
               fontSize: 22,

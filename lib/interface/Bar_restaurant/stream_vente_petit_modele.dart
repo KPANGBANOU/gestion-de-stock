@@ -24,6 +24,7 @@ class StreamVentePetitModele extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().bierreData(this.uid)),
             initialData: donneesBieerePetitModele(
+                montant_vendu: 0,
                 benefice: 0,
                 prix_unitaire_achat: 0,
                 prix_unitaire: 0,

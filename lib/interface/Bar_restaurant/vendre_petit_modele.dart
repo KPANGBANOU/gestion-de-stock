@@ -6,10 +6,9 @@ import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
 import 'package:projet/interface/Bar_restaurant/facrure_vente_petit_model.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:projet/modele/budgetBar.dart';
+import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
-
-import '../../modele/vente.dart';
 
 class VentePetitModele extends StatelessWidget {
   VentePetitModele({super.key});
@@ -26,7 +25,7 @@ class VentePetitModele extends StatelessWidget {
     final _bierre = Provider.of<donneesBieerePetitModele>(context);
     final _user = Provider.of<Utilisateur>(context);
     final _budget_bar = Provider.of<BudgetBar>(context);
-    final _vente = Provider.of<vente>(context);
+    final _vente = Provider.of<ventePetitModele>(context);
     return Scaffold(
       drawer: servantdrawer(),
       backgroundColor: Colors.greenAccent,

@@ -231,6 +231,7 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                                 .collection("produits_centre")
                                 .doc(nom)
                                 .set({
+                              "montant_vendu": 0,
                               "nom": nom,
                               "benefice": 0,
                               "quantite_initial": quantite,
@@ -246,6 +247,7 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                             quantiteInitial.clear();
                             prixUnitaire.clear();
                             seuilAprovisionnement.clear();
+                            prix_unitaire_achat.clear();
 
                             final snakbar = SnackBar(
                               content: Padding(

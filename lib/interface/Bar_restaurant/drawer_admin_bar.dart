@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_modele.dart';
 import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
+import 'package:projet/interface/Bar_restaurant/bar_rubrique_versement.dart';
 import 'package:projet/interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
 import 'package:projet/interface/Bar_restaurant/statistique_liste_servants.dart';
 import 'package:projet/interface/Bar_restaurant/stockphysiquedesgrandtmodel.dart';
@@ -98,6 +99,15 @@ class DrawerAdminBar extends StatelessWidget {
                 title: Text("Bénéfices et pertess".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/barbenefices");
+                },
+              ),
+              ListTile(
+                title: Text("Rubrique de versement".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => BarRubriqueVersement())));
                 },
               ),
               ListTile(

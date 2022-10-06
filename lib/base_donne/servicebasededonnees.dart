@@ -14,7 +14,6 @@ import 'package:projet/modele/depense.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/probleme.dart';
 import 'package:projet/modele/produit.dart';
-import 'package:projet/modele/vente.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
@@ -137,25 +136,6 @@ class serviceBD {
         .doc(produit_uid)
         .snapshots()
         .map((event) => centreVente.fromfirestore(event));
-  }
-
-  Stream<List<vente>> list_vente(
-    String employe_uid,
-  ) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("ventes")
-        .snapshots()
-        .map((event) => event.docs.map((e) => vente.fromFirestore(e)).toList());
-  }
-
-  Stream<vente> bente_bierre(String user_uid, String bierre_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection("ventes")
-        .doc(bierre_uid)
-        .snapshots()
-        .map((event) => vente.fromFirestore(event));
   }
 
   Stream<List<venteCredit>> list_vente_credits(String employe_uid) {
@@ -331,15 +311,6 @@ class serviceBD {
   }
 
   // vente data
-
-  Stream<vente> ventedata(String bierre_uid, String user_id) {
-    return _Ref.collection("users")
-        .doc(user_id)
-        .collection("ventes")
-        .doc(bierre_uid)
-        .snapshots()
-        .map((event) => vente.fromFirestore(event));
-  }
 
   // list de vente d'un utilisateur pour petit model
 

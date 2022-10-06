@@ -1,28 +1,29 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, non_constant_identifier_names, prefer_const_constructors_in_immutables, must_be_immutable, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
-import 'package:projet/modele/credit.dart';
-import 'package:projet/modele/produit.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/modele/bieere_petit_model.dart';
+import 'package:projet/modele/bierre_grand_model.dart';
 
 import 'package:provider/provider.dart';
 
-import 'centre_rubrique_general.dart';
-import 'rubrique_credit.dart';
-import 'rubrique_produits.dart';
+import 'rubrique_bar_grand_model.dart';
+import 'rubrique_general_bar.dart';
+import 'rubrique_petit_model.dart';
 
-class CentreRubriqueVersement extends StatelessWidget {
-  CentreRubriqueVersement({super.key});
+class BarRubriqueVersement extends StatelessWidget {
+  BarRubriqueVersement({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _listproduits = Provider.of<List<products>>(context);
-    final _listcredits = Provider.of<List<credit>>(context);
+    final _listpetitmodel =
+        Provider.of<List<donneesBieerePetitModele>>(context);
+    final _listgrandmodel = Provider.of<List<donnesBierresGrandModel>>(context);
 
-    if (_listproduits.isEmpty && _listcredits.isEmpty) {
+    if (_listpetitmodel.isEmpty && _listgrandmodel.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: DrawerAdminCentre(),
+        drawer: DrawerAdminBar(),
         appBar: AppBar(
           title: Text(
             "Rubrique de versement",
@@ -37,14 +38,14 @@ class CentreRubriqueVersement extends StatelessWidget {
       );
     }
 
-    if (_listproduits.isNotEmpty && _listcredits.isEmpty) {
-      return RubriqueProduit();
+    if (_listpetitmodel.isNotEmpty && _listgrandmodel.isEmpty) {
+      return RubriquePetitModel();
     }
 
-    if (_listproduits.isEmpty && _listcredits.isNotEmpty) {
-      return RubriqueCredit();
+    if (_listpetitmodel.isEmpty && _listgrandmodel.isNotEmpty) {
+      return RubriqueGrandModel();
     }
 
-    return RubriqueGeneralCentre();
+    return RubriqueGeneralBar();
   }
 }
