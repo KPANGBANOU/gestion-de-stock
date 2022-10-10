@@ -14,9 +14,13 @@ import 'package:projet/modele/depense.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/probleme.dart';
 import 'package:projet/modele/produit.dart';
+import 'package:projet/modele/serigraphie.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
+import 'package:projet/modele/vente_tee_shirt_grande_qualite.dart';
+import 'package:projet/modele/vente_tee_shirt_qualite_faible.dart';
+import 'package:projet/modele/vente_tee_shirt_qualite_moyenne.dart';
 
 import 'package:projet/services/user.dart';
 
@@ -57,6 +61,85 @@ class serviceBD {
       return "Echec";
     }
     return "Echec";
+  }
+
+  Stream<List<serigraphie>> get list_tee_shirts {
+    return _Ref.collection("tee_shirts").orderBy("created_at").snapshots().map(
+        (event) =>
+            event.docs.map((e) => serigraphie.fromfirestore(e)).toList());
+  }
+
+  Stream<serigraphie> tee_shirt(String tee_shirt_uid) {
+    return _Ref.collection("tee_shirts")
+        .doc(tee_shirt_uid)
+        .snapshots()
+        .map((event) => serigraphie.fromfirestore(event));
+  }
+
+  Stream<List<venteteeshirtsgrandequalite>> list_vente_tee_shirt_grande_qualite(
+      String user_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection("vente_tee_shirts")
+        .where("qualite", isEqualTo: "Grande qualité")
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => venteteeshirtsgrandequalite.fromfirestore(e))
+            .toList());
+  }
+
+  Stream<venteteeshirtsgrandequalite> vente_tee_shirt_grande_qualite(
+      String user_uid, String vente_tee_shirt_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection('vente_tee_shirts')
+        .doc(vente_tee_shirt_uid)
+        .snapshots()
+        .map((event) => venteteeshirtsgrandequalite.fromfirestore(event));
+  }
+
+  Stream<List<venteteeshirtsqualitemoyenne>>
+      list_vente_tee_shirt_qualite_moyenne(String user_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection("vente_tee_shirts")
+        .where("qualite", isEqualTo: "Qualité moyenne")
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => venteteeshirtsqualitemoyenne.fromfirestore(e))
+            .toList());
+  }
+
+  Stream<venteteeshirtsqualitemoyenne> vente_tee_shirt_qualite_moyenne(
+      String user_uid, String vente_tee_shirt_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection('vente_tee_shirts')
+        .doc(vente_tee_shirt_uid)
+        .snapshots()
+        .map((event) => venteteeshirtsqualitemoyenne.fromfirestore(event));
+  }
+
+  Stream<List<venteteeshirtsqualitefaible>> list_vente_tee_shirt_qualite_faible(
+      String user_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection("vente_tee_shirts")
+        .where("qualite", isEqualTo: "Faible qualité")
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => venteteeshirtsqualitefaible.fromfirestore(e))
+            .toList());
+  }
+
+  Stream<venteteeshirtsqualitefaible> vente_tee_shirt_qualite_faible(
+      String user_uid, String vente_tee_shirt_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection('vente_tee_shirts')
+        .doc(vente_tee_shirt_uid)
+        .snapshots()
+        .map((event) => venteteeshirtsqualitefaible.fromfirestore(event));
   }
 
   // liste de produits

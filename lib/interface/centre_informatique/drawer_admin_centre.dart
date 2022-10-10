@@ -16,6 +16,9 @@ import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
+import 'approvisionnerlisteeshirt.dart';
+import 'centreliquidite_serigraphie.dart';
+
 class DrawerAdminCentre extends StatelessWidget {
   DrawerAdminCentre({Key? key}) : super(key: key);
 
@@ -155,7 +158,7 @@ class DrawerAdminCentre extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Approvisionnement".toUpperCase()),
+                title: Text("Approvisionnement de produits".toUpperCase()),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -172,6 +175,26 @@ class DrawerAdminCentre extends StatelessWidget {
                       MaterialPageRoute(
                           builder: ((context) =>
                               CentreLiquiditeListCredits())));
+                },
+              ),
+              ListTile(
+                title: Text("Sérigraphie".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreLiquiditeSerigraphie())));
+                },
+              ),
+              ListTile(
+                title: Text("Réchargement de tee-shirts".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreRechargementListTeeShirt())));
                 },
               ),
               ListTile(

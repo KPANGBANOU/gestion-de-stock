@@ -10,6 +10,7 @@ import 'package:projet/interface/centre_informatique/centre_vente_list_credits.d
 import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
 import 'package:projet/modele/credit.dart';
+import 'package:projet/modele/serigraphie.dart';
 
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:projet/services/user.dart';
@@ -138,6 +139,10 @@ class MyApp extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().listDonnesBierresPetitModele),
             initialData: const <donneesBieerePetitModele>[]),
+
+        StreamProvider(
+            create: ((context) => context.read<serviceBD>().list_tee_shirts),
+            initialData: <serigraphie>[]),
 
         // list de vente
 

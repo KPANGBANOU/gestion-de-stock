@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:cron/cron.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
@@ -26,6 +27,7 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _cron = Cron();
     final firebase = Provider.of<Utilisateur?>(context);
     final _donnnes = Provider.of<donnesUtilisateur>(context);
     final _list_credits = Provider.of<List<credit>>(context);
