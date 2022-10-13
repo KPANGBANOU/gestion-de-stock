@@ -9,8 +9,13 @@ import 'package:projet/interface/centre_informatique/centre_liquidite_list_credi
 import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_list_produits.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
+import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/serigraphie.dart';
+import 'package:projet/modele/vente_credit.dart';
+import 'package:projet/modele/vente_grand_modele.dart';
+import 'package:projet/modele/vente_petit_modele.dart';
+import 'package:projet/modele/vente_tee_shirts.dart';
 
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:projet/services/user.dart';
@@ -120,6 +125,31 @@ class MyApp extends StatelessWidget {
                 photo_url: "",
                 admin: false,
                 is_active: true)),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_vente_tee_shirts),
+            initialData: <venteteeshirts>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_ventes_credits),
+            initialData: <venteCredit>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_ventes_grand_modeles),
+            initialData: <venteGrandModele>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_ventes_petit_modeles),
+            initialData: <ventePetitModele>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_ventes_produits),
+            initialData: <centreVente>[]),
 
         StreamProvider(
             create: ((context) => context.read<serviceBD>().budgetBardata),

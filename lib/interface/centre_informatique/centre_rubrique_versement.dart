@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/produit.dart';
+import 'package:projet/modele/serigraphie.dart';
 
 import 'package:provider/provider.dart';
 
 import 'centre_rubrique_general.dart';
 import 'rubrique_credit.dart';
+import 'rubrique_credit_produit.dart';
+import 'rubrique_credit_tee_shirt.dart';
+import 'rubrique_produit_tee_shirt.dart';
 import 'rubrique_produits.dart';
+import 'rubrique_tee_shirt.dart';
 
 class CentreRubriqueVersement extends StatelessWidget {
   CentreRubriqueVersement({super.key});
@@ -18,8 +23,11 @@ class CentreRubriqueVersement extends StatelessWidget {
   Widget build(BuildContext context) {
     final _listproduits = Provider.of<List<products>>(context);
     final _listcredits = Provider.of<List<credit>>(context);
+    final _list_tee_shirts = Provider.of<List<serigraphie>>(context);
 
-    if (_listproduits.isEmpty && _listcredits.isEmpty) {
+    if (_listproduits.isEmpty &&
+        _listcredits.isEmpty &&
+        _list_tee_shirts.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
         drawer: DrawerAdminCentre(),
@@ -37,12 +45,40 @@ class CentreRubriqueVersement extends StatelessWidget {
       );
     }
 
-    if (_listproduits.isNotEmpty && _listcredits.isEmpty) {
+    if (_listproduits.isNotEmpty &&
+        _listcredits.isEmpty &&
+        _list_tee_shirts.isEmpty) {
       return RubriqueProduit();
     }
 
-    if (_listproduits.isEmpty && _listcredits.isNotEmpty) {
+    if (_listproduits.isEmpty &&
+        _listcredits.isNotEmpty &&
+        _list_tee_shirts.isEmpty) {
       return RubriqueCredit();
+    }
+
+    if (_listproduits.isEmpty &&
+        _listcredits.isEmpty &&
+        _list_tee_shirts.isNotEmpty) {
+      return RubriqueTeeShirt();
+    }
+
+    if (_listproduits.isEmpty &&
+        _listcredits.isNotEmpty &&
+        _list_tee_shirts.isNotEmpty) {
+      return RubriqueCreditTeeShirt();
+    }
+
+    if (_listproduits.isNotEmpty &&
+        _listcredits.isNotEmpty &&
+        _list_tee_shirts.isEmpty) {
+      return RubriqueCreditProduit();
+    }
+
+    if (_listproduits.isNotEmpty &&
+        _listcredits.isEmpty &&
+        _list_tee_shirts.isNotEmpty) {
+      return RubriqueProduitTeeShirt();
     }
 
     return RubriqueGeneralCentre();

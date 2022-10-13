@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 // ignore_for_file: camel_case_types
 
@@ -10,14 +11,29 @@ class venteCredit {
   final String uid;
   final String nom;
   final int montant;
+  final String date_vente_day;
+  final String date_vente_month;
+  final String date_vente;
+  final int benefice;
   venteCredit({
     required this.uid,
     required this.nom,
     required this.montant,
+    required this.date_vente_day,
+    required this.date_vente_month,
+    required this.date_vente,
+    required this.benefice,
   });
 
   factory venteCredit.fromFirestore(DocumentSnapshot snap) {
     return venteCredit(
+      benefice: (snap.data() as Map)['benefice'],
+      date_vente_day:
+          DateFormat('dd').format((snap.data() as Map)['derniere_vente']),
+      date_vente_month:
+          DateFormat('MM').format((snap.data() as Map)['derniere_vente']),
+      date_vente: DateFormat('yyyy-MM-dd')
+          .format((snap.data() as Map)['derniere_vente']),
       uid: snap.id,
       nom: (snap.data() as Map<String, dynamic>)['nom'],
       montant: (snap.data() as Map)['montant'],
@@ -28,11 +44,19 @@ class venteCredit {
     String? uid,
     String? nom,
     int? montant,
+    String? date_vente_day,
+    String? date_vente_month,
+    String? date_vente,
+    int? benefice,
   }) {
     return venteCredit(
       uid: uid ?? this.uid,
       nom: nom ?? this.nom,
       montant: montant ?? this.montant,
+      date_vente_day: date_vente_day ?? this.date_vente_day,
+      date_vente_month: date_vente_month ?? this.date_vente_month,
+      date_vente: date_vente ?? this.date_vente,
+      benefice: benefice ?? this.benefice,
     );
   }
 
@@ -42,6 +66,10 @@ class venteCredit {
     result.addAll({'uid': uid});
     result.addAll({'nom': nom});
     result.addAll({'montant': montant});
+    result.addAll({'date_vente_day': date_vente_day});
+    result.addAll({'date_vente_month': date_vente_month});
+    result.addAll({'date_vente': date_vente});
+    result.addAll({'benefice': benefice});
 
     return result;
   }
@@ -51,6 +79,10 @@ class venteCredit {
       uid: map['uid'] ?? '',
       nom: map['nom'] ?? '',
       montant: map['montant']?.toInt() ?? 0,
+      date_vente_day: map['date_vente_day'] ?? '',
+      date_vente_month: map['date_vente_month'] ?? '',
+      date_vente: map['date_vente'] ?? '',
+      benefice: map['benefice']?.toInt() ?? 0,
     );
   }
 
@@ -60,7 +92,9 @@ class venteCredit {
       venteCredit.fromMap(json.decode(source));
 
   @override
-  String toString() => 'venteCredit(uid: $uid, nom: $nom, montant: $montant)';
+  String toString() {
+    return 'venteCredit(uid: $uid, nom: $nom, montant: $montant, date_vente_day: $date_vente_day, date_vente_month: $date_vente_month, date_vente: $date_vente, benefice: $benefice)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -69,9 +103,21 @@ class venteCredit {
     return other is venteCredit &&
         other.uid == uid &&
         other.nom == nom &&
-        other.montant == montant;
+        other.montant == montant &&
+        other.date_vente_day == date_vente_day &&
+        other.date_vente_month == date_vente_month &&
+        other.date_vente == date_vente &&
+        other.benefice == benefice;
   }
 
   @override
-  int get hashCode => uid.hashCode ^ nom.hashCode ^ montant.hashCode;
+  int get hashCode {
+    return uid.hashCode ^
+        nom.hashCode ^
+        montant.hashCode ^
+        date_vente_day.hashCode ^
+        date_vente_month.hashCode ^
+        date_vente.hashCode ^
+        benefice.hashCode;
+  }
 }

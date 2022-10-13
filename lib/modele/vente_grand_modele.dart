@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 // ignore_for_file: camel_case_types
 
@@ -12,16 +13,31 @@ class venteGrandModele {
   final int montant;
   final String nom_bierre;
   final String category;
+  final int benefice;
+  final String date_vente;
+  final String date_vente_day;
+  final String date_vente_month;
   venteGrandModele({
     required this.uid,
     required this.quantite,
     required this.montant,
     required this.nom_bierre,
     required this.category,
+    required this.benefice,
+    required this.date_vente,
+    required this.date_vente_day,
+    required this.date_vente_month,
   });
 
   factory venteGrandModele.fromFirestore(DocumentSnapshot document) {
     return venteGrandModele(
+        benefice: (document.data() as Map)['benefice'],
+        date_vente_day:
+            DateFormat('dd').format((document.data() as Map)['derniere_vente']),
+        date_vente_month:
+            DateFormat('MM').format((document.data() as Map)['derniere_vente']),
+        date_vente: DateFormat('yyyy-MM-dd')
+            .format((document.data() as Map)['derniere_vente']),
         nom_bierre: (document.data() as Map)['nom_bierre'],
         category: (document.data() as Map)['type'],
         quantite: (document.data() as Map)['quantite'],
@@ -35,6 +51,10 @@ class venteGrandModele {
     int? montant,
     String? nom_bierre,
     String? category,
+    int? benefice,
+    String? date_vente,
+    String? date_vente_day,
+    String? date_vente_month,
   }) {
     return venteGrandModele(
       uid: uid ?? this.uid,
@@ -42,6 +62,10 @@ class venteGrandModele {
       montant: montant ?? this.montant,
       nom_bierre: nom_bierre ?? this.nom_bierre,
       category: category ?? this.category,
+      benefice: benefice ?? this.benefice,
+      date_vente: date_vente ?? this.date_vente,
+      date_vente_day: date_vente_day ?? this.date_vente_day,
+      date_vente_month: date_vente_month ?? this.date_vente_month,
     );
   }
 
@@ -53,6 +77,10 @@ class venteGrandModele {
     result.addAll({'montant': montant});
     result.addAll({'nom_bierre': nom_bierre});
     result.addAll({'category': category});
+    result.addAll({'benefice': benefice});
+    result.addAll({'date_vente': date_vente});
+    result.addAll({'date_vente_day': date_vente_day});
+    result.addAll({'date_vente_month': date_vente_month});
 
     return result;
   }
@@ -64,6 +92,10 @@ class venteGrandModele {
       montant: map['montant']?.toInt() ?? 0,
       nom_bierre: map['nom_bierre'] ?? '',
       category: map['category'] ?? '',
+      benefice: map['benefice']?.toInt() ?? 0,
+      date_vente: map['date_vente'] ?? '',
+      date_vente_day: map['date_vente_day'] ?? '',
+      date_vente_month: map['date_vente_month'] ?? '',
     );
   }
 
@@ -74,7 +106,7 @@ class venteGrandModele {
 
   @override
   String toString() {
-    return 'venteGrandModele(uid: $uid, quantite: $quantite, montant: $montant, nom_bierre: $nom_bierre, category: $category)';
+    return 'venteGrandModele(uid: $uid, quantite: $quantite, montant: $montant, nom_bierre: $nom_bierre, category: $category, benefice: $benefice, date_vente: $date_vente, date_vente_day: $date_vente_day, date_vente_month: $date_vente_month)';
   }
 
   @override
@@ -86,7 +118,11 @@ class venteGrandModele {
         other.quantite == quantite &&
         other.montant == montant &&
         other.nom_bierre == nom_bierre &&
-        other.category == category;
+        other.category == category &&
+        other.benefice == benefice &&
+        other.date_vente == date_vente &&
+        other.date_vente_day == date_vente_day &&
+        other.date_vente_month == date_vente_month;
   }
 
   @override
@@ -95,6 +131,10 @@ class venteGrandModele {
         quantite.hashCode ^
         montant.hashCode ^
         nom_bierre.hashCode ^
-        category.hashCode;
+        category.hashCode ^
+        benefice.hashCode ^
+        date_vente.hashCode ^
+        date_vente_day.hashCode ^
+        date_vente_month.hashCode;
   }
 }

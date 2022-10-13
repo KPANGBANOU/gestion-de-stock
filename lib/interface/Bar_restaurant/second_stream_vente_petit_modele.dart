@@ -25,6 +25,10 @@ class SecondStreamVentePetitModele extends StatelessWidget {
                 .read<serviceBD>()
                 .vente_petit_modele(_user.uid, _bierre.uid)),
             initialData: ventePetitModele(
+                benefice: 0,
+                date_vente: "",
+                date_vente_day: "",
+                date_vente_month: "",
                 uid: _bierre.uid,
                 quantite: 0,
                 montant: 0,

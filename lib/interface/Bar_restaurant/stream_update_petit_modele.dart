@@ -5,6 +5,7 @@ import 'package:projet/interface/Bar_restaurant/update_petit_modele.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 
 import 'package:projet/modele/centre_vente.dart';
+import 'package:projet/modele/vente_petit_modele.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -42,9 +43,17 @@ class StreamUpdatePetitModele extends StatelessWidget {
         StreamProvider(
             create: ((context) => context
                 .read<serviceBD>()
-                .centre_vente_produit(_utilisateur.uid, produit_uid)),
-            initialData: centreVente(
-                uid: produit_uid, nom_produit: "", quantite: 0, montant: 0)),
+                .vente_petit_modele(_utilisateur.uid, produit_uid)),
+            initialData: ventePetitModele(
+                uid: produit_uid,
+                quantite: 0,
+                montant: 0,
+                nom_bierre: "",
+                category: "",
+                benefice: 0,
+                date_vente_day: "",
+                date_vente: "",
+                date_vente_month: "")),
       ],
       child: UpdatePetitModele(),
     );

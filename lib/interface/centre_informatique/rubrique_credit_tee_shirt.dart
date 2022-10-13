@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/modele/credit.dart';
-import 'package:projet/modele/produit.dart';
+import 'package:projet/modele/serigraphie.dart';
 import 'package:provider/provider.dart';
 
-import '../../modele/serigraphie.dart';
-
-class RubriqueGeneralCentre extends StatelessWidget {
-  RubriqueGeneralCentre({super.key});
+class RubriqueCreditTeeShirt extends StatelessWidget {
+  RubriqueCreditTeeShirt({super.key});
 
   late int produitlenght = 0;
   late int credit_lenght = 0;
@@ -26,34 +24,17 @@ class RubriqueGeneralCentre extends StatelessWidget {
   late int pertes = 0;
   late int autres = 0;
 
-  late int tee_shirt_lenght = 0;
-
-  late double tee_shirt_sizebox = 0;
-
-  late int total_tee_shirt = 0;
-
-  late int total_benefice_tee_shirt = 0;
-
   @override
   Widget build(BuildContext context) {
     final _budget_bar = Provider.of<budgetCentre>(context);
-    final _listproduit = Provider.of<List<products>>(context);
+    final _listproduit = Provider.of<List<serigraphie>>(context);
     final _listcredit = Provider.of<List<credit>>(context);
     produitlenght = _listproduit.length;
     credit_lenght = _listcredit.length;
 
-    final _list_tee_shirt = Provider.of<List<serigraphie>>(context);
-    produitlenght = _listproduit.length;
-    tee_shirt_lenght = _list_tee_shirt.length;
-
     _listproduit.forEach((element) {
       total_produit = total_produit + element.montant_vendu;
       total_benefice_produit = total_benefice_produit + element.benefice;
-    });
-
-    _list_tee_shirt.forEach((element) {
-      total_tee_shirt = total_tee_shirt + element.montant_vendu;
-      total_benefice_tee_shirt = total_benefice_tee_shirt + element.benefice;
     });
 
     _listcredit.forEach((element) {
@@ -61,18 +42,6 @@ class RubriqueGeneralCentre extends StatelessWidget {
           total_credit + (element.montant_initial - element.montant_disponible);
       total_benefice_credit = total_benefice_credit + element.benefice;
     });
-
-    if (tee_shirt_lenght <= 5) {
-      tee_shirt_sizebox = 180;
-    } else if (tee_shirt_lenght <= 20) {
-      tee_shirt_sizebox = 350;
-    } else if (tee_shirt_lenght <= 30) {
-      tee_shirt_sizebox = 500;
-    } else if (tee_shirt_lenght <= 50) {
-      tee_shirt_sizebox = 600;
-    } else {
-      tee_shirt_sizebox = MediaQuery.of(context).size.height;
-    }
 
     totaux = total_produit + total_credit;
     total_benefice = total_benefice_produit + total_benefice_credit;
@@ -159,7 +128,7 @@ class RubriqueGeneralCentre extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "produits du centre".toUpperCase(),
+                        "tee shirts du centre".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
@@ -183,7 +152,7 @@ class RubriqueGeneralCentre extends StatelessWidget {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           Text(
-                            "Produit",
+                            "Tee shirt",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -234,7 +203,7 @@ class RubriqueGeneralCentre extends StatelessWidget {
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
                         itemBuilder: ((context, index) {
-                          products _donnes = _listproduit[index];
+                          serigraphie _donnes = _listproduit[index];
 
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -245,7 +214,7 @@ class RubriqueGeneralCentre extends StatelessWidget {
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
                                 Text(
-                                  _donnes.nom,
+                                  _donnes.tee_shirt_nom,
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 Text(
@@ -269,13 +238,13 @@ class RubriqueGeneralCentre extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  _donnes.prix_unitaire.toString() + " F",
+                                  _donnes.prix_unitaire_vente.toString() + " F",
                                   style: TextStyle(
                                     color: Colors.black,
                                   ),
                                 ),
                                 Text(
-                                  (_donnes.prix_unitaire *
+                                  (_donnes.prix_unitaire_vente *
                                               (_donnes.quantite_initial -
                                                   _donnes.quantite_physique))
                                           .toString() +
@@ -303,7 +272,7 @@ class RubriqueGeneralCentre extends StatelessWidget {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           Text(
-                            "Total vente produits ".toUpperCase(),
+                            "Total vente tee shirts ".toUpperCase(),
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -342,206 +311,6 @@ class RubriqueGeneralCentre extends StatelessWidget {
                           ),
                           Text(
                             total_benefice_produit.toString() + " F",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    color: Colors.redAccent.withOpacity(.7),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Vente de tee shirts".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  Container(
-                    color: Colors.indigo,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Tee shirt",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Initial",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Physique",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Vendue",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Prix unitaire",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Montant",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: tee_shirt_sizebox,
-                    child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        itemBuilder: ((context, index) {
-                          serigraphie _tee_shirt = _list_tee_shirt[index];
-
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Text(
-                                  _tee_shirt.tee_shirt_nom,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                Text(
-                                  _tee_shirt.quantite_initial.toString() + " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  _tee_shirt.quantite_physique.toString() +
-                                      " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  (_tee_shirt.quantite_initial -
-                                              _tee_shirt.quantite_physique)
-                                          .toString() +
-                                      " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  _tee_shirt.prix_unitaire_vente.toString() +
-                                      " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  _tee_shirt.montant_vendu.toString() + " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
-                        separatorBuilder: ((context, index) => Divider()),
-                        itemCount: _list_tee_shirt.length),
-                  ),
-                  SizedBox(
-                    height: 00,
-                  ),
-                  Container(
-                    color: Colors.green,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Total vente tee shirt".toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            total_tee_shirt.toString() + " F",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.indigo,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Bénéfice brute".toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            total_benefice.toString() + " F",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),

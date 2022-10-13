@@ -152,6 +152,16 @@ class serviceBD {
             event.docs.map((e) => venteteeshirts.fromfirestore(e)).toList());
   }
 
+  Stream<List<venteteeshirts>> get tous_les_vente_tee_shirts {
+    return _Ref.collection("vente_tee_shirts").snapshots().map((event) =>
+        event.docs.map((e) => venteteeshirts.fromfirestore(e)).toList());
+  }
+
+  Stream<List<centreVente>> get tous_les_ventes_produits {
+    return _Ref.collection("centre_vente_produits").snapshots().map((event) =>
+        event.docs.map((e) => centreVente.fromfirestore(e)).toList());
+  }
+
   Stream<venteteeshirts> vente_tee_shirt(
       String user_uid, String vente_tee_shirt_uid) {
     return _Ref.collection("users")
@@ -167,6 +177,27 @@ class serviceBD {
   Stream<List<products>> get list_produits_centre {
     return _Ref.collection("produits_centre").snapshots().map(
         (event) => event.docs.map((e) => products.fromFirestore(e)).toList());
+  }
+
+  Stream<List<venteGrandModele>> get tous_les_ventes_grand_modeles {
+    return _Ref.collection("ventes")
+        .where("type", isEqualTo: "Grand modèle")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
+  }
+
+  Stream<List<ventePetitModele>> get tous_les_ventes_petit_modeles {
+    return _Ref.collection("ventes")
+        .where("type", isEqualTo: "Pétit modèle")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
+  }
+
+  Stream<List<venteCredit>> get tous_les_ventes_credits {
+    return _Ref.collection("vente_credits").snapshots().map((event) =>
+        event.docs.map((e) => venteCredit.fromFirestore(e)).toList());
   }
 
   // produit du centre

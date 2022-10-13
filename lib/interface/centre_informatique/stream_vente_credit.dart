@@ -39,6 +39,10 @@ class StreamVenteCredit extends StatelessWidget {
                 .read<serviceBD>()
                 .vente_credit(_utilisateur.uid, credit_uid)),
             initialData: venteCredit(
+              benefice: 0,
+              date_vente_day: "",
+              date_vente_month: "",
+              date_vente: "",
               uid: credit_uid,
               nom: "",
               montant: 0,

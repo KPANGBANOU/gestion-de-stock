@@ -41,7 +41,14 @@ class StreamVenteProduit extends StatelessWidget {
                 .read<serviceBD>()
                 .centre_vente_produit(_utilisateur.uid, produit_uid)),
             initialData: centreVente(
-                uid: produit_uid, nom_produit: "", quantite: 0, montant: 0)),
+                benefice: 0,
+                date_vente: "",
+                vente_day: "",
+                vente_month: "",
+                uid: produit_uid,
+                nom_produit: "",
+                quantite: 0,
+                montant: 0)),
       ],
       child: CentreVenteProduits(),
     );

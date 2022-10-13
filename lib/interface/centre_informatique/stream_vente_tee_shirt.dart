@@ -43,6 +43,10 @@ class StreamVenteTeeShirt extends StatelessWidget {
                 .read<serviceBD>()
                 .vente_tee_shirt(_utilisateur.uid, tee_shirt_uid)),
             initialData: venteteeshirts(
+                benefice: 0,
+                date_vente: "",
+                date_vente_day: "",
+                date_vente_month: "",
                 uid: tee_shirt_uid,
                 quantite: 0,
                 montant: 0,

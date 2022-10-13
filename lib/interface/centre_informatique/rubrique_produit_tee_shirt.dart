@@ -3,45 +3,32 @@
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/budget_centre.dart';
-import 'package:projet/modele/credit.dart';
+
 import 'package:projet/modele/produit.dart';
+import 'package:projet/modele/serigraphie.dart';
 import 'package:provider/provider.dart';
 
-import '../../modele/serigraphie.dart';
-
-class RubriqueGeneralCentre extends StatelessWidget {
-  RubriqueGeneralCentre({super.key});
+class RubriqueProduitTeeShirt extends StatelessWidget {
+  RubriqueProduitTeeShirt({super.key});
 
   late int produitlenght = 0;
-  late int credit_lenght = 0;
+  late int tee_shirt_lenght = 0;
   late double produit_sizebox = 0;
-  late double credit_sizebox = 0;
+  late double tee_shirt_sizebox = 0;
   late int total_produit = 0;
-  late int total_credit = 0;
+  late int total_tee_shirt = 0;
   late int totaux = 0;
   late int total_benefice_produit = 0;
-  late int total_benefice_credit = 0;
+  late int total_benefice_tee_shirt = 0;
   late int total_benefice = 0;
   late int benefice = 0;
   late int pertes = 0;
   late int autres = 0;
 
-  late int tee_shirt_lenght = 0;
-
-  late double tee_shirt_sizebox = 0;
-
-  late int total_tee_shirt = 0;
-
-  late int total_benefice_tee_shirt = 0;
-
   @override
   Widget build(BuildContext context) {
     final _budget_bar = Provider.of<budgetCentre>(context);
     final _listproduit = Provider.of<List<products>>(context);
-    final _listcredit = Provider.of<List<credit>>(context);
-    produitlenght = _listproduit.length;
-    credit_lenght = _listcredit.length;
-
     final _list_tee_shirt = Provider.of<List<serigraphie>>(context);
     produitlenght = _listproduit.length;
     tee_shirt_lenght = _list_tee_shirt.length;
@@ -56,26 +43,8 @@ class RubriqueGeneralCentre extends StatelessWidget {
       total_benefice_tee_shirt = total_benefice_tee_shirt + element.benefice;
     });
 
-    _listcredit.forEach((element) {
-      total_credit =
-          total_credit + (element.montant_initial - element.montant_disponible);
-      total_benefice_credit = total_benefice_credit + element.benefice;
-    });
-
-    if (tee_shirt_lenght <= 5) {
-      tee_shirt_sizebox = 180;
-    } else if (tee_shirt_lenght <= 20) {
-      tee_shirt_sizebox = 350;
-    } else if (tee_shirt_lenght <= 30) {
-      tee_shirt_sizebox = 500;
-    } else if (tee_shirt_lenght <= 50) {
-      tee_shirt_sizebox = 600;
-    } else {
-      tee_shirt_sizebox = MediaQuery.of(context).size.height;
-    }
-
-    totaux = total_produit + total_credit;
-    total_benefice = total_benefice_produit + total_benefice_credit;
+    totaux = total_produit + total_tee_shirt;
+    total_benefice = total_benefice_produit + total_benefice_tee_shirt;
 
     if (_budget_bar.depense > total_benefice) {
       benefice = 0;
@@ -105,16 +74,16 @@ class RubriqueGeneralCentre extends StatelessWidget {
       produit_sizebox = MediaQuery.of(context).size.height;
     }
 
-    if (credit_lenght <= 5) {
-      credit_sizebox = 180;
-    } else if (credit_lenght <= 20) {
-      credit_sizebox = 350;
-    } else if (credit_lenght <= 30) {
-      credit_sizebox = 500;
-    } else if (credit_lenght <= 50) {
-      credit_sizebox = 600;
+    if (tee_shirt_lenght <= 5) {
+      tee_shirt_sizebox = 180;
+    } else if (tee_shirt_lenght <= 20) {
+      tee_shirt_sizebox = 350;
+    } else if (tee_shirt_lenght <= 30) {
+      tee_shirt_sizebox = 500;
+    } else if (tee_shirt_lenght <= 50) {
+      tee_shirt_sizebox = 600;
     } else {
-      credit_sizebox = MediaQuery.of(context).size.height;
+      tee_shirt_sizebox = MediaQuery.of(context).size.height;
     }
     return Scaffold(
         backgroundColor: Colors.greenAccent,
@@ -514,178 +483,6 @@ class RubriqueGeneralCentre extends StatelessWidget {
                           ),
                           Text(
                             total_tee_shirt.toString() + " F",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.indigo,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Bénéfice brute".toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            total_benefice.toString() + " F",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    color: Colors.redAccent.withOpacity(.7),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Vente de crédits".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  Container(
-                    color: Colors.indigo,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Crédit",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Initial",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Vendu",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Restant",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: credit_sizebox,
-                    child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        itemBuilder: ((context, index) {
-                          credit _credit = _listcredit[index];
-
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Text(
-                                  _credit.nom,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                Text(
-                                  _credit.montant_initial.toString() + " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  (_credit.montant_initial -
-                                              _credit.montant_disponible)
-                                          .toString() +
-                                      " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  _credit.montant_disponible.toString() + " F",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          );
-                        }),
-                        separatorBuilder: ((context, index) => Divider()),
-                        itemCount: _listcredit.length),
-                  ),
-                  SizedBox(
-                    height: 00,
-                  ),
-                  Container(
-                    color: Colors.green,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            "Total vente crédit".toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            total_credit.toString() + " F",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
