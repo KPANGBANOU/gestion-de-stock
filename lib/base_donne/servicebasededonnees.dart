@@ -21,6 +21,7 @@ import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/modele/vente_tee_shirt_grande_qualite.dart';
 import 'package:projet/modele/vente_tee_shirt_qualite_faible.dart';
 import 'package:projet/modele/vente_tee_shirt_qualite_moyenne.dart';
+import 'package:projet/modele/vente_tee_shirts.dart';
 
 import 'package:projet/services/user.dart';
 
@@ -140,6 +141,25 @@ class serviceBD {
         .doc(vente_tee_shirt_uid)
         .snapshots()
         .map((event) => venteteeshirtsqualitefaible.fromfirestore(event));
+  }
+
+  Stream<List<venteteeshirts>> list_vente_tee_shirt(String user_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection("vente_tee_shirts")
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => venteteeshirts.fromfirestore(e)).toList());
+  }
+
+  Stream<venteteeshirts> vente_tee_shirt(
+      String user_uid, String vente_tee_shirt_uid) {
+    return _Ref.collection("users")
+        .doc(user_uid)
+        .collection('vente_tee_shirts')
+        .doc(vente_tee_shirt_uid)
+        .snapshots()
+        .map((event) => venteteeshirts.fromfirestore(event));
   }
 
   // liste de produits

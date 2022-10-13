@@ -2,15 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/modele/serigraphie.dart';
+import 'package:projet/modele/vente_tee_shirts.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
 
-import 'update_tee_shirt.dart';
+import 'vente_tee_shirt.dart';
 
-class StreamUpdateTeeShirt extends StatelessWidget {
-  StreamUpdateTeeShirt({
+class StreamVenteTeeShirt extends StatelessWidget {
+  StreamVenteTeeShirt({
     Key? key,
     required this.tee_shirt_uid,
   }) : super(key: key);
@@ -27,18 +28,28 @@ class StreamUpdateTeeShirt extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().tee_shirt(tee_shirt_uid)),
             initialData: serigraphie(
-                qualite: "",
-                montant_vendu: 0,
-                prix_unitaire_achat: 0,
-                benefice: 0,
-                uid: tee_shirt_uid,
                 tee_shirt_nom: "",
+                uid: tee_shirt_uid,
+                qualite: "",
+                prix_unitaire_vente: 0,
+                prix_unitaire_achat: 0,
+                montant_vendu: 0,
                 quantite_initial: 0,
                 quantite_physique: 0,
                 seuil_approvisionnement: 0,
-                prix_unitaire_vente: 0)),
+                benefice: 0)),
+        StreamProvider(
+            create: ((context) => context
+                .read<serviceBD>()
+                .vente_tee_shirt(_utilisateur.uid, tee_shirt_uid)),
+            initialData: venteteeshirts(
+                uid: tee_shirt_uid,
+                quantite: 0,
+                montant: 0,
+                nom_tee_shirts: "",
+                qualite: "")),
       ],
-      child: UpdateTeeShirt(),
+      child: VenteTeeShirt(),
     );
   }
 }

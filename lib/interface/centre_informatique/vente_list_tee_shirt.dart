@@ -5,10 +5,10 @@ import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart'
 import 'package:projet/modele/serigraphie.dart';
 import 'package:provider/provider.dart';
 
-import 'streamapprovisionnerteeshirt.dart';
+import 'stream_vente_tee_shirt.dart';
 
-class CentreRechargementListTeeShirt extends StatelessWidget {
-  const CentreRechargementListTeeShirt({super.key});
+class VenteListTeeShirt extends StatelessWidget {
+  const VenteListTeeShirt({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class CentreRechargementListTeeShirt extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => StreamApprovisionnerTeeShirt(
+                          builder: ((context) => StreamVenteTeeShirt(
                               tee_shirt_uid: _donnes.uid))));
                 },
                 leading: Image.asset(

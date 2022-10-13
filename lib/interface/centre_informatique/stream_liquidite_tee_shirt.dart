@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
 
+import 'liquidite_tee_shirt.dart';
+
 class StreamLiquiditeTeeShirt extends StatelessWidget {
   StreamLiquiditeTeeShirt({
     Key? key,

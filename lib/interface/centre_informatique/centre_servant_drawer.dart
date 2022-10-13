@@ -7,6 +7,8 @@ import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
+import 'vente_list_tee_shirt.dart';
+
 class CentreServantdrawer extends StatelessWidget {
   CentreServantdrawer({Key? key}) : super(key: key);
 
@@ -60,6 +62,15 @@ class CentreServantdrawer extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) => CentreVenteListCredits())));
+                },
+              ),
+              ListTile(
+                title: Text("Vente de tee-shirts".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => VenteListTeeShirt())));
                 },
               ),
               ListTile(
