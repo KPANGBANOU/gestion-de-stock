@@ -126,6 +126,7 @@ class CentreApprovisionnement extends StatelessWidget {
                                   .collection("produits_centre")
                                   .doc(_produit.uid)
                                   .update({
+                                "approvisionne": false,
                                 "quantite_initial":
                                     _produit.quantite_initial + quantite,
                                 "quantite_physique":

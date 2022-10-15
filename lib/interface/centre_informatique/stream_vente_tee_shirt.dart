@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/modele/serigraphie.dart';
-import 'package:projet/modele/vente_tee_shirts.dart';
+
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +28,7 @@ class StreamVenteTeeShirt extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().tee_shirt(tee_shirt_uid)),
             initialData: serigraphie(
+                approvisionne: true,
                 tee_shirt_nom: "",
                 uid: tee_shirt_uid,
                 qualite: "",
@@ -38,20 +39,6 @@ class StreamVenteTeeShirt extends StatelessWidget {
                 quantite_physique: 0,
                 seuil_approvisionnement: 0,
                 benefice: 0)),
-        StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .vente_tee_shirt(_utilisateur.uid, tee_shirt_uid)),
-            initialData: venteteeshirts(
-                benefice: 0,
-                date_vente: "",
-                date_vente_day: "",
-                date_vente_month: "",
-                uid: tee_shirt_uid,
-                quantite: 0,
-                montant: 0,
-                nom_tee_shirts: "",
-                qualite: "")),
       ],
       child: VenteTeeShirt(),
     );

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_facture_vente.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 import 'package:projet/modele/budget_centre.dart';
-import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/produit.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +20,6 @@ class CentreVenteProduits extends StatelessWidget {
     final _produit = Provider.of<products>(context);
     final _budget_centre = Provider.of<budgetCentre>(context);
     final _donnes = Provider.of<donnesUtilisateur>(context);
-    final _centre_vente = Provider.of<centreVente>(context);
 
     if (_produit == null) {
       return Scaffold(
@@ -164,15 +162,13 @@ class CentreVenteProduits extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(snack);
                         } else {
                           await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(_donnes.uid)
                               .collection("centre_vente_produits")
-                              .doc(_centre_vente.uid)
-                              .set({
+                              .add({
+                            'produit_uid': _produit.uid,
+                            'user_uid': _donnes.uid,
                             "nom": _produit.nom,
-                            "quantite": _centre_vente.quantite + quantite,
-                            "montant": _centre_vente.montant +
-                                (quantite * _produit.prix_unitaire),
+                            "quantite": quantite,
+                            "montant": (quantite * _produit.prix_unitaire),
                             "derniere_vente": DateTime.now()
                           });
 

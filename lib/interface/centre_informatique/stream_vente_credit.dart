@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_credit.dart';
 import 'package:projet/modele/credit.dart';
-import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +26,7 @@ class StreamVenteCredit extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().reseau_credit(credit_uid)),
             initialData: credit(
+                approvisionne: true,
                 benefice_sur_5000: 0,
                 benefice: 0,
                 uid: credit_uid,
@@ -34,19 +34,6 @@ class StreamVenteCredit extends StatelessWidget {
                 montant_initial: 0,
                 montant_disponible: 0,
                 seuil_approvisionnement: 0)),
-        StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .vente_credit(_utilisateur.uid, credit_uid)),
-            initialData: venteCredit(
-              benefice: 0,
-              date_vente_day: "",
-              date_vente_month: "",
-              date_vente: "",
-              uid: credit_uid,
-              nom: "",
-              montant: 0,
-            )),
       ],
       child: CentreVenteCredit(),
     );

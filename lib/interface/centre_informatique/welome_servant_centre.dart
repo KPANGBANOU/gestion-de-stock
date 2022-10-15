@@ -9,7 +9,6 @@ import 'package:projet/interface/Bar_restaurant/notification_servant_bar.dart';
 import 'package:projet/interface/Bar_restaurant/servant_bottomn_navigation.dart';
 import 'package:projet/interface/contact_entreprise.dart';
 
-import 'package:projet/interface/mes_services.dart';
 import 'package:projet/services/change_servant_page.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
@@ -31,7 +30,6 @@ class WelcomeServantCentre extends StatelessWidget {
       AccueilServantBar(),
       NotificationServantBar(),
       ContactsEntreprise(),
-      MesServices(),
     ];
 
     return Scaffold(

@@ -129,6 +129,7 @@ class CentreApprovisionnementCredit extends StatelessWidget {
                             .collection("reseaux_communication")
                             .doc(_credit.uid)
                             .update({
+                          "approvisionne": false,
                           "montant_disponible":
                               _credit.montant_disponible + quantite,
                           "montant_initial": _credit.montant_initial + quantite,

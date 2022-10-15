@@ -26,6 +26,7 @@ class StreamLiquiditeCredit extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().reseau_credit(credit_uid)),
             initialData: credit(
+                approvisionne: true,
                 benefice_sur_5000: 0,
                 benefice: 0,
                 uid: credit_uid,

@@ -27,6 +27,7 @@ class StreamUpdateTeeShirt extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().tee_shirt(tee_shirt_uid)),
             initialData: serigraphie(
+                approvisionne: true,
                 qualite: "",
                 montant_vendu: 0,
                 prix_unitaire_achat: 0,

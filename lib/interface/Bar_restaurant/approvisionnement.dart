@@ -126,6 +126,7 @@ class ApprovisionnementPetitModele extends StatelessWidget {
                                   .collection("bierres")
                                   .doc(_produit.uid)
                                   .update({
+                                "approvisionne": false,
                                 "quantite_initial":
                                     _produit.quantite_initial + quantite,
                                 "quantite_physique":

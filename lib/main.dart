@@ -11,6 +11,8 @@ import 'package:projet/interface/centre_informatique/centre_vente_list_produits.
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
+import 'package:projet/modele/credits_servants.dart';
+import 'package:projet/modele/credits_vente.dart';
 import 'package:projet/modele/serigraphie.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
@@ -58,9 +60,6 @@ import 'interface/home.dart';
 import 'interface/information_employe.dart';
 import 'interface/interface_centre_informatique.dart';
 import 'interface/listes_utilisateurs.dart';
-import 'interface/mes_services.dart';
-
-import 'interface/nouveau_service.dart';
 
 import 'interface/suppression_compte.dart';
 import 'interface/welcome.dart';
@@ -127,9 +126,21 @@ class MyApp extends StatelessWidget {
                 is_active: true)),
 
         StreamProvider(
+          create: ((context) => context
+              .read<serviceBD>()
+              .credits_servant(FirebaseAuth.instance.currentUser!.uid)),
+          initialData: <CreditsServants>[],
+        ),
+
+        StreamProvider(
             create: ((context) =>
                 context.read<serviceBD>().tous_les_vente_tee_shirts),
             initialData: <venteteeshirts>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_credits_vente_centre),
+            initialData: <CreditsVente>[]),
 
         StreamProvider(
             create: ((context) =>
@@ -211,7 +222,6 @@ class MyApp extends StatelessWidget {
             "/creercompte": (context) => RegisterPage(),
             "/bar": (context) => Bar(),
             "/centreInformatique": (context) => CentreInterfacePage(),
-            "/mesServices": (context) => MesServices(),
             "/zoom": (context) => Zoom(),
             "/listeEmployes": (context) => ListeUtilisateurs(),
             "/infoEmploye": (context) => InfoEmploye(),
@@ -228,7 +238,6 @@ class MyApp extends StatelessWidget {
             "/barsignalerprobleme": (context) => BarSignalerProbleme(),
             "/profil": (context) => ProfilUtilisateur(),
             "/parametresadmin": (context) => ParametresAdmin(),
-            "/nouveauservice": (context) => NouveauService(),
             "/listedesgrandsmodeles": (context) => ListeDesGrandModel(),
             "/listedespetitsmodeles": (context) => ListeDesPetitsModel(),
             "/supprimercompte": (context) => SuppressionCompte(),

@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_list_credits.dart';
+import 'package:projet/interface/centre_informatique/stream_statistique_journalier_vente_servant_centre.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
+import 'centre_enregistrer_credit_client.dart';
+import 'centre_list_credits_clients.dart';
 import 'vente_list_tee_shirt.dart';
 
 class CentreServantdrawer extends StatelessWidget {
@@ -86,24 +89,63 @@ class CentreServantdrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                title: Text("Enregistrer le crédit d'un client".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreEnregistrerCreditClient())));
+                },
+              ),
+              ListTile(
                 title: Text("Signaler un problème".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/centreenregistrerprobleme");
                 },
               ),
               ListTile(
-                title: Text("Désactiver mon compte".toUpperCase()),
+                title: Text("Crédits des clients".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/desactivercompte");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              CentreListCreditsClientsServant())));
+                },
+              ),
+                 ListTile(
+                title: Text("Statistique journalier de vente".toUpperCase()),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: ((context) => StreamStatistiqueJournalierVenteServantCentre( ))));
+                },
+              ),
+                 ListTile(
+                title: Text("Statistique de crédits clients".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamStatistiqueJournalierVenteServantCentre())));
                 },
               ),
               ListTile(
-                title: Text(
-                  "Supprimer mon compte".toUpperCase(),
-                  style: TextStyle(color: Colors.redAccent.withOpacity(.7)),
-                ),
+                title: Text("Dépenses enregistrés".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/supprimercompte");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => DepenesServantCentre())));
+                },
+              ),
+              ListTile(
+                title: Text("Problèmes enregistrés".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ProblemesServantCentre+())));
                 },
               ),
               ListTile(

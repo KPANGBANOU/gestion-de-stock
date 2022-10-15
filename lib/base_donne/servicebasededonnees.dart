@@ -9,6 +9,8 @@ import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
+import 'package:projet/modele/credits_servants.dart';
+import 'package:projet/modele/credits_vente.dart';
 
 import 'package:projet/modele/depense.dart';
 import 'package:projet/modele/donnesservants.dart';
@@ -18,9 +20,6 @@ import 'package:projet/modele/serigraphie.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
-import 'package:projet/modele/vente_tee_shirt_grande_qualite.dart';
-import 'package:projet/modele/vente_tee_shirt_qualite_faible.dart';
-import 'package:projet/modele/vente_tee_shirt_qualite_moyenne.dart';
 import 'package:projet/modele/vente_tee_shirts.dart';
 
 import 'package:projet/services/user.dart';
@@ -33,6 +32,33 @@ class serviceBD {
         .doc(user_uid)
         .snapshots()
         .map((snap) => donnesUtilisateur.fromFiresotre(snap));
+  }
+
+  Stream<List<CreditsServants>> credits_servant(String servant_uid) {
+    return _Ref.collection("credits_centre")
+        .where("servant_uid", isEqualTo: servant_uid)
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => CreditsServants.fromFirestore(e)).toList());
+  }
+
+  Stream<CreditsServants> credit_servant(String credit_uid) {
+    return _Ref.collection("credits_centre")
+        .doc(credit_uid)
+        .snapshots()
+        .map((event) => CreditsServants.fromFirestore(event));
+  }
+
+  Stream<List<CreditsVente>> get list_credits_vente_centre {
+    return _Ref.collection("credits_centre").snapshots().map((event) =>
+        event.docs.map((e) => CreditsVente.fromFirestore(e)).toList());
+  }
+
+  Stream<CreditsVente> centre_credit_vente(String credit_uid) {
+    return _Ref.collection("credits_centre")
+        .doc(credit_uid)
+        .snapshots()
+        .map((event) => CreditsVente.fromFirestore(event));
   }
 
   Stream<donnesUtilisateur> get currentuserdata {
@@ -77,76 +103,9 @@ class serviceBD {
         .map((event) => serigraphie.fromfirestore(event));
   }
 
-  Stream<List<venteteeshirtsgrandequalite>> list_vente_tee_shirt_grande_qualite(
-      String user_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection("vente_tee_shirts")
-        .where("qualite", isEqualTo: "Grande qualité")
-        .snapshots()
-        .map((event) => event.docs
-            .map((e) => venteteeshirtsgrandequalite.fromfirestore(e))
-            .toList());
-  }
-
-  Stream<venteteeshirtsgrandequalite> vente_tee_shirt_grande_qualite(
-      String user_uid, String vente_tee_shirt_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection('vente_tee_shirts')
-        .doc(vente_tee_shirt_uid)
-        .snapshots()
-        .map((event) => venteteeshirtsgrandequalite.fromfirestore(event));
-  }
-
-  Stream<List<venteteeshirtsqualitemoyenne>>
-      list_vente_tee_shirt_qualite_moyenne(String user_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection("vente_tee_shirts")
-        .where("qualite", isEqualTo: "Qualité moyenne")
-        .snapshots()
-        .map((event) => event.docs
-            .map((e) => venteteeshirtsqualitemoyenne.fromfirestore(e))
-            .toList());
-  }
-
-  Stream<venteteeshirtsqualitemoyenne> vente_tee_shirt_qualite_moyenne(
-      String user_uid, String vente_tee_shirt_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection('vente_tee_shirts')
-        .doc(vente_tee_shirt_uid)
-        .snapshots()
-        .map((event) => venteteeshirtsqualitemoyenne.fromfirestore(event));
-  }
-
-  Stream<List<venteteeshirtsqualitefaible>> list_vente_tee_shirt_qualite_faible(
-      String user_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection("vente_tee_shirts")
-        .where("qualite", isEqualTo: "Faible qualité")
-        .snapshots()
-        .map((event) => event.docs
-            .map((e) => venteteeshirtsqualitefaible.fromfirestore(e))
-            .toList());
-  }
-
-  Stream<venteteeshirtsqualitefaible> vente_tee_shirt_qualite_faible(
-      String user_uid, String vente_tee_shirt_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection('vente_tee_shirts')
-        .doc(vente_tee_shirt_uid)
-        .snapshots()
-        .map((event) => venteteeshirtsqualitefaible.fromfirestore(event));
-  }
-
   Stream<List<venteteeshirts>> list_vente_tee_shirt(String user_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection("vente_tee_shirts")
+    return _Ref.collection("vente_tee_shirts")
+        .where("user_uid", isEqualTo: user_uid)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => venteteeshirts.fromfirestore(e)).toList());
@@ -162,11 +121,8 @@ class serviceBD {
         event.docs.map((e) => centreVente.fromfirestore(e)).toList());
   }
 
-  Stream<venteteeshirts> vente_tee_shirt(
-      String user_uid, String vente_tee_shirt_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection('vente_tee_shirts')
+  Stream<venteteeshirts> vente_tee_shirt(String vente_tee_shirt_uid) {
+    return _Ref.collection('vente_tee_shirts')
         .doc(vente_tee_shirt_uid)
         .snapshots()
         .map((event) => venteteeshirts.fromfirestore(event));
@@ -212,39 +168,31 @@ class serviceBD {
   // list de vente de credits
 
   Stream<List<centreVente>> centre_list_vente_produits(String employe_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("centre_vente_produits")
+    return _Ref.collection("centre_vente_produits")
+        .where("user_uid", isEqualTo: employe_uid)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => centreVente.fromfirestore(e)).toList());
   }
 
   Stream<List<ventePetitModele>> list_vente_petit_modele(String employe_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("ventes")
-        .where("type", isEqualTo: "Pétit modèle")
+    return _Ref.collection("ventes_petit_modele")
+        .where("user_uid", isEqualTo: employe_uid)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
   }
 
-  Stream<ventePetitModele> vente_petit_modele(
-      String employe_uid, String bierre_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("ventes")
-        .doc(bierre_uid)
+  Stream<ventePetitModele> vente_petit_modele(String vente_uid) {
+    return _Ref.collection("ventes_petit_modele")
+        .doc(vente_uid)
         .snapshots()
         .map((event) => ventePetitModele.fromFirestore(event));
   }
 
   Stream<List<venteGrandModele>> list_vente_grand_modele(String employe_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("ventes")
-        .where("type", isEqualTo: "Grand modèle")
+    return _Ref.collection("ventes_grand_modele")
+        .where("user_uid", isEqualTo: employe_uid)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
@@ -252,9 +200,7 @@ class serviceBD {
 
   Stream<venteGrandModele> vente_grand_modele(
       String employe_uid, String bierre_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("ventes")
+    return _Ref.collection("ventes_grand_modele")
         .doc(bierre_uid)
         .snapshots()
         .map((event) => venteGrandModele.fromFirestore(event));
@@ -262,30 +208,24 @@ class serviceBD {
 
   // ventre centre
 
-  Stream<centreVente> centre_vente_produit(
-      String employe_uid, String produit_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("centre_vente_produits")
-        .doc(produit_uid)
+  Stream<centreVente> centre_vente_produit(String vente_uid) {
+    return _Ref.collection("centre_vente_produits")
+        .doc(vente_uid)
         .snapshots()
         .map((event) => centreVente.fromfirestore(event));
   }
 
   Stream<List<venteCredit>> list_vente_credits(String employe_uid) {
-    return _Ref.collection("users")
-        .doc(employe_uid)
-        .collection("vente_credits")
+    return _Ref.collection("vente_credits")
+        .where("user_uid", isEqualTo: employe_uid)
         .snapshots()
         .map((event) =>
             event.docs.map((e) => venteCredit.fromFirestore(e)).toList());
   }
 
-  Stream<venteCredit> vente_credit(String user_uid, String credit_uid) {
-    return _Ref.collection("users")
-        .doc(user_uid)
-        .collection("vente_credits")
-        .doc(credit_uid)
+  Stream<venteCredit> vente_credit(String vente_credit_uid) {
+    return _Ref.collection("vente_credits")
+        .doc(vente_credit_uid)
         .snapshots()
         .map((event) => venteCredit.fromFirestore(event));
   }

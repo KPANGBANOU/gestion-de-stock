@@ -2,13 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
 import 'package:projet/interface/Bar_restaurant/facture_vente_bar.dart';
 
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:projet/modele/budgetBar.dart';
-import 'package:projet/modele/vente_grand_modele.dart';
+
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +22,9 @@ class VenteGrandModele extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bierre = Provider.of<donnesBierresGrandModel>(context);
-    final _user = Provider.of<Utilisateur>(context);
+    final _user = Provider.of<donnesUtilisateur>(context);
     final _budget_bar = Provider.of<BudgetBar>(context);
-    final _serice = Provider.of<serviceBD>(context);
-    final _vente = Provider.of<venteGrandModele>(context);
+
     return Scaffold(
       drawer: servantdrawer(),
       backgroundColor: Colors.greenAccent,
@@ -106,16 +104,16 @@ class VenteGrandModele extends StatelessWidget {
                       try {
                         if (quantite <= _bierre.quantite_physique) {
                           await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(_user.uid)
-                              .collection("ventes")
-                              .doc(_bierre.uid)
-                              .set({
+                              .collection("ventes_grand_modele")
+                              .add({
+                            'produit_uid': _bierre.uid,
+                            'user_uid': _user.uid,
+                            'user_nom': _user.nom,
+                            'user_prenom': _user.prenom,
                             'nom_bierre': _bierre.nom,
                             'type': "Grand modèle",
-                            'quantite': _vente.quantite + quantite,
-                            'montant': _vente.montant +
-                                quantite * _bierre.prix_unitaire,
+                            'quantite': quantite,
+                            'montant': quantite * _bierre.prix_unitaire,
                             'time': DateTime.now(),
                           });
 

@@ -26,6 +26,7 @@ class StreamLiquiditeTeeShirt extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().tee_shirt(tee_shirt_uid)),
             initialData: serigraphie(
+                approvisionne: true,
                 benefice: 0,
                 tee_shirt_nom: "",
                 uid: tee_shirt_uid,

@@ -97,10 +97,11 @@ class CentreEnregistrerDepense extends StatelessWidget {
 
                           try {
                             await FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(_utilisateur.uid)
                                 .collection("depenses")
                                 .add({
+                              'user_uid': _utilisateur.uid,
+                              'user_nom': _donnesUser.nom,
+                              'user_prenom': _donnesUser.prenom,
                               'created_at': DateTime.now(),
                               'description': _description.text,
                               'montant': montant

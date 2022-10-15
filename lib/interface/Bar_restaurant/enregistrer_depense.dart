@@ -18,7 +18,6 @@ class BarEnregistrerDepense extends StatelessWidget {
   int montant = 0;
   @override
   Widget build(BuildContext context) {
-    final _utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUser = Provider.of<donnesUtilisateur>(context);
     final _service = Provider.of<serviceBD>(context);
     final _budget_bar = Provider.of<BudgetBar>(context);
@@ -99,10 +98,11 @@ class BarEnregistrerDepense extends StatelessWidget {
 
                           try {
                             await FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(_utilisateur.uid)
-                                .collection("depenses")
+                                .collection("bar_depenses")
                                 .add({
+                              'user_uid': _donnesUser.uid,
+                              'user_nom': _donnesUser.nom,
+                              'user_prenom': _donnesUser.prenom,
                               'created_at': DateTime.now(),
                               'description': _description.text,
                               'montant': montant

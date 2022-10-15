@@ -6,7 +6,6 @@ import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
 import 'package:projet/interface/Bar_restaurant/facrure_vente_petit_model.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:projet/modele/budgetBar.dart';
-import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -20,12 +19,10 @@ class VentePetitModele extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
-    final _utilisateur = Provider.of<Utilisateur>(context);
     final _bierre = Provider.of<donneesBieerePetitModele>(context);
-    final _user = Provider.of<Utilisateur>(context);
+    final _user = Provider.of<donnesUtilisateur>(context);
     final _budget_bar = Provider.of<BudgetBar>(context);
-    final _vente = Provider.of<ventePetitModele>(context);
+
     return Scaffold(
       drawer: servantdrawer(),
       backgroundColor: Colors.greenAccent,
@@ -105,17 +102,16 @@ class VentePetitModele extends StatelessWidget {
                       try {
                         if (quantite <= _bierre.quantite_physique) {
                           await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(_user.uid)
-                              .collection("ventes")
-                              .doc(_bierre.uid)
-                              .set({
-                            'type': "Pétit modèle",
+                              .collection("ventes_petit_modele")
+                              .add({
+                            'produit_uid': _bierre.uid,
+                            'user_uid': _user.uid,
+                            'user_nom': _user.nom,
+                            'user_prenom': _user.prenom,
                             'nom_bierre': _bierre.nom,
-                            'category': _bierre.type,
-                            'quantite': _vente.quantite + quantite,
-                            'montant': _vente.montant +
-                                quantite * _bierre.prix_unitaire,
+                            'type': "Grand modèle",
+                            'quantite': quantite,
+                            'montant': quantite * _bierre.prix_unitaire,
                             'time': DateTime.now(),
                           });
 

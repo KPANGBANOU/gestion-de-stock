@@ -7,7 +7,6 @@ import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart'
 import 'package:projet/modele/budgetBar.dart';
 
 import 'package:projet/modele/credit.dart';
-import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +23,7 @@ class BarVenteCredit extends StatelessWidget {
   Widget build(BuildContext context) {
     final _credit = Provider.of<credit>(context);
     final _budget_bar = Provider.of<BudgetBar>(context);
-    final _donnes = Provider.of<Utilisateur>(context);
-    final _bar_vente = Provider.of<venteCredit>(context);
+    final _donnes = Provider.of<donnesUtilisateur>(context);
 
     if (_credit == null) {
       return Scaffold(
@@ -153,13 +151,14 @@ class BarVenteCredit extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(snack);
                         } else {
                           await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(_donnes.uid)
                               .collection("vente_credits")
-                              .doc(_bar_vente.uid)
-                              .set({
+                              .add({
+                            'produit_uid': _credit.uid,
+                            'user_uid': _donnes.uid,
+                            'user_nom': _donnes.nom,
+                            'user_prenom': _donnes.prenom,
                             "nom": _credit.nom,
-                            "montant": _bar_vente.montant + montant,
+                            "montant": montant,
                             "derniere_vente": DateTime.now()
                           });
 

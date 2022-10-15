@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_vente_produit.dart';
-import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/produit.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +26,7 @@ class StreamVenteProduit extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().produit_centre(produit_uid)),
             initialData: products(
+                approvisionne: true,
                 montant_vendu: 0,
                 prix_unitaire_achat: 0,
                 benefice: 0,
@@ -36,19 +36,6 @@ class StreamVenteProduit extends StatelessWidget {
                 quantite_initial: 0,
                 quantite_physique: 0,
                 seuil_approvisionnement: 0)),
-        StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .centre_vente_produit(_utilisateur.uid, produit_uid)),
-            initialData: centreVente(
-                benefice: 0,
-                date_vente: "",
-                vente_day: "",
-                vente_month: "",
-                uid: produit_uid,
-                nom_produit: "",
-                quantite: 0,
-                montant: 0)),
       ],
       child: CentreVenteProduits(),
     );

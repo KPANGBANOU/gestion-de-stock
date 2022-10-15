@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, prefer_const_constructors, curly_braces_in_flow_control_structures, unnecessary_null_comparison, dead_code, prefer_typing_uninitialized_variables, unrelated_type_equality_checks, prefer_final_fields, unused_field, must_be_immutable, unused_import, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, avoid_print, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_const_declarations, import_of_legacy_library_into_null_safe
+// ignore_for_file: unused_local_variable, prefer_const_constructors, curly_braces_in_flow_control_structures, unnecessary_null_comparison, dead_code, prefer_typing_uninitialized_variables, unrelated_type_equality_checks, prefer_final_fields, unused_field, must_be_immutable, unused_import, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, avoid_print, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_const_declarations, import_of_legacy_library_into_null_safe, deprecated_member_use
 
 import 'dart:io';
 
@@ -8,6 +8,8 @@ import 'package:cron/cron.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:projet/interface/centre_informatique/vente_tee_shirt.dart';
@@ -90,27 +92,272 @@ class Wrapper extends StatelessWidget {
         Provider.of<List<donnesBierresGrandModel>>(context);
 // signaler approvisonnement
     _cron.schedule(Schedule.parse('*/3 * * * *'), () async {
-      _list_credits.forEach((element) {
-        if (element.montant_disponible < element.seuil_approvisionnement) {
-          print("approvisionnement demandé");
+      _list_credits.forEach((element) async {
+        if (element.montant_disponible < element.seuil_approvisionnement &&
+            !element.approvisionne) {
+          await WhatsappShare.share(
+            text: "Bonsoir Monsieur! Le réchargement du crédit " +
+                element.nom +
+                " est réquis. Il ne reste que " +
+                element.montant_disponible.toString() +
+                " F en stock de l'entreprise ",
+            phone: '22997392026',
+          );
+
+          String username = 'deogracias228';
+          String password = 'DEOgracias228';
+
+          final smtpServer = gmail(username, password);
+          // Use the SmtpServer class to configure an SMTP server:
+          // final smtpServer = SmtpServer('smtp.domain.com');
+          // See the named arguments of SmtpServer for further configuration
+          // options.
+
+          // Create our message.
+          final message = Message()
+            ..from = Address(username, 'Déo Gracias Entreprise')
+            ..recipients.add('kpangbanoumarcellin@gmail.com')
+            ..ccRecipients
+            //.addAll(['destCc1@example.com', 'destCc2@example.com'])
+            //..bccRecipients.add(Address('bccAddress@example.com'))
+            ..subject = 'Démande de réchargement de stock'
+            ..text = "Le stock du crédit " +
+                element.nom +
+                " est en dessous du seuil d'approvisionnement. Il ne reste que " +
+                element.montant_disponible.toString() +
+                " F en stock. Le réchargement de ce crédit est donc nécessaire";
+          //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+          try {
+            final sendReport = await send(message, smtpServer);
+            print('Message sent: ' + sendReport.toString());
+          } on MailerException catch (e) {
+            print('Message not sent.');
+            for (var p in e.problems) {
+              print('Problem: ${p.code}: ${p.msg}');
+            }
+          }
+
+          await FirebaseFirestore.instance
+              .collection("reseaux_communication")
+              .doc(element.uid)
+              .update({'approvisionne': true});
         }
       });
 
-      _list_bierres_grand_modele.forEach((element) {
-        if (element.quantite_physique < element.seuil_approvisionnement) {
-          print("approvisionnement demandé");
+      _list_bierres_grand_modele.forEach((element) async {
+        if (element.quantite_physique < element.seuil_approvisionnement &&
+            !element.approvisionne) {
+          await WhatsappShare.share(
+            text: "Bonsoir Monsieur! Le réchargement du bièrre grand modèle " +
+                element.nom +
+                " est réquis. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock de l'entreprise ",
+            phone: '22997392026',
+          );
+
+          String username = 'deogracias228';
+          String password = 'DEOgracias228';
+
+          final smtpServer = gmail(username, password);
+          // Use the SmtpServer class to configure an SMTP server:
+          // final smtpServer = SmtpServer('smtp.domain.com');
+          // See the named arguments of SmtpServer for further configuration
+          // options.
+
+          // Create our message.
+          final message = Message()
+            ..from = Address(username, 'Déo Gracias Entreprise')
+            ..recipients.add('kpangbanoumarcellin@gmail.com')
+            ..ccRecipients
+            //.addAll(['destCc1@example.com', 'destCc2@example.com'])
+            //..bccRecipients.add(Address('bccAddress@example.com'))
+            ..subject = 'Démande de réchargement de stock'
+            ..text = "Le stock du grand modèle " +
+                element.nom +
+                " est en dessous du seuil d'approvisionnement. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock. Le réchargement de cette bièrre est donc nécessaire";
+          //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+          try {
+            final sendReport = await send(message, smtpServer);
+            print('Message sent: ' + sendReport.toString());
+          } on MailerException catch (e) {
+            print('Message not sent.');
+            for (var p in e.problems) {
+              print('Problem: ${p.code}: ${p.msg}');
+            }
+          }
+
+          await FirebaseFirestore.instance
+              .collection("bierres")
+              .doc(element.uid)
+              .update({'approvisionne': true});
         }
       });
 
-      _list_bierres_petit_modele.forEach((element) {
-        if (element.quantite_physique < element.seuil_approvisionnement) {
-          print("approvisionnement demandé");
+      _list_bierres_petit_modele.forEach((element) async {
+        if (element.quantite_physique < element.seuil_approvisionnement &&
+            !element.approvisionne) {
+          await WhatsappShare.share(
+            text: "Bonsoir Monsieur! Le réchargement du bièrre pétit modèle " +
+                element.nom +
+                " est réquis. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock de l'entreprise ",
+            phone: '22997392026',
+          );
+
+          String username = 'deogracias228';
+          String password = 'DEOgracias228';
+
+          final smtpServer = gmail(username, password);
+          // Use the SmtpServer class to configure an SMTP server:
+          // final smtpServer = SmtpServer('smtp.domain.com');
+          // See the named arguments of SmtpServer for further configuration
+          // options.
+
+          // Create our message.
+          final message = Message()
+            ..from = Address(username, 'Déo Gracias Entreprise')
+            ..recipients.add('kpangbanoumarcellin@gmail.com')
+            ..ccRecipients
+            //.addAll(['destCc1@example.com', 'destCc2@example.com'])
+            //..bccRecipients.add(Address('bccAddress@example.com'))
+            ..subject = 'Démande de réchargement de stock'
+            ..text = "Le stock du pétit modèle " +
+                element.nom +
+                " est en dessous du seuil d'approvisionnement. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock. Le réchargement de cette bièrre est donc nécessaire";
+          //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+          try {
+            final sendReport = await send(message, smtpServer);
+            print('Message sent: ' + sendReport.toString());
+          } on MailerException catch (e) {
+            print('Message not sent.');
+            for (var p in e.problems) {
+              print('Problem: ${p.code}: ${p.msg}');
+            }
+          }
+
+          await FirebaseFirestore.instance
+              .collection("bierres")
+              .doc(element.uid)
+              .update({'approvisionne': true});
         }
       });
 
-      _list_tee_shirt.forEach((element) {
-        if (element.quantite_physique < element.seuil_approvisionnement) {
-          print("approvisionnement demandé");
+      _list_tee_shirt.forEach((element) async {
+        if (element.quantite_physique < element.seuil_approvisionnement &&
+            !element.approvisionne) {
+          await WhatsappShare.share(
+            text: "Bonsoir Monsieur! Le réchargement de tee shirt " +
+                element.tee_shirt_nom +
+                " de " +
+                element.qualite +
+                " est réquis. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock de l'entreprise ",
+            phone: '22997392026',
+          );
+
+          String username = 'deogracias228';
+          String password = 'DEOgracias228';
+
+          final smtpServer = gmail(username, password);
+          // Use the SmtpServer class to configure an SMTP server:
+          // final smtpServer = SmtpServer('smtp.domain.com');
+          // See the named arguments of SmtpServer for further configuration
+          // options.
+
+          // Create our message.
+          final message = Message()
+            ..from = Address(username, 'Déo Gracias Entreprise')
+            ..recipients.add('kpangbanoumarcellin@gmail.com')
+            ..ccRecipients
+            //.addAll(['destCc1@example.com', 'destCc2@example.com'])
+            //..bccRecipients.add(Address('bccAddress@example.com'))
+            ..subject = 'Démande de réchargement de stock'
+            ..text = "Le stock du  " +
+                element.tee_shirt_nom +
+                " de " +
+                element.qualite +
+                " est en dessous du seuil d'approvisionnement. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock. Le réchargement de ce tee shirt est donc nécessaire";
+          //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+          try {
+            final sendReport = await send(message, smtpServer);
+            print('Message sent: ' + sendReport.toString());
+          } on MailerException catch (e) {
+            print('Message not sent.');
+            for (var p in e.problems) {
+              print('Problem: ${p.code}: ${p.msg}');
+            }
+          }
+
+          await FirebaseFirestore.instance
+              .collection("tee_shirts")
+              .doc(element.uid)
+              .update({'approvisionne': true});
+        }
+      });
+
+      _list_produits_centre.forEach((element) async {
+        if (element.quantite_physique < element.seuil_approvisionnement &&
+            !element.approvisionne) {
+          await WhatsappShare.share(
+            text: "Bonsoir Monsieur! Le réchargement de  " +
+                element.nom +
+                " est réquis. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock de l'entreprise ",
+            phone: '22997392026',
+          );
+
+          String username = 'deogracias228';
+          String password = 'DEOgracias228';
+
+          final smtpServer = gmail(username, password);
+          // Use the SmtpServer class to configure an SMTP server:
+          // final smtpServer = SmtpServer('smtp.domain.com');
+          // See the named arguments of SmtpServer for further configuration
+          // options.
+
+          // Create our message.
+          final message = Message()
+            ..from = Address(username, 'Déo Gracias Entreprise')
+            ..recipients.add('kpangbanoumarcellin@gmail.com')
+            ..ccRecipients
+            //.addAll(['destCc1@example.com', 'destCc2@example.com'])
+            //..bccRecipients.add(Address('bccAddress@example.com'))
+            ..subject = 'Démande de réchargement de stock'
+            ..text = "Le stock du  " +
+                element.nom +
+                " est en dessous du seuil d'approvisionnement. Il ne reste que " +
+                element.quantite_physique.toString() +
+                "  en stock. Le réchargement de ce produit est donc nécessaire";
+          //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+          try {
+            final sendReport = await send(message, smtpServer);
+            print('Message sent: ' + sendReport.toString());
+          } on MailerException catch (e) {
+            print('Message not sent.');
+            for (var p in e.problems) {
+              print('Problem: ${p.code}: ${p.msg}');
+            }
+          }
+
+          await FirebaseFirestore.instance
+              .collection("tee_shirts")
+              .doc(element.uid)
+              .update({'approvisionne': true});
         }
       });
     });
@@ -1048,6 +1295,38 @@ class Wrapper extends StatelessWidget {
         filePath: [path],
         phone: '22997392026',
       );
+
+      String username = 'deogracias228';
+      String password = 'DEOgracias228';
+
+      final smtpServer = gmail(username, password);
+
+      final equivalentMessage = Message()
+        ..from = Address(username, 'Entreprise Déo Gracias')
+        ..recipients.add(Address('kpangbanoumarcellin@gmail.com'))
+        ..ccRecipients
+        // .addAll([Address('destCc1@example.com'), 'destCc2@example.com'])
+        // ..bccRecipients.add('bccAddress@example.com')
+        ..subject = 'Rapport journalier de vente'
+        ..text =
+            'Bonsoir Monsieur le PDG de  Déo Gracias. Voici le rapport journalier de vente au niveau du centre informatique et du bar restaurant.'
+        //..html =
+        //  '<h1>Test</h1>\n<p>Hey! Here is some HTML content</p><img src="cid:myimg@3.141"/>'
+        ..attachments = [
+          FileAttachment(File('rapports/rapport_journalier.pdf'))
+            ..location = Location.inline
+            ..cid = 'rapport_journalier.pdf'
+        ];
+
+      try {
+        final sendReport2 = await send(equivalentMessage, smtpServer);
+        print('Message sent: ' + sendReport2.toString());
+      } on MailerException catch (e) {
+        print('Message not sent.');
+        for (var p in e.problems) {
+          print('Problem: ${p.code}: ${p.msg}');
+        }
+      }
     });
 
     // rapport hebdomendaire await _file1.writeAsBytes( await _pdf.save())
@@ -1982,6 +2261,38 @@ class Wrapper extends StatelessWidget {
         filePath: [path],
         phone: '22997392026',
       );
+
+      String username = 'deogracias228';
+      String password = 'DEOgracias228';
+
+      final smtpServer = gmail(username, password);
+
+      final equivalentMessage = Message()
+        ..from = Address(username, 'Entreprise Déo Gracias')
+        ..recipients.add(Address('kpangbanoumarcellin@gmail.com'))
+        ..ccRecipients
+        // .addAll([Address('destCc1@example.com'), 'destCc2@example.com'])
+        // ..bccRecipients.add('bccAddress@example.com')
+        ..subject = 'Rapport hebdomendaire de vente'
+        ..text =
+            'Bonsoir Monsieur le PDG de  Déo Gracias. Voici le rapport hebdomendaire de vente au niveau du centre informatique et du bar restaurant.'
+        //..html =
+        //  '<h1>Test</h1>\n<p>Hey! Here is some HTML content</p><img src="cid:myimg@3.141"/>'
+        ..attachments = [
+          FileAttachment(File('rapports/rapport_journalier.pdf'))
+            ..location = Location.inline
+            ..cid = 'rapport_journalier.pdf'
+        ];
+
+      try {
+        final sendReport2 = await send(equivalentMessage, smtpServer);
+        print('Message sent: ' + sendReport2.toString());
+      } on MailerException catch (e) {
+        print('Message not sent.');
+        for (var p in e.problems) {
+          print('Problem: ${p.code}: ${p.msg}');
+        }
+      }
     });
 
     // rapport mensuel
@@ -2925,6 +3236,38 @@ class Wrapper extends StatelessWidget {
         filePath: [path],
         phone: '22997392026',
       );
+
+      String username = 'deogracias228';
+      String password = 'DEOgracias228';
+
+      final smtpServer = gmail(username, password);
+
+      final equivalentMessage = Message()
+        ..from = Address(username, 'Entreprise Déo Gracias')
+        ..recipients.add(Address('kpangbanoumarcellin@gmail.com'))
+        ..ccRecipients
+        // .addAll([Address('destCc1@example.com'), 'destCc2@example.com'])
+        // ..bccRecipients.add('bccAddress@example.com')
+        ..subject = 'Rapport mensuel de vente'
+        ..text =
+            'Bonsoir Monsieur le PDG de  Déo Gracias. Voici le rapport mensuel de vente au niveau du centre informatique et du bar restaurant.'
+        //..html =
+        //  '<h1>Test</h1>\n<p>Hey! Here is some HTML content</p><img src="cid:myimg@3.141"/>'
+        ..attachments = [
+          FileAttachment(File('rapports/rapport_mensuel.pdf'))
+            ..location = Location.inline
+            ..cid = 'rapport_mensuel.pdf'
+        ];
+
+      try {
+        final sendReport2 = await send(equivalentMessage, smtpServer);
+        print('Message sent: ' + sendReport2.toString());
+      } on MailerException catch (e) {
+        print('Message not sent.');
+        for (var p in e.problems) {
+          print('Problem: ${p.code}: ${p.msg}');
+        }
+      }
     });
 
     if (firebase == null) {

@@ -126,6 +126,7 @@ class ApprovisionnementTeeShirt extends StatelessWidget {
                                   .collection("tee_shirts")
                                   .doc(_produit.uid)
                                   .update({
+                                "approvisionne": false,
                                 "quantite_initial":
                                     _produit.quantite_initial + quantite,
                                 "quantite_physique":

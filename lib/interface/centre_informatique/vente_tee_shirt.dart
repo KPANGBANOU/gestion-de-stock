@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 import 'package:projet/modele/budget_centre.dart';
 import 'package:projet/modele/serigraphie.dart';
-import 'package:projet/modele/vente_tee_shirts.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +21,6 @@ class VenteTeeShirt extends StatelessWidget {
     final _donnes = Provider.of<donnesUtilisateur>(context);
     final _produit = Provider.of<serigraphie>(context);
     final _budget_centre = Provider.of<budgetCentre>(context);
-    final _vente_tee_shirt = Provider.of<venteteeshirts>(context);
 
     if (_produit == null) {
       return Scaffold(
@@ -165,14 +163,13 @@ class VenteTeeShirt extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(snack);
                         } else {
                           await FirebaseFirestore.instance
-                              .collection("users")
-                              .doc(_donnes.uid)
                               .collection("vente_tee_shirts")
-                              .doc(_vente_tee_shirt.uid)
-                              .set({
+                              .add({
+                            'produit_uid': _produit.uid,
+                            'user_uid': _donnes.uid,
                             "nom": _produit.tee_shirt_nom,
-                            "quantite": _vente_tee_shirt.quantite + quantite,
-                            "montant": _vente_tee_shirt.montant +
+                            "quantite": quantite,
+                            "montant":
                                 (quantite * _produit.prix_unitaire_vente),
                             "derniere_vente": DateTime.now()
                           });

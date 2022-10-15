@@ -231,6 +231,7 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                                 .collection("produits_centre")
                                 .doc(nom)
                                 .set({
+                              "approvisionne": false,
                               "montant_vendu": 0,
                               "nom": nom,
                               "benefice": 0,

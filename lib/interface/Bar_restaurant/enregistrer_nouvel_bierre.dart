@@ -252,6 +252,7 @@ class _EnregistrerNouvelBierreFormPageState
                                   .collection("bierres")
                                   .doc(conca_lowercase)
                                   .set({
+                                "approvisionne": false,
                                 "montant_vendu": 0,
                                 "benefice": 0,
                                 "prix_unitaire_achat": prix_achat,

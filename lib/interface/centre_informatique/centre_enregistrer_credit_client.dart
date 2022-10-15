@@ -7,20 +7,16 @@ import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
-class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
-  CentreEnregistrerNouveauReseauCredit({Key? key}) : super(key: key);
+class CentreEnregistrerCreditClient extends StatelessWidget {
+  CentreEnregistrerCreditClient({Key? key}) : super(key: key);
 
   @override
-  TextEditingController nomReseau = TextEditingController();
-  TextEditingController montantInitial = TextEditingController();
-  TextEditingController seuilAprovisionnement = TextEditingController();
-  TextEditingController benefice_5000 = TextEditingController();
+  TextEditingController nomClient = TextEditingController();
+  TextEditingController prenomClient = TextEditingController();
+  TextEditingController montant = TextEditingController();
+  TextEditingController descriptionCredit = TextEditingController();
 
-  late int seuil = 0;
-  late int montant = 0;
-  late String nom = "";
-  late bool result = true;
-  late int benefice_sur_5000 = 0;
+  late int montantCredit = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
           title: Text(
-            "Nouveau réseau",
+            "Crédit client",
             style: TextStyle(color: Colors.white.withOpacity(.8), fontSize: 25),
           ),
           backgroundColor: Colors.indigo,
@@ -52,8 +48,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Enregistrement d'un nouveau réseau de communication au srock "
-                      .toUpperCase(),
+                  "Enregistrement d'achat par crédit du client ".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
@@ -67,7 +62,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Informations rélatives au nouveau réseau de communication"
+                  "Informations rélatives à la vente crédit du client"
                       .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -97,7 +92,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 child: TextField(
-                  controller: nomReseau,
+                  controller: nomClient,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -110,8 +105,8 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    hintText: "Entrez le nom du réseau",
-                    labelText: "nom du réseau".toUpperCase(),
+                    hintText: "Saisissez  le nom du client svp !",
+                    labelText: "Nom du client".toUpperCase(),
                   ),
                 ),
               ),
@@ -121,8 +116,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextField(
-                  controller: montantInitial,
-                  keyboardType: TextInputType.number,
+                  controller: prenomClient,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
@@ -131,8 +125,8 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    labelText: "Entrez le montant initial svp",
-                    hintText: "montant initial".toUpperCase(),
+                    labelText: "Saisissez le prénom du client svp !",
+                    hintText: "Prénom du client svp".toUpperCase(),
                   ),
                 ),
               ),
@@ -142,7 +136,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 15.0, left: 15),
                 child: TextField(
-                  controller: benefice_5000,
+                  controller: montant,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -152,31 +146,29 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       borderSide: BorderSide(
                           width: 1, color: Color.fromARGB(255, 66, 125, 145)),
                     ),
-                    labelText:
-                        "Entrez le bénéfice à gagner sur montant de 5000 F svp !",
+                    labelText: "Saisissez le montant de crédit du client svp !",
+                    hintText: "Montant de crédit du client svp".toUpperCase(),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0, left: 15),
+                child: TextField(
+                  controller: descriptionCredit,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.white),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 1, color: Color.fromARGB(255, 66, 125, 145)),
+                    ),
+                    labelText: "Décrivez l'achat effectué par le client svp!",
                     hintText:
-                        "Bénéfice du cecrédit sur montant 5000 F".toUpperCase(),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 15.0, left: 15),
-                child: TextField(
-                  controller: seuilAprovisionnement,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1, color: Colors.white),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1, color: Color.fromARGB(255, 66, 125, 145)),
-                    ),
-                    labelText: "Entrez le seuil d'approvisionnement",
-                    hintText: "Seuil d'approvisionnement".toUpperCase(),
+                        "Description de l'achat du client svp".toUpperCase(),
                   ),
                 ),
               ),
@@ -190,82 +182,51 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         try {
-                          benefice_sur_5000 = int.parse(benefice_5000.text);
-                          montant = int.parse(montantInitial.text);
-                          seuil = int.parse(seuilAprovisionnement.text);
-                          nom = nomReseau.text;
+                          montantCredit = int.parse(montant.text);
+
                           await FirebaseFirestore.instance
-                              .collection("reseaux_communication")
-                              .doc(nom)
-                              .get()
-                              .then((onexist) {
-                            onexist.exists ? result = true : result = false;
+                              .collection("credits_centre")
+                              .add({
+                            "statut": false,
+                            "nom_client": nomClient.text,
+                            "prenom_client": prenomClient.text,
+                            "montant": montantCredit,
+                            "description": descriptionCredit.text,
+                            "nom_servant": _donnesUtilisateur.nom,
+                            "prenom_servant": _donnesUtilisateur.prenom,
+                            "servant_uid": _donnesUtilisateur.uid,
+                            "date_vente": DateTime.now()
                           });
 
-                          if (!result) {
-                            // si ce produit n'existespas encore
-                            await FirebaseFirestore.instance
-                                .collection("reseaux_communication")
-                                .doc(nom)
-                                .set({
-                              "approvisionne": false,
-                              "benefice_sur_5000": benefice_sur_5000,
-                              "benefice": 0,
-                              "nom": nom,
-                              "montant_initial": montant,
-                              "montant_disponible": montant,
-                              "seuil_approvisionnement": seuil,
-                              "created_at": DateTime.now(),
-                              "update_at": DateTime.now()
-                            });
+                          nomClient.clear();
+                          prenomClient.clear();
+                          montant.clear();
+                          descriptionCredit.clear();
 
-                            nomReseau.clear();
-                            montantInitial.clear();
-                            seuilAprovisionnement.clear();
-                            benefice_5000.clear();
-
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le réseau " +
-                                      nom +
-                                      " a été ajouté au stock avec succès",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                          final snakbar = SnackBar(
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Le crédit d'achat du client " +
+                                    nomClient.text +
+                                    " " +
+                                    prenomClient.text +
+                                    " a été enregistré avec succès dans la base de données de l'entreprise",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              backgroundColor: Colors.indigo,
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                          } else {
-                            // si le produit existe
+                            ),
+                            backgroundColor: Colors.indigo,
+                            elevation: 10,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.all(5),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
 
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le réseau  que vous voudriez ajouter existe dejà dans la base de donnée !",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              backgroundColor: Colors.redAccent.withOpacity(.8),
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                          }
+                          // si le produit existe
 
                           // ignore: empty_catches
                         } catch (e) {
@@ -294,7 +255,7 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Enregistrer".toUpperCase(),
+                          "Enregistrez".toUpperCase(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,

@@ -6,7 +6,6 @@ import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:provider/provider.dart';
 
-import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/services/user.dart';
 
 class UpdatePetitModele extends StatelessWidget {
@@ -29,7 +28,6 @@ class UpdatePetitModele extends StatelessWidget {
     final utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
     final _produit = Provider.of<donneesBieerePetitModele>(context);
-    final _vente = Provider.of<centreVente>(context);
 
     return Scaffold(
         backgroundColor: Colors.greenAccent,
@@ -168,7 +166,7 @@ class UpdatePetitModele extends StatelessWidget {
                       onPressed: () async {
                         try {
                           seuil = int.parse(seuilAprovisionnement.text);
-                          nom = nomProduit.text;
+                          nom = "Pétit modèle" + nomProduit.text;
                           prix = int.parse(prix_unitaire.text);
 
                           if (seuil == null) {
@@ -183,7 +181,7 @@ class UpdatePetitModele extends StatelessWidget {
                             if (nom == _produit.nom) {
                               if (seuil != null && prix != null) {
                                 await FirebaseFirestore.instance
-                                    .collection("produits")
+                                    .collection("bierres")
                                     .doc(_produit.uid)
                                     .update({
                                   "seuil_approvisionnement": seuil,
@@ -199,7 +197,7 @@ class UpdatePetitModele extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de cette bièrre a été effectuée avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -222,7 +220,7 @@ class UpdatePetitModele extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de cette bièrre a été effectuée avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -240,7 +238,7 @@ class UpdatePetitModele extends StatelessWidget {
                               }
                             } else {
                               await FirebaseFirestore.instance
-                                  .collection("reseaux_communication")
+                                  .collection("bierres")
                                   .doc(nom)
                                   .get()
                                   .then((value) {
@@ -249,42 +247,17 @@ class UpdatePetitModele extends StatelessWidget {
 
                               if (!result) {
                                 await FirebaseFirestore.instance
-                                    .collection("reseaux_communication")
-                                    .doc(nom)
-                                    .set({
-                                  "nom": num,
-                                  "quantite_initial": _produit.quantite_initial,
-                                  "quantite_physique":
-                                      _produit.quantite_physique,
-                                  "seuil_approvisionnement": seuil,
-                                  "prix_unitaire": _produit.prix_unitaire,
-                                  "created_at": DateTime.now(),
-                                  "update_at": DateTime.now()
-                                });
-
-                                await FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(utilisateur.uid)
-                                    .collection("ventes")
-                                    .doc(nom)
-                                    .set({
-                                  "nom_produit": _vente.nom_produit,
-                                  "montant": _vente.montant,
-                                  "quantite": _vente.quantite,
-                                  "dernierre_vente": DateTime.now()
-                                });
-
-                                await FirebaseFirestore.instance
-                                    .collection("produits_centre")
+                                    .collection("bierres")
                                     .doc(_produit.uid)
-                                    .delete();
+                                    .update({
+                                  "prix_unitaire": _produit.prix_unitaire,
+                                  "nom": nomProduit.text,
+                                  "prix_unitaire_achat":
+                                      _produit.prix_unitaire_achat,
+                                  "seuil_approvisionnement": seuil,
+                                  "update_at": DateTime.now(),
+                                });
 
-                                await FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(utilisateur.uid)
-                                    .collection("ventes")
-                                    .doc(_vente.uid)
-                                    .delete();
                                 nomProduit.clear();
                                 prix_unitaire.clear();
                                 seuilAprovisionnement.clear();
@@ -293,7 +266,7 @@ class UpdatePetitModele extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de cette bièrre  a été effectué avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -313,7 +286,7 @@ class UpdatePetitModele extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "Le nouveau nom que vous proposez correspondant djà un produit qui existe dans la base de donnée !",
+                                      "Le nouveau nom que vous proposez correspondant à une bièrre qui existe dejè dans la base de donnée !",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -339,7 +312,7 @@ class UpdatePetitModele extends StatelessWidget {
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "La mise à jour dece produit a été effectué avec succès",
+                                  "La mise à jour de cette  bièrre a été effectué avec succès",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

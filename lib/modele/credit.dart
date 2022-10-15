@@ -14,6 +14,7 @@ class credit {
   final int montant_disponible;
   final int seuil_approvisionnement;
   final int benefice_sur_5000;
+  final bool approvisionne;
   credit({
     required this.uid,
     required this.nom,
@@ -22,10 +23,12 @@ class credit {
     required this.montant_disponible,
     required this.seuil_approvisionnement,
     required this.benefice_sur_5000,
+    required this.approvisionne,
   });
 
   factory credit.fromfirestore(DocumentSnapshot document) {
     return credit(
+        approvisionne: (document.data() as Map)['approvisionne'],
         benefice_sur_5000: (document.data() as Map)['benefice_sur_5000'],
         benefice: (document.data() as Map)['benefice'],
         uid: document.id,
@@ -44,6 +47,7 @@ class credit {
     int? montant_disponible,
     int? seuil_approvisionnement,
     int? benefice_sur_5000,
+    bool? approvisionne,
   }) {
     return credit(
       uid: uid ?? this.uid,
@@ -54,6 +58,7 @@ class credit {
       seuil_approvisionnement:
           seuil_approvisionnement ?? this.seuil_approvisionnement,
       benefice_sur_5000: benefice_sur_5000 ?? this.benefice_sur_5000,
+      approvisionne: approvisionne ?? this.approvisionne,
     );
   }
 
@@ -67,6 +72,7 @@ class credit {
     result.addAll({'montant_disponible': montant_disponible});
     result.addAll({'seuil_approvisionnement': seuil_approvisionnement});
     result.addAll({'benefice_sur_5000': benefice_sur_5000});
+    result.addAll({'approvisionne': approvisionne});
 
     return result;
   }
@@ -80,6 +86,7 @@ class credit {
       montant_disponible: map['montant_disponible']?.toInt() ?? 0,
       seuil_approvisionnement: map['seuil_approvisionnement']?.toInt() ?? 0,
       benefice_sur_5000: map['benefice_sur_5000']?.toInt() ?? 0,
+      approvisionne: map['approvisionne'] ?? false,
     );
   }
 
@@ -89,7 +96,7 @@ class credit {
 
   @override
   String toString() {
-    return 'credit(uid: $uid, nom: $nom, benefice: $benefice, montant_initial: $montant_initial, montant_disponible: $montant_disponible, seuil_approvisionnement: $seuil_approvisionnement, benefice_sur_5000: $benefice_sur_5000)';
+    return 'credit(uid: $uid, nom: $nom, benefice: $benefice, montant_initial: $montant_initial, montant_disponible: $montant_disponible, seuil_approvisionnement: $seuil_approvisionnement, benefice_sur_5000: $benefice_sur_5000, approvisionne: $approvisionne)';
   }
 
   @override
@@ -103,7 +110,8 @@ class credit {
         other.montant_initial == montant_initial &&
         other.montant_disponible == montant_disponible &&
         other.seuil_approvisionnement == seuil_approvisionnement &&
-        other.benefice_sur_5000 == benefice_sur_5000;
+        other.benefice_sur_5000 == benefice_sur_5000 &&
+        other.approvisionne == approvisionne;
   }
 
   @override
@@ -114,6 +122,7 @@ class credit {
         montant_initial.hashCode ^
         montant_disponible.hashCode ^
         seuil_approvisionnement.hashCode ^
-        benefice_sur_5000.hashCode;
+        benefice_sur_5000.hashCode ^
+        approvisionne.hashCode;
   }
 }

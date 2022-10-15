@@ -5,7 +5,7 @@ import 'package:projet/interface/accueil_page.dart';
 import 'package:projet/interface/bottomnavigation.dart';
 import 'package:projet/interface/connexion.dart';
 import 'package:projet/interface/contact_entreprise.dart';
-import 'package:projet/interface/mes_services.dart';
+
 import 'package:projet/services/change_page.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,6 @@ class Accueil extends StatelessWidget {
   var pages = [
     AccueilPage(),
     LoginPage(),
-    MesServices(),
     ContactsEntreprise(),
   ];
 

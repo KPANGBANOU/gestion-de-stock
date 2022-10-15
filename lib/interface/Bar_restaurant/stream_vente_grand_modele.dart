@@ -1,12 +1,11 @@
 // ignore_for_file: camel_case_types, prefer_const_constructors_in_immutables, unnecessary_this
 
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/vendre_grand_modele.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
-
-import 'second_stream_vente_grand_modele.dart';
 
 class StreamVenteGrandModele extends StatelessWidget {
   StreamVenteGrandModele({
@@ -24,6 +23,7 @@ class StreamVenteGrandModele extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().bierreGrandModele(this.uid)),
             initialData: donnesBierresGrandModel(
+                approvisionne: true,
                 montant_vendu: 0,
                 benefice: 0,
                 prix_unitaire_achat: 0,
@@ -35,7 +35,7 @@ class StreamVenteGrandModele extends StatelessWidget {
                 type: "",
                 uid: this.uid))
       ],
-      child: SecondStreamVenteGrandModele(),
+      child: VenteGrandModele(),
     );
   }
 }

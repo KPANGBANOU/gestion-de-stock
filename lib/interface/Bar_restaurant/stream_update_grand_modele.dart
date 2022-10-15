@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
-import 'package:projet/modele/vente_grand_modele.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +28,7 @@ class StreamUpdateGrandModele extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().bierreGrandModele(produit_uid)),
             initialData: donnesBierresGrandModel(
+                approvisionne: true,
                 montant_vendu: 0,
                 benefice: 0,
                 prix_unitaire_achat: 0,
@@ -39,20 +39,6 @@ class StreamUpdateGrandModele extends StatelessWidget {
                 nom: "",
                 type: "",
                 uid: produit_uid)),
-        StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .vente_grand_modele(_utilisateur.uid, produit_uid)),
-            initialData: venteGrandModele(
-                uid: produit_uid,
-                quantite: 0,
-                montant: 0,
-                nom_bierre: "",
-                category: "",
-                benefice: 0,
-                date_vente_day: "",
-                date_vente: "",
-                date_vente_month: "")),
       ],
       child: UpdateGrandModele(),
     );

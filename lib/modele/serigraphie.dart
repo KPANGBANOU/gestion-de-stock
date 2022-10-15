@@ -17,6 +17,7 @@ class serigraphie {
   final int quantite_physique;
   final int seuil_approvisionnement;
   final int benefice;
+  final bool approvisionne;
   serigraphie({
     required this.tee_shirt_nom,
     required this.uid,
@@ -28,10 +29,12 @@ class serigraphie {
     required this.quantite_physique,
     required this.seuil_approvisionnement,
     required this.benefice,
+    required this.approvisionne,
   });
 
   factory serigraphie.fromfirestore(DocumentSnapshot document) {
     return serigraphie(
+      approvisionne: (document.data() as Map)['approvisionne'],
       benefice: (document.data() as Map)['benefice'],
       tee_shirt_nom: (document.data() as Map<String, dynamic>)['nom_tee_shirt'],
       uid: document.id,
@@ -57,6 +60,7 @@ class serigraphie {
     int? quantite_physique,
     int? seuil_approvisionnement,
     int? benefice,
+    bool? approvisionne,
   }) {
     return serigraphie(
       tee_shirt_nom: tee_shirt_nom ?? this.tee_shirt_nom,
@@ -70,6 +74,7 @@ class serigraphie {
       seuil_approvisionnement:
           seuil_approvisionnement ?? this.seuil_approvisionnement,
       benefice: benefice ?? this.benefice,
+      approvisionne: approvisionne ?? this.approvisionne,
     );
   }
 
@@ -86,6 +91,7 @@ class serigraphie {
     result.addAll({'quantite_physique': quantite_physique});
     result.addAll({'seuil_approvisionnement': seuil_approvisionnement});
     result.addAll({'benefice': benefice});
+    result.addAll({'approvisionne': approvisionne});
 
     return result;
   }
@@ -102,6 +108,7 @@ class serigraphie {
       quantite_physique: map['quantite_physique']?.toInt() ?? 0,
       seuil_approvisionnement: map['seuil_approvisionnement']?.toInt() ?? 0,
       benefice: map['benefice']?.toInt() ?? 0,
+      approvisionne: map['approvisionne'] ?? false,
     );
   }
 
@@ -112,7 +119,7 @@ class serigraphie {
 
   @override
   String toString() {
-    return 'serigraphie(tee_shirt_nom: $tee_shirt_nom, uid: $uid, qualite: $qualite, prix_unitaire_vente: $prix_unitaire_vente, prix_unitaire_achat: $prix_unitaire_achat, montant_vendu: $montant_vendu, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, benefice: $benefice)';
+    return 'serigraphie(tee_shirt_nom: $tee_shirt_nom, uid: $uid, qualite: $qualite, prix_unitaire_vente: $prix_unitaire_vente, prix_unitaire_achat: $prix_unitaire_achat, montant_vendu: $montant_vendu, quantite_initial: $quantite_initial, quantite_physique: $quantite_physique, seuil_approvisionnement: $seuil_approvisionnement, benefice: $benefice, approvisionne: $approvisionne)';
   }
 
   @override
@@ -129,7 +136,8 @@ class serigraphie {
         other.quantite_initial == quantite_initial &&
         other.quantite_physique == quantite_physique &&
         other.seuil_approvisionnement == seuil_approvisionnement &&
-        other.benefice == benefice;
+        other.benefice == benefice &&
+        other.approvisionne == approvisionne;
   }
 
   @override
@@ -143,6 +151,7 @@ class serigraphie {
         quantite_initial.hashCode ^
         quantite_physique.hashCode ^
         seuil_approvisionnement.hashCode ^
-        benefice.hashCode;
+        benefice.hashCode ^
+        approvisionne.hashCode;
   }
 }

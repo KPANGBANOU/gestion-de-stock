@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
-import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/produit.dart';
 import 'package:projet/services/user.dart';
 
@@ -29,7 +28,6 @@ class CentreUpdateProduit extends StatelessWidget {
     final utilisateur = Provider.of<Utilisateur>(context);
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
     final _produit = Provider.of<products>(context);
-    final _vente = Provider.of<centreVente>(context);
 
     return Scaffold(
         backgroundColor: Colors.greenAccent,
@@ -199,7 +197,7 @@ class CentreUpdateProduit extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de ce produit a été effectué avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -222,7 +220,7 @@ class CentreUpdateProduit extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de ce produit a été effectué avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -240,7 +238,7 @@ class CentreUpdateProduit extends StatelessWidget {
                               }
                             } else {
                               await FirebaseFirestore.instance
-                                  .collection("reseaux_communication")
+                                  .collection("produits_centre")
                                   .doc(nom)
                                   .get()
                                   .then((value) {
@@ -249,42 +247,15 @@ class CentreUpdateProduit extends StatelessWidget {
 
                               if (!result) {
                                 await FirebaseFirestore.instance
-                                    .collection("reseaux_communication")
-                                    .doc(nom)
-                                    .set({
-                                  "nom": num,
-                                  "quantite_initial": _produit.quantite_initial,
-                                  "quantite_physique":
-                                      _produit.quantite_physique,
+                                    .collection("produits_centre")
+                                    .doc(_produit.uid)
+                                    .update({
+                                  "nom": nomProduit.text,
                                   "seuil_approvisionnement": seuil,
                                   "prix_unitaire": _produit.prix_unitaire,
-                                  "created_at": DateTime.now(),
                                   "update_at": DateTime.now()
                                 });
 
-                                await FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(utilisateur.uid)
-                                    .collection("ventes")
-                                    .doc(nom)
-                                    .set({
-                                  "nom_produit": _vente.nom_produit,
-                                  "montant": _vente.montant,
-                                  "quantite": _vente.quantite,
-                                  "dernierre_vente": DateTime.now()
-                                });
-
-                                await FirebaseFirestore.instance
-                                    .collection("produits_centre")
-                                    .doc(_produit.uid)
-                                    .delete();
-
-                                await FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(utilisateur.uid)
-                                    .collection("ventes")
-                                    .doc(_vente.uid)
-                                    .delete();
                                 nomProduit.clear();
                                 prix_unitaire.clear();
                                 seuilAprovisionnement.clear();
@@ -293,7 +264,7 @@ class CentreUpdateProduit extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "La mise à jour dece produit a été effectué avec succès",
+                                      "La mise à jour de ce produit a été effectué avec succès",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -313,7 +284,7 @@ class CentreUpdateProduit extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "Le nouveau nom que vous proposez correspondant djà un produit qui existe dans la base de donnée !",
+                                      "Le nouveau nom que vous proposez correspondant un produit qui existe dejà dans la base de donnée !",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -339,7 +310,7 @@ class CentreUpdateProduit extends StatelessWidget {
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "La mise à jour dece produit a été effectué avec succès",
+                                  "La mise à jour de ce produit a été effectué avec succès",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

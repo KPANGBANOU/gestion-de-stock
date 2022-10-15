@@ -83,10 +83,11 @@ class CentreEnregistrerProbleme extends StatelessWidget {
                         onPressed: () async {
                           try {
                             await FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(_user.uid)
                                 .collection("problemes")
                                 .add({
+                              'user_uid': _donnesUser.uid,
+                              'user_nom': _donnesUser.nom,
+                              'user_prenom': _donnesUser.prenom,
                               'description': _description.text,
                               'time': DateTime.now()
                             });
