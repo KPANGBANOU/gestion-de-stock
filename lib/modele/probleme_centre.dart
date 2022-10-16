@@ -1,53 +1,51 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-// ignore_for_file: non_constant_identifier_names, camel_case_types
+// ignore_for_file: camel_case_types
 
-class donnesDepense {
+class problemeCentre {
   final String uid;
   final String description;
-  final int montant;
   final String date;
   final String user_nom;
   final String user_prenom;
   final String user_uid;
-  donnesDepense({
+  problemeCentre({
     required this.uid,
     required this.description,
-    required this.montant,
     required this.date,
     required this.user_nom,
     required this.user_prenom,
     required this.user_uid,
   });
 
-  factory donnesDepense.fromFirestore(DocumentSnapshot document) {
-    return donnesDepense(
-        user_uid: (document.data() as Map<String, dynamic>)['user_uid'],
-        date: DateFormat('yyyy-MM-dd')
-            .format((document.data() as Map)['created_at']),
-        user_nom: (document.data() as Map<String, dynamic>)['user_nom'],
-        user_prenom: (document.data() as Map<String, dynamic>)['user_prenom'],
-        uid: document.id,
-        description: (document.data() as Map<String, dynamic>)['description'],
-        montant: (document.data() as Map)['montant']);
+  factory problemeCentre.fromFirestore(DocumentSnapshot document) {
+    return problemeCentre(
+      user_uid: (document.data() as Map<String, dynamic>)['user_uid'],
+      date: DateFormat('yyyy-MM-dd')
+          .format((document.data() as Map)['created_at']),
+      user_nom: (document.data() as Map<String, dynamic>)['user_nom'],
+      user_prenom: (document.data() as Map<String, dynamic>)['user_prenom'],
+      uid: document.id,
+      description: (document.data() as Map<String, dynamic>)['description'],
+    );
   }
 
-  donnesDepense copyWith({
+  problemeCentre copyWith({
     String? uid,
     String? description,
-    int? montant,
     String? date,
     String? user_nom,
     String? user_prenom,
     String? user_uid,
   }) {
-    return donnesDepense(
+    return problemeCentre(
       uid: uid ?? this.uid,
       description: description ?? this.description,
-      montant: montant ?? this.montant,
       date: date ?? this.date,
       user_nom: user_nom ?? this.user_nom,
       user_prenom: user_prenom ?? this.user_prenom,
@@ -60,7 +58,6 @@ class donnesDepense {
 
     result.addAll({'uid': uid});
     result.addAll({'description': description});
-    result.addAll({'montant': montant});
     result.addAll({'date': date});
     result.addAll({'user_nom': user_nom});
     result.addAll({'user_prenom': user_prenom});
@@ -69,11 +66,10 @@ class donnesDepense {
     return result;
   }
 
-  factory donnesDepense.fromMap(Map<String, dynamic> map) {
-    return donnesDepense(
+  factory problemeCentre.fromMap(Map<String, dynamic> map) {
+    return problemeCentre(
       uid: map['uid'] ?? '',
       description: map['description'] ?? '',
-      montant: map['montant']?.toInt() ?? 0,
       date: map['date'] ?? '',
       user_nom: map['user_nom'] ?? '',
       user_prenom: map['user_prenom'] ?? '',
@@ -83,22 +79,21 @@ class donnesDepense {
 
   String toJson() => json.encode(toMap());
 
-  factory donnesDepense.fromJson(String source) =>
-      donnesDepense.fromMap(json.decode(source));
+  factory problemeCentre.fromJson(String source) =>
+      problemeCentre.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'donnesDepense(uid: $uid, description: $description, montant: $montant, date: $date, user_nom: $user_nom, user_prenom: $user_prenom, user_uid: $user_uid)';
+    return 'problemeCentre(uid: $uid, description: $description, date: $date, user_nom: $user_nom, user_prenom: $user_prenom, user_uid: $user_uid)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is donnesDepense &&
+    return other is problemeCentre &&
         other.uid == uid &&
         other.description == description &&
-        other.montant == montant &&
         other.date == date &&
         other.user_nom == user_nom &&
         other.user_prenom == user_prenom &&
@@ -109,7 +104,6 @@ class donnesDepense {
   int get hashCode {
     return uid.hashCode ^
         description.hashCode ^
-        montant.hashCode ^
         date.hashCode ^
         user_nom.hashCode ^
         user_prenom.hashCode ^

@@ -2,10 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/bar_vente_list_credits.dart';
+import 'package:projet/interface/Bar_restaurant/stream_list_credit_client_servant_bar.dart';
+import 'package:projet/interface/Bar_restaurant/stream_statistique_journalier_vente_servant_bar.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
+
+import 'bar_enregistrer_credit_client.dart';
 
 class servantdrawer extends StatelessWidget {
   servantdrawer({Key? key}) : super(key: key);
@@ -84,6 +88,66 @@ class servantdrawer extends StatelessWidget {
                 title: Text("Signaler un problème".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/barsignalerprobleme");
+                },
+              ),
+              ListTile(
+                title: Text("Enregistrer le crédit d'un client".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              BarEnregistrerCreditClient())));
+                },
+              ),
+              ListTile(
+                title: Text("Crédits des clients".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamListCreditClientServantBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Statistique journalier de vente".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamStatistiqueJournalierVenteServantBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Statistique de crédits clients".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamStatistiqueCreditsServantBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Dépenses enregistrés".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamListDepenseServantBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Problèmes enregistrés".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamListProblemeServantBar())));
                 },
               ),
               ListTile(

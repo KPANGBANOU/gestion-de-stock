@@ -9,7 +9,10 @@ import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'centre_enregistrer_credit_client.dart';
-import 'centre_list_credits_clients.dart';
+import 'stream_list_credit_client_servant_centre.dart';
+import 'stream_list_depense_servant_centre.dart';
+import 'stream_list_probleme_servant_centre.dart';
+import 'stream_statistique_credit_servant_centre.dart';
 import 'vente_list_tee_shirt.dart';
 
 class CentreServantdrawer extends StatelessWidget {
@@ -111,17 +114,11 @@ class CentreServantdrawer extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              CentreListCreditsClientsServant())));
+                              StreamListCreditClientServantCentre())));
                 },
               ),
-                 ListTile(
+              ListTile(
                 title: Text("Statistique journalier de vente".toUpperCase()),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: ((context) => StreamStatistiqueJournalierVenteServantCentre( ))));
-                },
-              ),
-                 ListTile(
-                title: Text("Statistique de crédits clients".toUpperCase()),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -131,12 +128,23 @@ class CentreServantdrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                title: Text("Statistique de crédits clients".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamStatistiqueCreditsServantCentre())));
+                },
+              ),
+              ListTile(
                 title: Text("Dépenses enregistrés".toUpperCase()),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => DepenesServantCentre())));
+                          builder: ((context) =>
+                              StreamListDepenseServantCentre())));
                 },
               ),
               ListTile(
@@ -145,7 +153,8 @@ class CentreServantdrawer extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => ProblemesServantCentre+())));
+                          builder: ((context) =>
+                              StreamListProblemeServantCentre())));
                 },
               ),
               ListTile(

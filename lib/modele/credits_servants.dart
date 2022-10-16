@@ -11,29 +11,39 @@ class CreditsServants {
   final String description;
   final int montant;
   final String date_vente;
-  final String uid;
+  final String nom_servant;
+  final String prenom_servant;
+  final String servant_uid;
   final bool statut;
+  final String uid;
   CreditsServants({
     required this.nom_client,
     required this.prenom_client,
     required this.description,
     required this.montant,
     required this.date_vente,
-    required this.uid,
+    required this.nom_servant,
+    required this.prenom_servant,
+    required this.servant_uid,
     required this.statut,
+    required this.uid,
   });
 
   factory CreditsServants.fromFirestore(DocumentSnapshot document) {
     return CreditsServants(
-        statut: (document.data() as Map)['statut'],
         uid: document.id,
+        statut: (document.data() as Map)['statut'],
         nom_client: (document.data() as Map<String, dynamic>)['nom_client'],
         prenom_client:
             (document.data() as Map<String, dynamic>)['prenom_client'],
         description: (document.data() as Map<String, dynamic>)['description'],
         montant: (document.data() as Map)['montant'],
         date_vente: DateFormat('yyyy-MM-dd')
-            .format((document.data() as Map)['date_vente']));
+            .format((document.data() as Map)['date_vente']),
+        nom_servant: (document.data() as Map<String, dynamic>)['nom_servant'],
+        prenom_servant:
+            (document.data() as Map<String, dynamic>)['prenom_servant'],
+        servant_uid: (document.data() as Map<String, dynamic>)['servant_uid']);
   }
 
   CreditsServants copyWith({
@@ -42,8 +52,11 @@ class CreditsServants {
     String? description,
     int? montant,
     String? date_vente,
-    String? uid,
+    String? nom_servant,
+    String? prenom_servant,
+    String? servant_uid,
     bool? statut,
+    String? uid,
   }) {
     return CreditsServants(
       nom_client: nom_client ?? this.nom_client,
@@ -51,8 +64,11 @@ class CreditsServants {
       description: description ?? this.description,
       montant: montant ?? this.montant,
       date_vente: date_vente ?? this.date_vente,
-      uid: uid ?? this.uid,
+      nom_servant: nom_servant ?? this.nom_servant,
+      prenom_servant: prenom_servant ?? this.prenom_servant,
+      servant_uid: servant_uid ?? this.servant_uid,
       statut: statut ?? this.statut,
+      uid: uid ?? this.uid,
     );
   }
 
@@ -64,8 +80,11 @@ class CreditsServants {
     result.addAll({'description': description});
     result.addAll({'montant': montant});
     result.addAll({'date_vente': date_vente});
-    result.addAll({'uid': uid});
+    result.addAll({'nom_servant': nom_servant});
+    result.addAll({'prenom_servant': prenom_servant});
+    result.addAll({'servant_uid': servant_uid});
     result.addAll({'statut': statut});
+    result.addAll({'uid': uid});
 
     return result;
   }
@@ -77,8 +96,11 @@ class CreditsServants {
       description: map['description'] ?? '',
       montant: map['montant']?.toInt() ?? 0,
       date_vente: map['date_vente'] ?? '',
-      uid: map['uid'] ?? '',
+      nom_servant: map['nom_servant'] ?? '',
+      prenom_servant: map['prenom_servant'] ?? '',
+      servant_uid: map['servant_uid'] ?? '',
       statut: map['statut'] ?? false,
+      uid: map['uid'] ?? '',
     );
   }
 
@@ -89,7 +111,7 @@ class CreditsServants {
 
   @override
   String toString() {
-    return 'CreditsServants(nom_client: $nom_client, prenom_client: $prenom_client, description: $description, montant: $montant, date_vente: $date_vente, uid: $uid, statut: $statut)';
+    return 'CreditsServants(nom_client: $nom_client, prenom_client: $prenom_client, description: $description, montant: $montant, date_vente: $date_vente, nom_servant: $nom_servant, prenom_servant: $prenom_servant, servant_uid: $servant_uid, statut: $statut, uid: $uid)';
   }
 
   @override
@@ -102,8 +124,11 @@ class CreditsServants {
         other.description == description &&
         other.montant == montant &&
         other.date_vente == date_vente &&
-        other.uid == uid &&
-        other.statut == statut;
+        other.nom_servant == nom_servant &&
+        other.prenom_servant == prenom_servant &&
+        other.servant_uid == servant_uid &&
+        other.statut == statut &&
+        other.uid == uid;
   }
 
   @override
@@ -113,7 +138,10 @@ class CreditsServants {
         description.hashCode ^
         montant.hashCode ^
         date_vente.hashCode ^
-        uid.hashCode ^
-        statut.hashCode;
+        nom_servant.hashCode ^
+        prenom_servant.hashCode ^
+        servant_uid.hashCode ^
+        statut.hashCode ^
+        uid.hashCode;
   }
 }

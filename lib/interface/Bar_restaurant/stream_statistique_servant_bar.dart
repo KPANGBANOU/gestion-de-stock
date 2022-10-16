@@ -35,14 +35,12 @@ class StreamServantBar extends StatelessWidget {
                 is_active: true,
                 date_naissance: "")),
         StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .list_vente_servant_bar_petit_modele(this.uid)),
+            create: ((context) =>
+                context.read<serviceBD>().list_vente_grand_modele(this.uid)),
             initialData: <ventePetitModele>[]),
         StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .list_vente_servant_bar_grand_modele(this.uid)),
+            create: ((context) =>
+                context.read<serviceBD>().list_vente_petit_modele(this.uid)),
             initialData: <venteGrandModele>[]),
         StreamProvider(
             create: ((context) =>

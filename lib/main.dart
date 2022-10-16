@@ -13,6 +13,9 @@ import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/credits_servants.dart';
 import 'package:projet/modele/credits_vente.dart';
+import 'package:projet/modele/depense_centre.dart';
+import 'package:projet/modele/probleme.dart';
+import 'package:projet/modele/probleme_centre.dart';
 import 'package:projet/modele/serigraphie.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
@@ -126,13 +129,6 @@ class MyApp extends StatelessWidget {
                 is_active: true)),
 
         StreamProvider(
-          create: ((context) => context
-              .read<serviceBD>()
-              .credits_servant(FirebaseAuth.instance.currentUser!.uid)),
-          initialData: <CreditsServants>[],
-        ),
-
-        StreamProvider(
             create: ((context) =>
                 context.read<serviceBD>().tous_les_vente_tee_shirts),
             initialData: <venteteeshirts>[]),
@@ -188,10 +184,34 @@ class MyApp extends StatelessWidget {
         // list de vente
 
         StreamProvider(
-            create: ((context) => context
-                .read<serviceBD>()
-                .mesdepense(FirebaseAuth.instance.currentUser!.uid)),
-            initialData: const <donnesDepense>[]),
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_depense_centre),
+            initialData: const <DepenseCentre>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_depenses_bar),
+            initialData: <donnesDepense>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_problemes_bar),
+            initialData: <probleme>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().tous_les_problemes_centre),
+            initialData: <problemeCentre>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_credits_vente_bar),
+            initialData: <CreditsVente>[]),
+
+        StreamProvider(
+            create: ((context) =>
+                context.read<serviceBD>().list_produits_centre),
+            initialData: <CreditsServants>[]),
         // list of user
 
         StreamProvider(

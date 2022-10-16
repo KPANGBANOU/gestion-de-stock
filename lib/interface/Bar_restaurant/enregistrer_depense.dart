@@ -98,7 +98,7 @@ class BarEnregistrerDepense extends StatelessWidget {
 
                           try {
                             await FirebaseFirestore.instance
-                                .collection("bar_depenses")
+                                .collection("depenses")
                                 .add({
                               'user_uid': _donnesUser.uid,
                               'user_nom': _donnesUser.nom,

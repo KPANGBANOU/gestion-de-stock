@@ -15,6 +15,7 @@ class CreditsVente {
   final String prenom_servant;
   final String servant_uid;
   final bool statut;
+  final String uid;
   CreditsVente({
     required this.nom_client,
     required this.prenom_client,
@@ -25,10 +26,12 @@ class CreditsVente {
     required this.prenom_servant,
     required this.servant_uid,
     required this.statut,
+    required this.uid,
   });
 
   factory CreditsVente.fromFirestore(DocumentSnapshot document) {
     return CreditsVente(
+        uid: document.id,
         statut: (document.data() as Map)['statut'],
         nom_client: (document.data() as Map<String, dynamic>)['nom_client'],
         prenom_client:
@@ -53,6 +56,7 @@ class CreditsVente {
     String? prenom_servant,
     String? servant_uid,
     bool? statut,
+    String? uid,
   }) {
     return CreditsVente(
       nom_client: nom_client ?? this.nom_client,
@@ -64,6 +68,7 @@ class CreditsVente {
       prenom_servant: prenom_servant ?? this.prenom_servant,
       servant_uid: servant_uid ?? this.servant_uid,
       statut: statut ?? this.statut,
+      uid: uid ?? this.uid,
     );
   }
 
@@ -79,6 +84,7 @@ class CreditsVente {
     result.addAll({'prenom_servant': prenom_servant});
     result.addAll({'servant_uid': servant_uid});
     result.addAll({'statut': statut});
+    result.addAll({'uid': uid});
 
     return result;
   }
@@ -94,6 +100,7 @@ class CreditsVente {
       prenom_servant: map['prenom_servant'] ?? '',
       servant_uid: map['servant_uid'] ?? '',
       statut: map['statut'] ?? false,
+      uid: map['uid'] ?? '',
     );
   }
 
@@ -104,7 +111,7 @@ class CreditsVente {
 
   @override
   String toString() {
-    return 'CreditsVente(nom_client: $nom_client, prenom_client: $prenom_client, description: $description, montant: $montant, date_vente: $date_vente, nom_servant: $nom_servant, prenom_servant: $prenom_servant, servant_uid: $servant_uid, statut: $statut)';
+    return 'CreditsVente(nom_client: $nom_client, prenom_client: $prenom_client, description: $description, montant: $montant, date_vente: $date_vente, nom_servant: $nom_servant, prenom_servant: $prenom_servant, servant_uid: $servant_uid, statut: $statut, uid: $uid)';
   }
 
   @override
@@ -120,7 +127,8 @@ class CreditsVente {
         other.nom_servant == nom_servant &&
         other.prenom_servant == prenom_servant &&
         other.servant_uid == servant_uid &&
-        other.statut == statut;
+        other.statut == statut &&
+        other.uid == uid;
   }
 
   @override
@@ -133,6 +141,7 @@ class CreditsVente {
         nom_servant.hashCode ^
         prenom_servant.hashCode ^
         servant_uid.hashCode ^
-        statut.hashCode;
+        statut.hashCode ^
+        uid.hashCode;
   }
 }

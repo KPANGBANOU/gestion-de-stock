@@ -2,13 +2,13 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
 
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
-class CentreEnregistrerCreditClient extends StatelessWidget {
-  CentreEnregistrerCreditClient({Key? key}) : super(key: key);
+class BarEnregistrerCreditClient extends StatelessWidget {
+  BarEnregistrerCreditClient({Key? key}) : super(key: key);
 
   @override
   TextEditingController nomClient = TextEditingController();
@@ -24,7 +24,7 @@ class CentreEnregistrerCreditClient extends StatelessWidget {
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
 
     return Scaffold(
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         backgroundColor: Colors.greenAccent,
         appBar: AppBar(
           centerTitle: true,
@@ -185,7 +185,7 @@ class CentreEnregistrerCreditClient extends StatelessWidget {
                           montantCredit = int.parse(montant.text);
 
                           await FirebaseFirestore.instance
-                              .collection("credits_centre")
+                              .collection("credits")
                               .add({
                             "statut": false,
                             "nom_client": nomClient.text,

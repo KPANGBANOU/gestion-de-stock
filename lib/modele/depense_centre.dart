@@ -1,11 +1,11 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-// ignore_for_file: non_constant_identifier_names, camel_case_types
-
-class donnesDepense {
+class DepenseCentre {
   final String uid;
   final String description;
   final int montant;
@@ -13,7 +13,7 @@ class donnesDepense {
   final String user_nom;
   final String user_prenom;
   final String user_uid;
-  donnesDepense({
+  DepenseCentre({
     required this.uid,
     required this.description,
     required this.montant,
@@ -23,8 +23,8 @@ class donnesDepense {
     required this.user_uid,
   });
 
-  factory donnesDepense.fromFirestore(DocumentSnapshot document) {
-    return donnesDepense(
+  factory DepenseCentre.fromFirestore(DocumentSnapshot document) {
+    return DepenseCentre(
         user_uid: (document.data() as Map<String, dynamic>)['user_uid'],
         date: DateFormat('yyyy-MM-dd')
             .format((document.data() as Map)['created_at']),
@@ -35,7 +35,7 @@ class donnesDepense {
         montant: (document.data() as Map)['montant']);
   }
 
-  donnesDepense copyWith({
+  DepenseCentre copyWith({
     String? uid,
     String? description,
     int? montant,
@@ -44,7 +44,7 @@ class donnesDepense {
     String? user_prenom,
     String? user_uid,
   }) {
-    return donnesDepense(
+    return DepenseCentre(
       uid: uid ?? this.uid,
       description: description ?? this.description,
       montant: montant ?? this.montant,
@@ -69,8 +69,8 @@ class donnesDepense {
     return result;
   }
 
-  factory donnesDepense.fromMap(Map<String, dynamic> map) {
-    return donnesDepense(
+  factory DepenseCentre.fromMap(Map<String, dynamic> map) {
+    return DepenseCentre(
       uid: map['uid'] ?? '',
       description: map['description'] ?? '',
       montant: map['montant']?.toInt() ?? 0,
@@ -83,19 +83,19 @@ class donnesDepense {
 
   String toJson() => json.encode(toMap());
 
-  factory donnesDepense.fromJson(String source) =>
-      donnesDepense.fromMap(json.decode(source));
+  factory DepenseCentre.fromJson(String source) =>
+      DepenseCentre.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'donnesDepense(uid: $uid, description: $description, montant: $montant, date: $date, user_nom: $user_nom, user_prenom: $user_prenom, user_uid: $user_uid)';
+    return 'DepenseCentre(uid: $uid, description: $description, montant: $montant, date: $date, user_nom: $user_nom, user_prenom: $user_prenom, user_uid: $user_uid)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is donnesDepense &&
+    return other is DepenseCentre &&
         other.uid == uid &&
         other.description == description &&
         other.montant == montant &&
