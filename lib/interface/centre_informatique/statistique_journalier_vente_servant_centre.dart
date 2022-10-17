@@ -15,6 +15,7 @@ import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'statistique_journalier_centre_servant_credit_produit.dart';
+import 'statistique_journalier_general_servant_centre.dart';
 import 'statistique_journalier_servant_centre_credit.dart';
 import 'statistique_journalier_servant_centre_credit_tee_shirt.dart';
 import 'statistique_journalier_servant_centre_produit.dart';

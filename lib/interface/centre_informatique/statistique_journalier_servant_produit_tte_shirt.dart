@@ -68,6 +68,31 @@ class StatistiqueJournalierServantCentreProduitTeeShirt
       produit_sizebox = MediaQuery.of(context).size.height;
     }
 
+    if (_listVente_tee_shirt.isEmpty ||
+        _list_tee_shirt.isEmpty ||
+        _listVente_produits.isEmpty ||
+        _list_produits.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.greenAccent,
+        drawer: CentreServantdrawer(),
+        appBar: AppBar(
+          title: Text(
+            _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
         backgroundColor: Colors.greenAccent,
         drawer: CentreServantdrawer(),

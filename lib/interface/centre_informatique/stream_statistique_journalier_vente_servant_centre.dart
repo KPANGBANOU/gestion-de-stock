@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
 
+import 'statistique_journalier_vente_servant_centre.dart';
+
 class StreamStatistiqueJournalierVenteServantCentre extends StatelessWidget {
   StreamStatistiqueJournalierVenteServantCentre({
     Key? key,

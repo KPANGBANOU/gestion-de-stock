@@ -3,30 +3,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/modele/centre_vente.dart';
-import 'package:projet/modele/produit.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+
+import 'package:projet/modele/credit.dart';
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
-class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
-  StatistiqueJournalierServantCentreProduit({super.key});
+import '../../modele/vente_credit.dart';
+
+class StatistiqueJournalierServantBarCredit extends StatelessWidget {
+  StatistiqueJournalierServantBarCredit({super.key});
   late int credit_lenght = 0;
   late double credit_sizebox = 0;
   late int total_credit = 0;
   late int montant_credit_vendu = 0;
   late int nombre_vente_credit;
-  late int quantite = 0;
   late String day = DateFormat('dd').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
-    final _listVente_produits = Provider.of<List<centreVente>>(context);
-    final _list_produits = Provider.of<List<products>>(context);
+    final _listVenteCredit = Provider.of<List<venteCredit>>(context);
+    final _list_credits = Provider.of<List<credit>>(context);
 
-    credit_lenght = _list_produits.length;
+    credit_lenght = _list_credits.length;
 
     if (credit_lenght <= 5) {
       credit_sizebox = 180;
@@ -40,9 +41,53 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
       credit_sizebox = MediaQuery.of(context).size.height;
     }
 
+    if (_listVenteCredit.isEmpty && _list_credits.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.greenAccent,
+        drawer: servantdrawer(),
+        appBar: AppBar(
+          title: Text(
+            _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
+    if (_listVenteCredit.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.greenAccent,
+        drawer: servantdrawer(),
+        appBar: AppBar(
+          title: Text(
+            _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
@@ -64,7 +109,7 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Votre statistique journalier de vente au niveau du centre informatique de l'entreprise Déo Gracias"
+                  "Votre statistique journalier de vente au niveau du bar restaurant de l'entreprise Déo Gracias"
                       .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -81,7 +126,7 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
                 height: 45,
                 color: Colors.redAccent.withOpacity(.7),
                 child: Text(
-                  "Vente de produits".toUpperCase(),
+                  "Vente de crédits".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
@@ -104,21 +149,14 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Produit",
+                        "Crédit",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Quantité",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
-                      ),
-                      Text(
-                        "Montant",
+                        "Montant vendu",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -135,12 +173,11 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      products _credit = _list_produits[index];
+                      credit _credit = _list_credits[index];
 
-                      _listVente_produits.forEach((element) {
-                        if (element.vente_day == day) {
+                      _listVenteCredit.forEach((element) {
+                        if (element.date_vente_day == day) {
                           nombre_vente_credit++;
-                          quantite += element.quantite;
                           montant_credit_vendu += element.montant;
                           total_credit += element.montant;
                         }
@@ -158,13 +195,7 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
                               Text(
                                 _credit.nom,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                quantite.toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
@@ -180,10 +211,9 @@ class StatistiqueJournalierServantCentreProduit extends StatelessWidget {
                       return Container();
                       nombre_vente_credit = 0;
                       montant_credit_vendu = 0;
-                      quantite = 0;
                     }),
                     separatorBuilder: ((context, index) => Divider()),
-                    itemCount: _list_produits.length),
+                    itemCount: _list_credits.length),
               ),
               SizedBox(
                 height: 10,

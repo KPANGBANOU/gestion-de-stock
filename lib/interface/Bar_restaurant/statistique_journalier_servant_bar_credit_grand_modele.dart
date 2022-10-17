@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
 
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/modele/centre_vente.dart';
-import 'package:projet/modele/produit.dart';
+import 'package:projet/modele/bierre_grand_model.dart';
+import 'package:projet/modele/vente_grand_modele.dart';
+
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
@@ -13,8 +14,8 @@ import 'package:provider/provider.dart';
 import '../../modele/credit.dart';
 import '../../modele/vente_credit.dart';
 
-class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
-  StatistiqueJournalierServantCentreCreditProduit({super.key});
+class StatistiqueJournalierServantBarCreditGrandModele extends StatelessWidget {
+  StatistiqueJournalierServantBarCreditGrandModele({super.key});
   late int produit_lenght = 0;
   late double produit_sizebox = 0;
   late int total_produit = 0;
@@ -34,8 +35,8 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
-    final _listVente_produits = Provider.of<List<centreVente>>(context);
-    final _list_produits = Provider.of<List<products>>(context);
+    final _listVente_produits = Provider.of<List<venteGrandModele>>(context);
+    final _list_produits = Provider.of<List<donnesBierresGrandModel>>(context);
     final _listVenteCredit = Provider.of<List<venteCredit>>(context);
     final _list_credits = Provider.of<List<credit>>(context);
 
@@ -67,13 +68,13 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
       produit_sizebox = MediaQuery.of(context).size.height;
     }
 
-    if (_listVenteCredit.isEmpty ||
-        _list_credits.isEmpty ||
-        _listVente_produits.isEmpty ||
+    if (_listVenteCredit.isEmpty &&
+        _list_credits.isEmpty &&
+        _listVente_produits.isEmpty &&
         _list_produits.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
@@ -92,9 +93,29 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
       );
     }
 
+    if (_listVenteCredit.isEmpty || _listVente_produits.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.greenAccent,
+        drawer: servantdrawer(),
+        appBar: AppBar(
+          title: Text(
+            _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: CircularProgressIndicator(color: Colors.white),
+        ),
+      );
+    }
+
     return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
@@ -116,7 +137,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Votre statistique journalier de vente au niveau du centre informatique de l'entreprise Déo Gracias"
+                  "Votre statistique journalier de vente au niveau du bar restaurant de l'entreprise Déo Gracias"
                       .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -133,7 +154,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                 height: 45,
                 color: Colors.redAccent.withOpacity(.7),
                 child: Text(
-                  "Vente de produits".toUpperCase(),
+                  "Vente de bièrres grand modèle".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
@@ -156,7 +177,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Produit",
+                        "Bièrre",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
@@ -187,10 +208,10 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      products _credit = _list_produits[index];
+                      donnesBierresGrandModel _credit = _list_produits[index];
 
                       _listVente_produits.forEach((element) {
-                        if (element.vente_day == day) {
+                        if (element.date_vente_day == day) {
                           nombre_vente_produit++;
                           quantite += element.quantite;
                           montant_produit_vendu += element.montant;
@@ -254,7 +275,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Montant total produits",
+                        "Montant total bièrres",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -263,7 +284,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                       Text(
                         total_produit.toString() + " F",
                         style: TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold),
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),

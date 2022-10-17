@@ -1,15 +1,17 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, must_be_immutable, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/interface/Bar_restaurant/stream_list_credit_client_servant_bar.dart';
 
 import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/interface/centre_informatique/stream_list_credit_client_servant_centre.dart';
-import 'package:projet/modele/credits_servants.dart';
+
+import 'package:projet/modele/credits_vente.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
-class StatistiqueCreditServantCentre extends StatelessWidget {
-  StatistiqueCreditServantCentre({
+class StatistiqueCreditServantBar extends StatelessWidget {
+  StatistiqueCreditServantBar({
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +21,7 @@ class StatistiqueCreditServantCentre extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilisateur = Provider.of<Utilisateur>(context);
     final _user = Provider.of<donnesUtilisateur>(context);
-    final _list_credit = Provider.of<List<CreditsServants>>(context);
+    final _list_credit = Provider.of<List<CreditsVente>>(context);
 
     _list_credit.forEach((element) {
       total_credit += element.montant;
@@ -28,7 +30,7 @@ class StatistiqueCreditServantCentre extends StatelessWidget {
     if (_list_credit.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -131,7 +133,7 @@ class StatistiqueCreditServantCentre extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              StreamListCreditClientServantCentre())));
+                              StreamListCreditClientServantBar())));
                 }),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

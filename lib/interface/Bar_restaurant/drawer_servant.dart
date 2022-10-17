@@ -10,6 +10,9 @@ import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'bar_enregistrer_credit_client.dart';
+import 'stream_list_depense_servant_bar.dart';
+import 'stream_list_probleme_servant_bar.dart';
+import 'stream_statistique_credit_servant_bar.dart';
 
 class servantdrawer extends StatelessWidget {
   servantdrawer({Key? key}) : super(key: key);

@@ -2,19 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/modele/bieere_petit_model.dart';
+import 'package:projet/modele/bierre_grand_model.dart';
 
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
-import 'package:projet/modele/centre_vente.dart';
-import 'package:projet/modele/produit.dart';
+import 'package:projet/modele/vente_grand_modele.dart';
+import 'package:projet/modele/vente_petit_modele.dart';
+
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../modele/credit.dart';
-import '../../modele/vente_credit.dart';
-
-class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
-  StatistiqueJournalierServantCentreCreditProduit({super.key});
+class StatistiqueJournalierServantBarPetitGrandModele extends StatelessWidget {
+  StatistiqueJournalierServantBarPetitGrandModele({super.key});
   late int produit_lenght = 0;
   late double produit_sizebox = 0;
   late int total_produit = 0;
@@ -23,34 +23,35 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
   late int quantite = 0;
   late String day = DateFormat('dd').format(DateTime.now());
 
-  late int credit_lenght = 0;
-  late double credit_sizebox = 0;
-  late int total_credit = 0;
-  late int montant_credit_vendu = 0;
-  late int nombre_vente_credit;
+  late int tee_shirt_lenght = 0;
+  late double tee_shirt_sizebox = 0;
+  late int total_tee_shirt = 0;
+  late int montant_tee_shirt_vendu = 0;
+  late int nombre_vente_tee_shirt;
+  late int quantite_tee_shirt = 0;
 
   late int totaux = 0;
 
   @override
   Widget build(BuildContext context) {
     final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
-    final _listVente_produits = Provider.of<List<centreVente>>(context);
-    final _list_produits = Provider.of<List<products>>(context);
-    final _listVenteCredit = Provider.of<List<venteCredit>>(context);
-    final _list_credits = Provider.of<List<credit>>(context);
+    final _listVente_produits = Provider.of<List<ventePetitModele>>(context);
+    final _list_produits = Provider.of<List<donneesBieerePetitModele>>(context);
+    final _listVente_tee_shirt = Provider.of<List<venteGrandModele>>(context);
+    final _list_tee_shirt = Provider.of<List<donnesBierresGrandModel>>(context);
 
-    credit_lenght = _list_credits.length;
+    tee_shirt_lenght = _list_tee_shirt.length;
 
-    if (credit_lenght <= 5) {
-      credit_sizebox = 180;
-    } else if (credit_lenght <= 20) {
-      credit_sizebox = 350;
-    } else if (credit_lenght <= 30) {
-      credit_sizebox = 500;
-    } else if (credit_lenght <= 50) {
-      credit_sizebox = 600;
+    if (tee_shirt_lenght <= 5) {
+      tee_shirt_sizebox = 180;
+    } else if (tee_shirt_lenght <= 20) {
+      tee_shirt_sizebox = 350;
+    } else if (tee_shirt_lenght <= 30) {
+      tee_shirt_sizebox = 500;
+    } else if (tee_shirt_lenght <= 50) {
+      tee_shirt_sizebox = 600;
     } else {
-      credit_sizebox = MediaQuery.of(context).size.height;
+      tee_shirt_sizebox = MediaQuery.of(context).size.height;
     }
 
     produit_lenght = _list_produits.length;
@@ -67,13 +68,13 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
       produit_sizebox = MediaQuery.of(context).size.height;
     }
 
-    if (_listVenteCredit.isEmpty ||
-        _list_credits.isEmpty ||
-        _listVente_produits.isEmpty ||
+    if (_listVente_tee_shirt.isEmpty &&
+        _listVente_produits.isEmpty &&
+        _list_tee_shirt.isEmpty &&
         _list_produits.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
@@ -92,9 +93,30 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
       );
     }
 
+    if (_listVente_tee_shirt.isEmpty || _listVente_produits.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.greenAccent,
+        drawer: servantdrawer(),
+        appBar: AppBar(
+          title: Text(
+            _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
     return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: CentreServantdrawer(),
+        drawer: servantdrawer(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom + " " + _donnesUtilisateur.nom,
@@ -116,7 +138,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Votre statistique journalier de vente au niveau du centre informatique de l'entreprise Déo Gracias"
+                  "Votre statistique journalier de vente au niveau du bar restaurant de l'entreprise Déo Gracias"
                       .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -133,7 +155,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                 height: 45,
                 color: Colors.redAccent.withOpacity(.7),
                 child: Text(
-                  "Vente de produits".toUpperCase(),
+                  "Vente de pétits modèles".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
@@ -156,7 +178,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Produit",
+                        "Bièrre",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
@@ -187,10 +209,10 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      products _credit = _list_produits[index];
+                      donneesBieerePetitModele _credit = _list_produits[index];
 
                       _listVente_produits.forEach((element) {
-                        if (element.vente_day == day) {
+                        if (element.date_vente_day == day) {
                           nombre_vente_produit++;
                           quantite += element.quantite;
                           montant_produit_vendu += element.montant;
@@ -254,7 +276,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Montant total produits",
+                        "Total vente pétit modèle",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -280,7 +302,7 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                 height: 45,
                 color: Colors.redAccent.withOpacity(.7),
                 child: Text(
-                  "Vente de crédits".toUpperCase(),
+                  "Vente de grands modèles".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
@@ -303,14 +325,21 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Crédit",
+                        "Bièrre",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Montant vendu",
+                        "Quantité",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22),
+                      ),
+                      Text(
+                        "Montant",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -321,25 +350,26 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: credit_sizebox,
+                height: tee_shirt_sizebox,
                 child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      credit _credit = _list_credits[index];
+                      donnesBierresGrandModel _credit = _list_tee_shirt[index];
 
-                      _listVenteCredit.forEach((element) {
+                      _listVente_tee_shirt.forEach((element) {
                         if (element.date_vente_day == day) {
-                          nombre_vente_credit++;
-                          montant_credit_vendu += element.montant;
-                          total_credit += element.montant;
+                          nombre_vente_tee_shirt++;
+                          quantite_tee_shirt += element.quantite;
+                          montant_tee_shirt_vendu += element.montant;
+                          total_tee_shirt += element.montant;
                         }
 
-                        totaux += total_credit;
+                        totaux += total_tee_shirt;
                       });
 
-                      if (nombre_vente_credit > 0) {
+                      if (nombre_vente_tee_shirt > 0) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -355,7 +385,13 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                montant_credit_vendu.toString() + " F",
+                                quantite_tee_shirt.toString() + " F",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                montant_tee_shirt_vendu.toString() + " F",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
@@ -365,11 +401,12 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                         );
                       }
                       return Container();
-                      nombre_vente_credit = 0;
-                      montant_credit_vendu = 0;
+                      nombre_vente_tee_shirt = 0;
+                      montant_tee_shirt_vendu = 0;
+                      quantite_tee_shirt = 0;
                     }),
                     separatorBuilder: ((context, index) => Divider()),
-                    itemCount: _list_credits.length),
+                    itemCount: _list_tee_shirt.length),
               ),
               SizedBox(
                 height: 10,
@@ -386,14 +423,14 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Montant total crédit",
+                        "total vente grand modèle".toUpperCase(),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        total_credit.toString() + " F",
+                        total_tee_shirt.toString() + " F",
                         style: TextStyle(
                             color: Colors.green, fontWeight: FontWeight.bold),
                       )
@@ -431,6 +468,9 @@ class StatistiqueJournalierServantCentreCreditProduit extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 70,
+              )
             ],
           ),
         ));

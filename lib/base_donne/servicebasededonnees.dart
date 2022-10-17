@@ -7,13 +7,13 @@ import 'package:projet/modele/bierre_grand_model.dart';
 
 import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/modele/budget_centre.dart';
-import 'package:projet/modele/centre_depense.dart';
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/credits_servants.dart';
 import 'package:projet/modele/credits_vente.dart';
 
 import 'package:projet/modele/depense.dart';
+import 'package:projet/modele/depense_centre.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/probleme.dart';
 import 'package:projet/modele/probleme_centre.dart';
@@ -151,19 +151,13 @@ class serviceBD {
   }
 
   Stream<List<venteGrandModele>> get tous_les_ventes_grand_modeles {
-    return _Ref.collection("ventes")
-        .where("type", isEqualTo: "Grand modèle")
-        .snapshots()
-        .map((event) =>
-            event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
+    return _Ref.collection("ventes_grand_modele").snapshots().map((event) =>
+        event.docs.map((e) => venteGrandModele.fromFirestore(e)).toList());
   }
 
   Stream<List<ventePetitModele>> get tous_les_ventes_petit_modeles {
-    return _Ref.collection("ventes")
-        .where("type", isEqualTo: "Pétit modèle")
-        .snapshots()
-        .map((event) =>
-            event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
+    return _Ref.collection("ventes_petit_modele").snapshots().map((event) =>
+        event.docs.map((e) => ventePetitModele.fromFirestore(e)).toList());
   }
 
   Stream<List<venteCredit>> get tous_les_ventes_credits {
@@ -335,26 +329,26 @@ class serviceBD {
 
   // list of depense par employé
 
-  Stream<List<centreDepense>> list_depense_centre(String user_id) {
+  Stream<List<DepenseCentre>> list_depense_centre(String user_id) {
     return _Ref.collection("depenses_centre")
         .where("user_uid", isEqualTo: user_id)
         .snapshots()
         .map((documents) => documents.docs
-            .map((snap) => centreDepense.fromfirestore(snap))
+            .map((snap) => DepenseCentre.fromFirestore(snap))
             .toList());
   }
 
-  Stream<centreDepense> depense_centre(String depense_id) {
+  Stream<DepenseCentre> depense_centre(String depense_id) {
     return _Ref.collection("depenses_centre")
         .doc(depense_id)
         .snapshots()
-        .map((documents) => centreDepense.fromfirestore(documents));
+        .map((documents) => DepenseCentre.fromFirestore(documents));
   }
 
-  Stream<List<centreDepense>> get tous_les_depense_centre {
+  Stream<List<DepenseCentre>> get tous_les_depense_centre {
     return _Ref.collection("depenses_centre").snapshots().map((documents) =>
         documents.docs
-            .map((snap) => centreDepense.fromfirestore(snap))
+            .map((snap) => DepenseCentre.fromFirestore(snap))
             .toList());
   }
 

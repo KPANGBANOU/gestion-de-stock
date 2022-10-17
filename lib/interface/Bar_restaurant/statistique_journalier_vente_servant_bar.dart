@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/interface/Bar_restaurant/statistique_journalier_servant_bar__petit_grand_modele.dart';
 
-import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 
 import 'package:projet/services/user.dart';
@@ -15,6 +15,12 @@ import '../../modele/bierre_grand_model.dart';
 import '../../modele/credit.dart';
 import '../../modele/vente_credit.dart';
 import '../../modele/vente_petit_modele.dart';
+import 'statistique_journalier_general_servant_bar.dart';
+import 'statistique_journalier_servant_bar_credit.dart';
+import 'statistique_journalier_servant_bar_credit_grand_modele.dart';
+import 'statistique_journalier_servant_bar_grand_modele.dart';
+import 'statistique_journalier_servant_bar_petit_modele.dart';
+import 'statistique_journalier_servant_credit_petit_modele.dart';
 
 class StatistiqueJournalierVenteServantBar extends StatelessWidget {
   StatistiqueJournalierVenteServantBar({
@@ -123,7 +129,7 @@ class StatistiqueJournalierVenteServantBar extends StatelessWidget {
     if (nbre_vente_credit <= 0 &&
         nbre_vente_produit > 0 &&
         nbre_vente_tee_shirt <= 0) {
-      return StatistiqueJournalierServantBarPetitModele;
+      return StatistiqueJournalierServantBarPetitModele();
     }
 
     if (nbre_vente_credit <= 0 &&
@@ -147,7 +153,7 @@ class StatistiqueJournalierVenteServantBar extends StatelessWidget {
     if (nbre_vente_credit <= 0 &&
         nbre_vente_produit > 0 &&
         nbre_vente_tee_shirt > 0) {
-      return StatistiqueJournalierServantBarPetitModeleTeeShirt();
+      return StatistiqueJournalierServantBarPetitGrandModele();
     }
 
     return StatistiqueJournalierGeneralServantBar();
