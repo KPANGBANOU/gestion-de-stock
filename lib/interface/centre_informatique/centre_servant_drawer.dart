@@ -9,6 +9,7 @@ import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'centre_enregistrer_credit_client.dart';
+import 'parametre_servant_centre.dart';
 import 'stream_list_credit_client_servant_centre.dart';
 import 'stream_list_depense_servant_centre.dart';
 import 'stream_list_probleme_servant_centre.dart';
@@ -105,6 +106,15 @@ class CentreServantdrawer extends StatelessWidget {
                 title: Text("Signaler un problème".toUpperCase()),
                 onTap: () {
                   Navigator.pushNamed(context, "/centreenregistrerprobleme");
+                },
+              ),
+              ListTile(
+                title: Text("Paramètres".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ParametreServantCentre())));
                 },
               ),
               ListTile(

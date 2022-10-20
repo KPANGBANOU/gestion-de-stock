@@ -63,7 +63,6 @@ import 'interface/listes_utilisateurs.dart';
 import 'interface/suppression_compte.dart';
 
 import 'interface/wrapper.dart';
-import 'interface/zoom.dart';
 import 'modele/bieere_petit_model.dart';
 import 'modele/bierre_grand_model.dart';
 import 'modele/budgetBar.dart';
@@ -244,7 +243,6 @@ class MyApp extends StatelessWidget {
             "/creercompte": (context) => RegisterPage(),
             "/bar": (context) => Bar(),
             "/centreInformatique": (context) => CentreInterfacePage(),
-            "/zoom": (context) => Zoom(),
             "/listeEmployes": (context) => ListeUtilisateurs(),
             "/home": (context) => HomePage(),
             "/barbenefices": (context) => BeneficeBar(),

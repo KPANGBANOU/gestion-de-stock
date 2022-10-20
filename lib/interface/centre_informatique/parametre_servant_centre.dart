@@ -1,19 +1,18 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/drawer.dart';
+import 'package:projet/interface/centre_informatique/centre_servant_drawer.dart';
+import 'package:projet/interface/profil.dart';
 
-import 'modifier_email_rapport.dart';
-import 'modifier_numero_watsapp_rapport.dart';
-import 'modifier_password_admin.dart';
+import 'modifier_password_servant_centre.dart';
 
-class ParametresAdmin extends StatelessWidget {
-  const ParametresAdmin({Key? key}) : super(key: key);
+class ParametreServantCentre extends StatelessWidget {
+  const ParametreServantCentre({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: DrawerHome(),
+        drawer: CentreServantdrawer(),
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -37,7 +36,7 @@ class ParametresAdmin extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Pramètres d'administration du logiciel ".toUpperCase(),
+                  "Pramètres d'usage du logiciel ".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
@@ -53,34 +52,11 @@ class ParametresAdmin extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, textStyle: TextStyle()),
                 onPressed: (() {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => ModifierEmailRapport())));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => Profil())));
                 }),
                 child: Text(
-                  "Modifier l'email de réception de rapports de vente",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(
-                color: Colors.black,
-                width: double.infinity,
-                height: 2,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, textStyle: TextStyle()),
-                onPressed: (() {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => ModifierPasswordAdmin())));
-                }),
-                child: Text(
-                  "Ajouter un contact de l'entreprise",
+                  "Modifier votre profil",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
@@ -99,10 +75,10 @@ class ParametresAdmin extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              ModifierNumeroWatsappRapport())));
+                              ModifierPasswordServantCentre())));
                 }),
                 child: Text(
-                  "Modifier le numero watsapp de reception de rapport",
+                  "Modifier votre mot de passe",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
