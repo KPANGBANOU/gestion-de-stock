@@ -5,6 +5,8 @@ import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:provider/provider.dart';
 
+import 'statistique_journalier_list_employe_centre.dart';
+
 class StreamStatistiqueJournalierListEmployeCentre extends StatelessWidget {
   const StreamStatistiqueJournalierListEmployeCentre({super.key});
 

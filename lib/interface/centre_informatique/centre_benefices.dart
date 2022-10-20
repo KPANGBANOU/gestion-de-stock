@@ -64,14 +64,17 @@ class CentreBenefices extends StatelessWidget {
             SizedBox(
               height: 50,
             ),
-            Text(
-              "Bénéfice réalisé au niveau du centre informatique de l'entreprise Déo Gracias"
-                  .toUpperCase(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Bénéfice réalisé au niveau du centre informatique de l'entreprise Déo Gracias"
+                    .toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SizedBox(
@@ -167,7 +170,7 @@ class CentreBenefices extends StatelessWidget {
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
                         Text(
-                          "Bénéfice réalisés".toUpperCase(),
+                          "Bénéfice brute".toUpperCase(),
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),

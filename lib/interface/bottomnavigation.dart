@@ -35,13 +35,6 @@ class bottomNavigation extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.business,
-            color: Colors.black,
-          ),
-          label: 'services',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
             Icons.contact_phone,
             color: Colors.black,
           ),

@@ -32,12 +32,10 @@ import 'base_donne/servicebasededonnees.dart';
 import 'interface/Bar_restaurant/accueil_servant_bar.dart';
 import 'interface/Bar_restaurant/bar_signaler_probleme.dart';
 import 'interface/Bar_restaurant/benefices.dart';
-import 'interface/Bar_restaurant/depenses.dart';
 import 'interface/Bar_restaurant/enregistrer_depense.dart';
 import 'interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
 import 'interface/Bar_restaurant/interface_bar_restaurant.dart';
 
-import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
 import 'interface/accueil.dart';
 import 'interface/centre_informatique/centre_approvisionner_list_produits.dart';
@@ -45,7 +43,7 @@ import 'interface/centre_informatique/centre_enregistrer_depense.dart';
 import 'interface/centre_informatique/centre_enregistrer_nouveau_produit.dart';
 import 'interface/centre_informatique/centre_enregistrer_nouveau_reseau_credit.dart';
 import 'interface/centre_informatique/centre_enregistrer_probleme.dart';
-import 'interface/centre_informatique/centre_pertes.dart';
+
 import 'interface/centre_informatique/centre_approvisionnement.dart';
 import 'interface/centre_informatique/centre_benefices.dart';
 import 'interface/centre_informatique/centre_liquidite_credit.dart';
@@ -62,7 +60,7 @@ import 'interface/interface_centre_informatique.dart';
 import 'interface/listes_utilisateurs.dart';
 
 import 'interface/suppression_compte.dart';
-import 'interface/welcome.dart';
+
 import 'interface/wrapper.dart';
 import 'interface/zoom.dart';
 import 'modele/bieere_petit_model.dart';
@@ -243,9 +241,6 @@ class MyApp extends StatelessWidget {
             "/listeEmployes": (context) => ListeUtilisateurs(),
             "/home": (context) => HomePage(),
             "/barbenefices": (context) => BeneficeBar(),
-            "/bardepenses": (context) => DepensesBar(),
-            "/barpertes": (context) => PertesBar(),
-            "/welcome": (context) => WelcomePage(),
             "/login": (context) => LoginPage(),
             "/barsavanewproduct": (context) =>
                 EnregistrerNouvelBierreFormPage(),
@@ -275,7 +270,6 @@ class MyApp extends StatelessWidget {
                 CentreEnregistrerNouveauProduit(),
             "/centreenregistrernouveaureseaucredit": (context) =>
                 CentreEnregistrerNouveauReseauCredit(),
-            "/centrepertes": (context) => CentrePertes(),
             "/centrestockphysique": (context) =>
                 CentreStockPhysiqueListProduits(),
             "/centreapprovisionnement": (context) => CentreApprovisionnement(),

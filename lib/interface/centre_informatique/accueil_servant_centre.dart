@@ -12,78 +12,75 @@ class AccueilServantCentre extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final utilisateur = Provider.of<Utilisateur>(context);
-    final donnes = Provider.of<donnesUtilisateur?>(context);
+    final donnes = Provider.of<donnesUtilisateur>(context);
 
     return Scaffold(
       backgroundColor: Colors.greenAccent,
-      drawer: CentreServantdrawer(),
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         centerTitle: true,
         elevation: 0,
-        title: Text("Déo Gracias Gestion"),
+        title: Text(
+          donnes.prenom + " " + donnes.nom,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
+      drawer: CentreServantdrawer(),
       body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  "DéoGracias App",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
-                ),
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 4, right: 4),
+              child: Text(
+                "Déo Gracias".toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    letterSpacing: 3,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                height: 90,
+            ),
+            SizedBox(
+              height: 90,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8, top: 1, bottom: 25),
+              child: Text(
+                "bienvenues ".toUpperCase() +
+                    donnes.prenom.toUpperCase() +
+                    " " +
+                    donnes.nom.toUpperCase() +
+                    " sur DéoGracias , l'application de gestion de stock du centre informatique de cette entreprise"
+                        .toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                    fontSize: 22,
+                    color: Colors.white.withOpacity(.9)),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8,
-                  top: 8,
-                ),
-                child: Text(
-                  donnes!.nom.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 4.0, right: 4, bottom: 50, top: 50),
+              child: Text(
+                "Comme règle d'usage de ce logiciel, en tant qu'employé decette entreprise, vous devriez bien enregistré les ventes, les dépenses en cours de service, les achats à crédits et souligner les problèmes que vous rencontriez"
+                    .toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    letterSpacing: 1,
+                    color: Colors.white.withOpacity(.8),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 8.0, right: 8, top: 1, bottom: 25),
-                child: Text(
-                  "Soyez les bienvenues sur DGraciasApp".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 22, color: Colors.white.withOpacity(.9)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 10.0, right: 10, bottom: 20, top: 50),
-                child: Text(
-                  "Pour enregistrer vous ventes de bierres , veuillez choisir le type de modèle dans le menu à gauche et renseignez bien les champs",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(.8),
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

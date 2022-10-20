@@ -6,6 +6,8 @@ import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
+import 'comptabilite_generale.dart';
+
 class DrawerHome extends StatelessWidget {
   DrawerHome({Key? key}) : super(key: key);
 

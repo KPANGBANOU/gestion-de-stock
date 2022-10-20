@@ -217,72 +217,28 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                         prix_achat = int.parse(prix_unitaire_achat.text);
 
                         try {
-                          await FirebaseFirestore.instance
-                              .collection("produits_centre")
-                              .doc(nom)
-                              .get()
-                              .then((value) {
-                            value.exists ? result = true : result = false;
-                          });
-
-                          if (result == false) {
-                            // si ce produit n'existespas encore
-                            await FirebaseFirestore.instance
-                                .collection("produits_centre")
-                                .doc(nom)
-                                .set({
-                              "approvisionne": false,
-                              "montant_vendu": 0,
-                              "nom": nom,
-                              "benefice": 0,
-                              "quantite_initial": quantite,
-                              "quantite_physique": quantite,
-                              "prix_unitaire": prix,
-                              "prix_unitaire_achat": prix_achat,
-                              "seuil_approvisionnement": seuil,
-                              "created_at": DateTime.now(),
-                              "update_at": DateTime.now()
-                            });
-
-                            nomProduit.clear();
-                            quantiteInitial.clear();
-                            prixUnitaire.clear();
-                            seuilAprovisionnement.clear();
-                            prix_unitaire_achat.clear();
-
+                          if (prixUnitaire.text.isEmpty ||
+                              prix_unitaire_achat.text.isEmpty ||
+                              seuilAprovisionnement.text.isEmpty ||
+                              nomProduit.text.isEmpty ||
+                              quantiteInitial.text.isEmpty ||
+                              prix <= 0 ||
+                              prix_achat <= 0 ||
+                              quantite <= 0 ||
+                              seuil <= 0) {
                             final snakbar = SnackBar(
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le produit " +
-                                      nom +
-                                      " a été ajouté au stock avec succès",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              backgroundColor: Colors.indigo,
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                          } else {
-                            // si le produit existe
-
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le produit que vous voudriez ajouter existe dejà dans la base de donnée !",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Tous les champs sont réquis svp !",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                               backgroundColor: Colors.redAccent.withOpacity(.8),
@@ -291,6 +247,85 @@ class CentreEnregistrerNouveauProduit extends StatelessWidget {
                               margin: EdgeInsets.all(5),
                             );
                             ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          } else {
+                            await FirebaseFirestore.instance
+                                .collection("produits_centre")
+                                .doc(nom)
+                                .get()
+                                .then((value) {
+                              value.exists ? result = true : result = false;
+                            });
+
+                            if (result == false) {
+                              // si ce produit n'existespas encore
+                              await FirebaseFirestore.instance
+                                  .collection("produits_centre")
+                                  .doc(nom)
+                                  .set({
+                                "approvisionne": false,
+                                "montant_vendu": 0,
+                                "nom": nom,
+                                "benefice": 0,
+                                "quantite_initial": quantite,
+                                "quantite_physique": quantite,
+                                "prix_unitaire": prix,
+                                "prix_unitaire_achat": prix_achat,
+                                "seuil_approvisionnement": seuil,
+                                "created_at": DateTime.now(),
+                                "update_at": DateTime.now()
+                              });
+
+                              nomProduit.clear();
+                              quantiteInitial.clear();
+                              prixUnitaire.clear();
+                              seuilAprovisionnement.clear();
+                              prix_unitaire_achat.clear();
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Le produit " +
+                                        nom +
+                                        " a été ajouté au stock avec succès",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor: Colors.indigo,
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            } else {
+                              // si le produit existe
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Le produit que vous voudriez ajouter existe dejà dans la base de donnée !",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            }
                           }
 
                           // ignore: empty_catches

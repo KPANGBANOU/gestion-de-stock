@@ -182,49 +182,77 @@ class CentreEnregistrerCreditClient extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         try {
-                          montantCredit = int.parse(montant.text);
-
-                          await FirebaseFirestore.instance
-                              .collection("credits_centre")
-                              .add({
-                            "statut": false,
-                            "nom_client": nomClient.text,
-                            "prenom_client": prenomClient.text,
-                            "montant": montantCredit,
-                            "description": descriptionCredit.text,
-                            "nom_servant": _donnesUtilisateur.nom,
-                            "prenom_servant": _donnesUtilisateur.prenom,
-                            "servant_uid": _donnesUtilisateur.uid,
-                            "date_vente": DateTime.now()
-                          });
-
-                          nomClient.clear();
-                          prenomClient.clear();
-                          montant.clear();
-                          descriptionCredit.clear();
-
-                          final snakbar = SnackBar(
-                            content: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Le crédit d'achat du client " +
-                                    nomClient.text +
-                                    " " +
-                                    prenomClient.text +
-                                    " a été enregistré avec succès dans la base de données de l'entreprise",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
+                          if (nomClient.text.isEmpty ||
+                              prenomClient.text.isEmpty ||
+                              descriptionCredit.text.isEmpty ||
+                              montant.text.isEmpty ||
+                              montantCredit <= 0) {
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Tous les champs sont obligatoires svp !",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                               ),
-                            ),
-                            backgroundColor: Colors.indigo,
-                            elevation: 10,
-                            behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.all(5),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                              backgroundColor: Colors.redAccent.withOpacity(.8),
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          } else {
+                            montantCredit = int.parse(montant.text);
+
+                            await FirebaseFirestore.instance
+                                .collection("credits_centre")
+                                .add({
+                              "statut": false,
+                              "nom_client": nomClient.text,
+                              "prenom_client": prenomClient.text,
+                              "montant": montantCredit,
+                              "description": descriptionCredit.text,
+                              "nom_servant": _donnesUtilisateur.nom,
+                              "prenom_servant": _donnesUtilisateur.prenom,
+                              "servant_uid": _donnesUtilisateur.uid,
+                              "date_vente": DateTime.now()
+                            });
+
+                            nomClient.clear();
+                            prenomClient.clear();
+                            montant.clear();
+                            descriptionCredit.clear();
+
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Le crédit d'achat du client " +
+                                      nomClient.text +
+                                      " " +
+                                      prenomClient.text +
+                                      " a été enregistré avec succès dans la base de données de l'entreprise",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.indigo,
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          }
 
                           // si le produit existe
 

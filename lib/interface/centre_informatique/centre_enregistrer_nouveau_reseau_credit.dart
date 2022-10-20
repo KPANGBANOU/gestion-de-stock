@@ -190,73 +190,26 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         try {
-                          benefice_sur_5000 = int.parse(benefice_5000.text);
-                          montant = int.parse(montantInitial.text);
-                          seuil = int.parse(seuilAprovisionnement.text);
-                          nom = nomReseau.text;
-                          await FirebaseFirestore.instance
-                              .collection("reseaux_communication")
-                              .doc(nom)
-                              .get()
-                              .then((onexist) {
-                            onexist.exists ? result = true : result = false;
-                          });
-
-                          if (!result) {
-                            // si ce produit n'existespas encore
-                            await FirebaseFirestore.instance
-                                .collection("reseaux_communication")
-                                .doc(nom)
-                                .set({
-                              "approvisionne": false,
-                              "benefice_sur_5000": benefice_sur_5000,
-                              "benefice": 0,
-                              "nom": nom,
-                              "montant_initial": montant,
-                              "montant_disponible": montant,
-                              "seuil_approvisionnement": seuil,
-                              "created_at": DateTime.now(),
-                              "update_at": DateTime.now()
-                            });
-
-                            nomReseau.clear();
-                            montantInitial.clear();
-                            seuilAprovisionnement.clear();
-                            benefice_5000.clear();
-
+                          if (nomReseau.text.isEmpty ||
+                              montantInitial.text.isEmpty ||
+                              montant <= 0 ||
+                              seuilAprovisionnement.text.isEmpty ||
+                              seuil <= 0 ||
+                              benefice_sur_5000 <= 0 ||
+                              benefice_5000.text.isEmpty) {
                             final snakbar = SnackBar(
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le réseau " +
-                                      nom +
-                                      " a été ajouté au stock avec succès",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              backgroundColor: Colors.indigo,
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
-                          } else {
-                            // si le produit existe
-
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le réseau  que vous voudriez ajouter existe dejà dans la base de donnée !",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Tous qles champs sont obligatoires svp !",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                               backgroundColor: Colors.redAccent.withOpacity(.8),
@@ -265,6 +218,86 @@ class CentreEnregistrerNouveauReseauCredit extends StatelessWidget {
                               margin: EdgeInsets.all(5),
                             );
                             ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          } else {
+                            benefice_sur_5000 = int.parse(benefice_5000.text);
+                            montant = int.parse(montantInitial.text);
+                            seuil = int.parse(seuilAprovisionnement.text);
+                            nom = nomReseau.text;
+                            await FirebaseFirestore.instance
+                                .collection("reseaux_communication")
+                                .doc(nom)
+                                .get()
+                                .then((onexist) {
+                              onexist.exists ? result = true : result = false;
+                            });
+
+                            if (!result) {
+                              // si ce produit n'existespas encore
+                              await FirebaseFirestore.instance
+                                  .collection("reseaux_communication")
+                                  .doc(nom)
+                                  .set({
+                                "approvisionne": false,
+                                "benefice_sur_5000": benefice_sur_5000,
+                                "benefice": 0,
+                                "nom": nom,
+                                "montant_initial": montant,
+                                "montant_disponible": montant,
+                                "seuil_approvisionnement": seuil,
+                                "created_at": DateTime.now(),
+                                "update_at": DateTime.now()
+                              });
+
+                              nomReseau.clear();
+                              montantInitial.clear();
+                              seuilAprovisionnement.clear();
+                              benefice_5000.clear();
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Le réseau " +
+                                        nom +
+                                        " a été ajouté au stock avec succès",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor: Colors.indigo,
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            } else {
+                              // si le produit existe
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Le réseau  que vous voudriez ajouter existe dejà dans la base de donnée !",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            }
                           }
 
                           // ignore: empty_catches

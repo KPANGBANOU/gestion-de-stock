@@ -122,49 +122,75 @@ class ApprovisionnementTeeShirt extends StatelessWidget {
                             quantite = int.parse(_quantite.text);
 
                             try {
-                              await FirebaseFirestore.instance
-                                  .collection("tee_shirts")
-                                  .doc(_produit.uid)
-                                  .update({
-                                "approvisionne": false,
-                                "quantite_initial":
-                                    _produit.quantite_initial + quantite,
-                                "quantite_physique":
-                                    _produit.quantite_physique + quantite,
-                              });
-
-                              _quantite.clear();
-
-                              final snakbar = SnackBar(
-                                content: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Padding(
+                              if (_quantite.text.isEmpty || quantite <= 0) {
+                                final snakbar = SnackBar(
+                                  content: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Le réchargement de stock de " +
-                                          _produit.tee_shirt_nom +
-                                          " a été effectué avec succès. Vous disponez maintenant de " +
-                                          (_produit.quantite_physique +
-                                                  quantite)
-                                              .toString() +
-                                          " " +
-                                          _produit.tee_shirt_nom +
-                                          "  en stock",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Vous n'avez pas renseigné la quantité que vous voudriez réchargez ! Ce champ est obligatoire",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                backgroundColor: Colors.indigo,
-                                elevation: 10,
-                                behavior: SnackBarBehavior.floating,
-                                margin: EdgeInsets.all(5),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snakbar);
+                                  backgroundColor:
+                                      Colors.redAccent.withOpacity(.8),
+                                  elevation: 10,
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.all(5),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snakbar);
+                              } else {
+                                await FirebaseFirestore.instance
+                                    .collection("tee_shirts")
+                                    .doc(_produit.uid)
+                                    .update({
+                                  "approvisionne": false,
+                                  "quantite_initial":
+                                      _produit.quantite_initial + quantite,
+                                  "quantite_physique":
+                                      _produit.quantite_physique + quantite,
+                                });
+
+                                _quantite.clear();
+
+                                final snakbar = SnackBar(
+                                  content: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Le réchargement de stock de " +
+                                            _produit.tee_shirt_nom +
+                                            " a été effectué avec succès. Vous disponez maintenant de " +
+                                            (_produit.quantite_physique +
+                                                    quantite)
+                                                .toString() +
+                                            " " +
+                                            _produit.tee_shirt_nom +
+                                            "  en stock",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.indigo,
+                                  elevation: 10,
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.all(5),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snakbar);
+                              }
                             } catch (e) {
                               final snakbar = SnackBar(
                                 content: Padding(

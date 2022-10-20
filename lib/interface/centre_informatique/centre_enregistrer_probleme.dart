@@ -82,39 +82,66 @@ class CentreEnregistrerProbleme extends StatelessWidget {
                     child: TextButton(
                         onPressed: () async {
                           try {
-                            await FirebaseFirestore.instance
-                                .collection("problemes_centre")
-                                .add({
-                              'user_uid': _donnesUser.uid,
-                              'user_nom': _donnesUser.nom,
-                              'user_prenom': _donnesUser.prenom,
-                              'description': _description.text,
-                              'created_at': DateTime.now()
-                            });
-                            _description.clear();
-                            message = _donnesUser.prenom
-                                    .toString()
-                                    .toUpperCase() +
-                                " , votre problème a té enregistré avec succès"
-                                    .toUpperCase();
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  message,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold),
+                            if (_description.text.isEmpty) {
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Vous dévriez décrire svp le problème que vous rencontrez !",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              backgroundColor: Colors.indigo,
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            } else {
+                              await FirebaseFirestore.instance
+                                  .collection("problemes_centre")
+                                  .add({
+                                'user_uid': _donnesUser.uid,
+                                'user_nom': _donnesUser.nom,
+                                'user_prenom': _donnesUser.prenom,
+                                'description': _description.text,
+                                'created_at': DateTime.now()
+                              });
+                              _description.clear();
+                              message = _donnesUser.prenom
+                                      .toString()
+                                      .toUpperCase() +
+                                  " , votre problème a té enregistré avec succès"
+                                      .toUpperCase();
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    message,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor: Colors.indigo,
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            }
                           } catch (e) {
                             message =
                                 "Une erreur intattendue s'est produite pendant l'enregistrement du problème ! Réessayez svp !"

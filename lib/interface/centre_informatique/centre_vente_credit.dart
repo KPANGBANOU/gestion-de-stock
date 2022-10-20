@@ -129,68 +129,93 @@ class CentreVenteCredit extends StatelessWidget {
                     onPressed: (() async {
                       try {
                         montant = int.parse(_montant.text);
-                        if (montant > _credit.montant_disponible) {
-                          final snack = SnackBar(
+                        if (_montant.text.isEmpty || montant <= 0) {
+                          final snakbar = SnackBar(
                             content: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Le stock est insuffisant. Vérifiez diminuer le montant de vente et réessayez !!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Vous n'avez pas renseigné le montant de crédit que vous voudriez vendre ou le montant saisi est incorrecte ! Veuillez réessayez svp !",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                             backgroundColor: Colors.redAccent.withOpacity(.8),
+                            elevation: 10,
                             behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.all(4),
+                            margin: EdgeInsets.all(5),
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(snack);
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
-                          await FirebaseFirestore.instance
-                              .collection("vente_credits")
-                              .add({
-                            'produit_uid': _credit.uid,
-                            'user_uid': _donnes.uid,
-                            "nom": _credit.nom,
-                            "montant": montant,
-                            "derniere_vente": DateTime.now()
-                          });
+                          if (montant > _credit.montant_disponible) {
+                            final snack = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Le stock est insuffisant. Vérifiez diminuer le montant de vente et réessayez !!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.redAccent.withOpacity(.8),
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(4),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snack);
+                          } else {
+                            await FirebaseFirestore.instance
+                                .collection("vente_credits")
+                                .add({
+                              'produit_uid': _credit.uid,
+                              'user_uid': _donnes.uid,
+                              "nom": _credit.nom,
+                              "montant": montant,
+                              "derniere_vente": DateTime.now()
+                            });
 
-                          await FirebaseFirestore.instance
-                              .collection("budget")
-                              .doc(_budget_centre.uid)
-                              .update({
-                            "benefice": _budget_centre.benefice +
-                                (montant * _credit.benefice_sur_5000) / 5000,
-                            "solde_total": _budget_centre.solde_total + montant,
-                          });
+                            await FirebaseFirestore.instance
+                                .collection("budget")
+                                .doc(_budget_centre.uid)
+                                .update({
+                              "benefice": _budget_centre.benefice +
+                                  (montant * _credit.benefice_sur_5000) / 5000,
+                              "solde_total":
+                                  _budget_centre.solde_total + montant,
+                            });
 
-                          await FirebaseFirestore.instance
-                              .collection("reseaux_communication")
-                              .doc(_credit.uid)
-                              .update({
-                            "montant_disponible":
-                                _credit.montant_disponible - montant,
-                            "benefice":
-                                (montant * _credit.benefice_sur_5000) / 5000,
-                          });
+                            await FirebaseFirestore.instance
+                                .collection("reseaux_communication")
+                                .doc(_credit.uid)
+                                .update({
+                              "montant_disponible":
+                                  _credit.montant_disponible - montant,
+                              "benefice":
+                                  (montant * _credit.benefice_sur_5000) / 5000,
+                            });
 
-                          _montant.clear();
+                            _montant.clear();
 
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) =>
-                                      CentreFactureVenteCredit(
-                                        credit_montant_vendu: montant,
-                                        credit_uid: _credit.uid,
-                                        credit_nom: _credit.nom.toString(),
-                                        credit_montant_restant:
-                                            _credit.montant_disponible,
-                                      ))));
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) =>
+                                        CentreFactureVenteCredit(
+                                          credit_montant_vendu: montant,
+                                          credit_uid: _credit.uid,
+                                          credit_nom: _credit.nom.toString(),
+                                          credit_montant_restant:
+                                              _credit.montant_disponible,
+                                        ))));
+                          }
                         }
                         // ignore: empty_catches
                       } catch (e) {

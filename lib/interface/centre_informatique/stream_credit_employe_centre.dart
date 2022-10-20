@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 import 'package:projet/base_donne/servicebasededonnees.dart';
 
+import 'credit_employe_centre.dart';
+
 class StreamCreditEmployeCentre extends StatelessWidget {
   StreamCreditEmployeCentre({
     Key? key,

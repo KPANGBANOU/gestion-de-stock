@@ -143,78 +143,103 @@ class VenteTeeShirt extends StatelessWidget {
                     onPressed: (() async {
                       try {
                         quantite = int.parse(_quantite.text);
-                        if (quantite > _produit.quantite_physique) {
-                          final snack = SnackBar(
+                        if (_quantite.text.isEmpty || quantite <= 0) {
+                          final snakbar = SnackBar(
                             content: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Le stock est insuffisant. Vérifiez diminuer le montant de vente et réessayez !!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Vous n'avez pas renseigné la quantité que vous voudriez vendre ou la quantité saisie est incorrecte. Veuillez réessayez svp !",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                             backgroundColor: Colors.redAccent.withOpacity(.8),
+                            elevation: 10,
                             behavior: SnackBarBehavior.floating,
-                            margin: EdgeInsets.all(4),
+                            margin: EdgeInsets.all(5),
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(snack);
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
-                          await FirebaseFirestore.instance
-                              .collection("vente_tee_shirts")
-                              .add({
-                            'produit_uid': _produit.uid,
-                            'user_uid': _donnes.uid,
-                            "nom": _produit.tee_shirt_nom,
-                            "quantite": quantite,
-                            "montant":
-                                (quantite * _produit.prix_unitaire_vente),
-                            "derniere_vente": DateTime.now()
-                          });
+                          if (quantite > _produit.quantite_physique) {
+                            final snack = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Le stock est insuffisant. Vérifiez diminuer le montant de vente et réessayez !!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.redAccent.withOpacity(.8),
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(4),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snack);
+                          } else {
+                            await FirebaseFirestore.instance
+                                .collection("vente_tee_shirts")
+                                .add({
+                              'produit_uid': _produit.uid,
+                              'user_uid': _donnes.uid,
+                              "nom": _produit.tee_shirt_nom,
+                              "quantite": quantite,
+                              "montant":
+                                  (quantite * _produit.prix_unitaire_vente),
+                              "derniere_vente": DateTime.now()
+                            });
 
-                          await FirebaseFirestore.instance
-                              .collection("budget")
-                              .doc(_budget_centre.uid)
-                              .set({
-                            "benefice": _budget_centre.benefice +
-                                (quantite *
-                                    (_produit.prix_unitaire_vente -
-                                        _produit.prix_unitaire_achat)),
-                            "solde_total": _budget_centre.solde_total +
-                                (quantite * _produit.prix_unitaire_vente),
-                            "depense": _budget_centre.depense,
-                          });
+                            await FirebaseFirestore.instance
+                                .collection("budget")
+                                .doc(_budget_centre.uid)
+                                .set({
+                              "benefice": _budget_centre.benefice +
+                                  (quantite *
+                                      (_produit.prix_unitaire_vente -
+                                          _produit.prix_unitaire_achat)),
+                              "solde_total": _budget_centre.solde_total +
+                                  (quantite * _produit.prix_unitaire_vente),
+                              "depense": _budget_centre.depense,
+                            });
 
-                          await FirebaseFirestore.instance
-                              .collection("tee_shirts")
-                              .doc(_produit.uid)
-                              .update({
-                            'benefice': _produit.benefice +
-                                (quantite * _produit.prix_unitaire_vente -
-                                    quantite * _produit.prix_unitaire_achat),
-                            "quantite_physique":
-                                _produit.quantite_physique - quantite,
-                          });
+                            await FirebaseFirestore.instance
+                                .collection("tee_shirts")
+                                .doc(_produit.uid)
+                                .update({
+                              'benefice': _produit.benefice +
+                                  (quantite * _produit.prix_unitaire_vente -
+                                      quantite * _produit.prix_unitaire_achat),
+                              "quantite_physique":
+                                  _produit.quantite_physique - quantite,
+                            });
 
-                          _quantite.clear();
+                            _quantite.clear();
 
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => FactureVenteTeeShirt(
-                                      prix_unitaire:
-                                          _produit.prix_unitaire_vente,
-                                      produit_nom:
-                                          _produit.tee_shirt_nom.toString(),
-                                      produit_quantite_vendu: quantite,
-                                      produit_quantite_physique:
-                                          _produit.quantite_physique - quantite,
-                                      produit_uid: _produit.uid,
-                                      montant_vente: quantite *
-                                          _produit.prix_unitaire_vente))));
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => FactureVenteTeeShirt(
+                                        prix_unitaire:
+                                            _produit.prix_unitaire_vente,
+                                        produit_nom:
+                                            _produit.tee_shirt_nom.toString(),
+                                        produit_quantite_vendu: quantite,
+                                        produit_quantite_physique:
+                                            _produit.quantite_physique -
+                                                quantite,
+                                        produit_uid: _produit.uid,
+                                        montant_vente: quantite *
+                                            _produit.prix_unitaire_vente))));
+                          }
                         }
                         // ignore: empty_catches
                       } catch (e) {

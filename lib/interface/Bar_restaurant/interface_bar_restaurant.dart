@@ -1,38 +1,207 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, must_be_immutable, unused_field, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, unused_local_variable
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
-import 'package:projet/services/registration.dart';
+import 'package:projet/modele/budgetBar.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 class Bar extends StatelessWidget {
   Bar({Key? key}) : super(key: key);
 
+  late int benefice = 0;
+  late int pertes = 0;
+
   @override
   Widget build(BuildContext context) {
-    final _firebase = Provider.of<firebaseAuth>(context);
-
-    final utilisateur = Provider.of<Utilisateur?>(context);
-    final _donnesUtilisateur = Provider.of<donnesUtilisateur>(context);
+    final _donnes = Provider.of<donnesUtilisateur?>(context);
+    final _budget_centre = Provider.of<BudgetBar>(context);
     return Scaffold(
-      backgroundColor: Colors.greenAccent,
-      drawer: DrawerAdminBar(),
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        title: Text(
-          "Bar restaurant ",
-          style: TextStyle(
-              color: Colors.white.withOpacity(.8),
-              fontSize: 22,
-              fontWeight: FontWeight.bold),
+        backgroundColor: Colors.greenAccent,
+        drawer: DrawerAdminBar(),
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+          title: Text(
+            "Bar restaurant",
+            style: TextStyle(
+                color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
         ),
-        backgroundColor: Colors.indigo,
-      ),
-      body: Center(
-        child: Text("Gestion"),
-      ),
-    );
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Entreprise Déo Gracias".toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      letterSpacing: 2,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 35,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Gestion du restaurant de l'entreprise de Déo Gracias "
+                        .toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Bénéfice réalisé au niveau du restaurant de l'entreprise D"
+                        .toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 1,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Column(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Container(
+                        color: Colors.indigo,
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              Text(
+                                "Budget totale".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                _budget_centre.solde_total.toString() + " F",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.green,
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              Text(
+                                "Dépense totale".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                _budget_centre.depense.toString() + " F",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.redAccent.withOpacity(.7),
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              Text(
+                                "Pertes réalisées".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                pertes.toString() + " F",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        color: Colors.indigo,
+                        height: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              Text(
+                                "Bénéfice brute".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                benefice.toString() + " F",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ]),
+              ]),
+        ));
   }
 }

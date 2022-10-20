@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/my_filter.dart';
 import 'package:projet/interface/bottomnavigation.dart';
 import 'package:projet/services/registration.dart';
 import 'package:intl/intl.dart';
@@ -314,7 +313,6 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(10),
       child: TextFormField(
         keyboardType: TextInputType.phone,
-        inputFormatters: [MyFilter()],
         onSaved: (val) => _telephone = val!,
         validator: (val) {
           if (val!.length < 6) {

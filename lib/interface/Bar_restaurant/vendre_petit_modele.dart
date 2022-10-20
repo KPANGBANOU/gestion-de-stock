@@ -100,86 +100,110 @@ class VentePetitModele extends StatelessWidget {
                       montant = quantite * _bierre.prix_unitaire;
 
                       try {
-                        if (quantite <= _bierre.quantite_physique) {
-                          await FirebaseFirestore.instance
-                              .collection("ventes_petit_modele")
-                              .add({
-                            'produit_uid': _bierre.uid,
-                            'user_uid': _user.uid,
-                            'user_nom': _user.nom,
-                            'user_prenom': _user.prenom,
-                            'nom_bierre': _bierre.nom,
-                            'type': "Grand modèle",
-                            'quantite': quantite,
-                            'montant': quantite * _bierre.prix_unitaire,
-                            'time': DateTime.now(),
-                          });
-
-                          await FirebaseFirestore.instance
-                              .collection("bierres")
-                              .doc(_bierre.uid)
-                              .update({
-                            'benefice': _bierre.benefice +
-                                (quantite * _bierre.prix_unitaire -
-                                    quantite * _bierre.prix_unitaire_achat),
-                            'quantite_physique':
-                                _bierre.quantite_physique - quantite,
-                          });
-
-                          await FirebaseFirestore.instance
-                              .collection("budget")
-                              .doc(_budget_bar.uid)
-                              .update({
-                            'benefice': _budget_bar.benefice +
-                                (quantite * _bierre.prix_unitaire -
-                                    quantite * _bierre.prix_unitaire_achat),
-                            'solde_total': _budget_bar.solde_total + montant,
-                          });
-
-                          _quantite.clear();
-
-                          // ignore: use_build_context_synchronously
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) =>
-                                      FactureVenteBarPetitModele(
-                                          produit_nom: _bierre.nom,
-                                          produit_quantite_vendu: quantite,
-                                          produit_quantite_physique:
-                                              _bierre.quantite_physique -
-                                                  quantite,
-                                          produit_uid: _bierre.uid,
-                                          montant_vente: quantite *
-                                              _bierre.quantite_physique,
-                                          prix_unitaire:
-                                              _bierre.prix_unitaire))));
-                        } else {
-                          // ignore: prefer_interpolation_to_compose_strings
-                          message = "Erreur ! \n Le stock de  " +
-                              _bierre.nom +
-                              " insuffisant pour effectuer cet achat. IL nereste que " +
-                              _bierre.quantite_physique.toString() +
-                              " en stock !";
-
+                        if (_quantite.text.isEmpty || quantite <= 0) {
                           final snakbar = SnackBar(
                             content: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                message,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.bold),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Vous n'avez pas renseigné la quantité que vous voudriez vendre ! Ce champ est obligatoire",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
-                            backgroundColor: Colors.redAccent.withOpacity(.7),
+                            backgroundColor: Colors.redAccent.withOpacity(.8),
                             elevation: 10,
                             behavior: SnackBarBehavior.floating,
                             margin: EdgeInsets.all(5),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                        } else {
+                          if (quantite <= _bierre.quantite_physique) {
+                            await FirebaseFirestore.instance
+                                .collection("ventes_petit_modele")
+                                .add({
+                              'produit_uid': _bierre.uid,
+                              'user_uid': _user.uid,
+                              'user_nom': _user.nom,
+                              'user_prenom': _user.prenom,
+                              'nom_bierre': _bierre.nom,
+                              'type': "Grand modèle",
+                              'quantite': quantite,
+                              'montant': quantite * _bierre.prix_unitaire,
+                              'time': DateTime.now(),
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("bierres")
+                                .doc(_bierre.uid)
+                                .update({
+                              'benefice': _bierre.benefice +
+                                  (quantite * _bierre.prix_unitaire -
+                                      quantite * _bierre.prix_unitaire_achat),
+                              'quantite_physique':
+                                  _bierre.quantite_physique - quantite,
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("budget")
+                                .doc(_budget_bar.uid)
+                                .update({
+                              'benefice': _budget_bar.benefice +
+                                  (quantite * _bierre.prix_unitaire -
+                                      quantite * _bierre.prix_unitaire_achat),
+                              'solde_total': _budget_bar.solde_total + montant,
+                            });
+
+                            _quantite.clear();
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) =>
+                                        FactureVenteBarPetitModele(
+                                            produit_nom: _bierre.nom,
+                                            produit_quantite_vendu: quantite,
+                                            produit_quantite_physique:
+                                                _bierre.quantite_physique -
+                                                    quantite,
+                                            produit_uid: _bierre.uid,
+                                            montant_vente: quantite *
+                                                _bierre.quantite_physique,
+                                            prix_unitaire:
+                                                _bierre.prix_unitaire))));
+                          } else {
+                            // ignore: prefer_interpolation_to_compose_strings
+                            message = "Erreur ! \n Le stock de  " +
+                                _bierre.nom +
+                                " insuffisant pour effectuer cet achat. IL nereste que " +
+                                _bierre.quantite_physique.toString() +
+                                " en stock !";
+
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  message,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              backgroundColor: Colors.redAccent.withOpacity(.7),
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          }
                         }
                       } catch (e) {
                         message =

@@ -28,6 +28,7 @@ class RubriqueCreditProduit extends StatelessWidget {
   Widget build(BuildContext context) {
     final _budget_bar = Provider.of<budgetCentre>(context);
     final _listproduit = Provider.of<List<products>>(context);
+    
     final _listcredit = Provider.of<List<credit>>(context);
     produitlenght = _listproduit.length;
     credit_lenght = _listcredit.length;

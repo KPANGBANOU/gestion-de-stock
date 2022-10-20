@@ -376,11 +376,8 @@ class serviceBD {
   // list des servants du bar
 
   Stream<List<donnesServants>> get servantBar {
-    return _Ref.collection("users")
-        //.where('role', isEqualTo: "Servant")
-        .snapshots()
-        .map((event) =>
-            event.docs.map((e) => donnesServants.fromFiresotre(e)).toList());
+    return _Ref.collection("users").snapshots().map((event) =>
+        event.docs.map((e) => donnesServants.fromFiresotre(e)).toList());
   }
 
   // budget bar data

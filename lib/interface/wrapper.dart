@@ -12,6 +12,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:projet/interface/Bar_restaurant/accueil_servant_bar.dart';
 import 'package:projet/interface/centre_informatique/vente_tee_shirt.dart';
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/vente_credit.dart';
@@ -24,9 +25,7 @@ import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/interface/accueil.dart';
 import 'package:projet/interface/centre_informatique/accueil_servant_centre.dart';
 import 'package:projet/interface/home.dart';
-import 'package:projet/interface/welcome.dart';
 import 'package:projet/interface/welcome_default.dart';
-import 'package:projet/interface/welcome_servant.dart';
 import 'package:projet/modele/bieere_petit_model.dart';
 import 'package:projet/modele/bierre_grand_model.dart';
 import 'package:projet/modele/credit.dart';
@@ -3277,7 +3276,7 @@ class Wrapper extends StatelessWidget {
     if (_donnnes.admin == true) return HomePage();
     if (_donnnes.role == "Servant") {
       if (_donnnes.domaine == "Bar restaurant") {
-        return WelcomeServantPage();
+        return AccueilServantBar();
       } else if (_donnnes.domaine == "Centre informatique") {
         return AccueilServantCentre();
       } else

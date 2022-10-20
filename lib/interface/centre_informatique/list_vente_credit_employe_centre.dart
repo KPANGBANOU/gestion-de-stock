@@ -5,6 +5,8 @@ import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/credits_servants.dart';
 import 'package:provider/provider.dart';
 
+import 'stream_credit_employe_centre.dart';
+
 class ListVenteCreditsEmployeCentre extends StatelessWidget {
   const ListVenteCreditsEmployeCentre({super.key});
 

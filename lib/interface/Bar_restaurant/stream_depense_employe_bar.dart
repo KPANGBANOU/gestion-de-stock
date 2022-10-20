@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
 import 'package:projet/services/user.dart';
 
-import 'depense_servant_bar.dart';
+import 'depense_employe_bar.dart';
 
 class StreamDepenseEmployeBar extends StatelessWidget {
   StreamDepenseEmployeBar({

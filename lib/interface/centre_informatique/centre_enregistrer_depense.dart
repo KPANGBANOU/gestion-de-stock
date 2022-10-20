@@ -96,51 +96,80 @@ class CentreEnregistrerDepense extends StatelessWidget {
                           montant = int.parse(_montant.text);
 
                           try {
-                            await FirebaseFirestore.instance
-                                .collection("depenses_centre")
-                                .add({
-                              'user_uid': _utilisateur.uid,
-                              'user_nom': _donnesUser.nom,
-                              'user_prenom': _donnesUser.prenom,
-                              'created_at': DateTime.now(),
-                              'description': _description.text,
-                              'montant': montant
-                            });
-
-                            await FirebaseFirestore.instance
-                                .collection("budget")
-                                .doc(_budget_centre.uid)
-                                .set({
-                              'depense': _budget_centre.depense + montant,
-                              "solde_total": _budget_centre.solde_total,
-                            });
-
-                            _description.clear();
-                            _montant.clear();
-                            message = _donnesUser.prenom
-                                    .toString()
-                                    .toUpperCase() +
-                                " ,  Votre depense a été enregistré avec succès !"
-                                    .toUpperCase();
-
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  message,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold),
+                            if (_description.text.isEmpty ||
+                                _montant.text.isEmpty ||
+                                montant <= 0) {
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Tous les champs sont obligatoires svp !",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              backgroundColor: Colors.indigo,
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            } else {
+                              await FirebaseFirestore.instance
+                                  .collection("depenses_centre")
+                                  .add({
+                                'user_uid': _utilisateur.uid,
+                                'user_nom': _donnesUser.nom,
+                                'user_prenom': _donnesUser.prenom,
+                                'created_at': DateTime.now(),
+                                'description': _description.text,
+                                'montant': montant
+                              });
+
+                              await FirebaseFirestore.instance
+                                  .collection("budget")
+                                  .doc(_budget_centre.uid)
+                                  .set({
+                                'depense': _budget_centre.depense + montant,
+                                "solde_total": _budget_centre.solde_total,
+                              });
+
+                              _description.clear();
+                              _montant.clear();
+                              message = _donnesUser.prenom
+                                      .toString()
+                                      .toUpperCase() +
+                                  " ,  Votre depense a été enregistré avec succès !"
+                                      .toUpperCase();
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    message,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor: Colors.indigo,
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            }
                           } catch (e) {
                             message =
                                 "Une erreure inattendue s'est produite pendant l'enregistrement ! Réeessayez svp !"

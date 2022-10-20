@@ -237,48 +237,17 @@ class _EnregistrerNouvelBierreFormPageState
                         prix_achat = int.parse(prixUnitaire_achat.text);
 
                         try {
-                          await FirebaseFirestore.instance
-                              .collection("bierres")
-                              .doc(conca_lowercase)
-                              .get()
-                              .then((value) {
-                            value.exists ? result = true : result = false;
-                          });
-
-                          if (result == false) {
-                            if (prix > prix_achat) {
-                              // si ce produit n'existespas encore
-                              await FirebaseFirestore.instance
-                                  .collection("bierres")
-                                  .doc(conca_lowercase)
-                                  .set({
-                                "approvisionne": false,
-                                "montant_vendu": 0,
-                                "benefice": 0,
-                                "prix_unitaire_achat": prix_achat,
-                                "nom": nom,
-                                "quantite_initial": quantite,
-                                "quantite_physique": quantite,
-                                "prix_unitaire": prix,
-                                "seuil_approvisionnement": seuil,
-                                "created_at": DateTime.now(),
-                                "update_at": DateTime.now(),
-                                "type": type_bierre_selectionne,
-                              });
-
-                              nomProduit.clear();
-                              quantiteInitial.clear();
-                              prixUnitaire.clear();
-                              seuilAprovisionnement.clear();
-                              prixUnitaire_achat.clear();
-
-                              final snakbar = SnackBar(
-                                content: Padding(
+                          if (nomProduit.text.isEmpty ||
+                              prixUnitaire.text.isEmpty ||
+                              prixUnitaire_achat.text.isEmpty ||
+                              seuilAprovisionnement.text.isEmpty) {
+                            final snakbar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Le produit " +
-                                        nom +
-                                        " a été ajouté au stock avec succès",
+                                    "Vous n'avez pas renseigné tous les champs ! Tous ces champs sont obligatoires",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,
@@ -286,19 +255,100 @@ class _EnregistrerNouvelBierreFormPageState
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                backgroundColor: Colors.indigo,
-                                elevation: 10,
-                                behavior: SnackBarBehavior.floating,
-                                margin: EdgeInsets.all(5),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snakbar);
+                              ),
+                              backgroundColor: Colors.redAccent.withOpacity(.8),
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(5),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                          } else {
+                            await FirebaseFirestore.instance
+                                .collection("bierres")
+                                .doc(conca_lowercase)
+                                .get()
+                                .then((value) {
+                              value.exists ? result = true : result = false;
+                            });
+
+                            if (result == false) {
+                              if (prix > prix_achat) {
+                                // si ce produit n'existespas encore
+                                await FirebaseFirestore.instance
+                                    .collection("bierres")
+                                    .doc(conca_lowercase)
+                                    .set({
+                                  "approvisionne": false,
+                                  "montant_vendu": 0,
+                                  "benefice": 0,
+                                  "prix_unitaire_achat": prix_achat,
+                                  "nom": nom,
+                                  "quantite_initial": quantite,
+                                  "quantite_physique": quantite,
+                                  "prix_unitaire": prix,
+                                  "seuil_approvisionnement": seuil,
+                                  "created_at": DateTime.now(),
+                                  "update_at": DateTime.now(),
+                                  "type": type_bierre_selectionne,
+                                });
+
+                                nomProduit.clear();
+                                quantiteInitial.clear();
+                                prixUnitaire.clear();
+                                seuilAprovisionnement.clear();
+                                prixUnitaire_achat.clear();
+
+                                final snakbar = SnackBar(
+                                  content: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Le produit " +
+                                          nom +
+                                          " a été ajouté au stock avec succès",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.indigo,
+                                  elevation: 10,
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.all(5),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snakbar);
+                              } else {
+                                final snakbar = SnackBar(
+                                  content: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Il y a une incohérence dans votre enregistrement. Le produit unitaire de vente doit etre plus grand que le prix unitaire d'achat !",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      Colors.redAccent.withOpacity(.8),
+                                  elevation: 10,
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.all(5),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snakbar);
+                              }
                             } else {
+                              // si le produit existe
+
                               final snakbar = SnackBar(
                                 content: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Il y a une incohérence dans votre enregistrement. Le produit unitaire de vente doit etre plus grand que le prix unitaire d'achat !",
+                                    "Le produit que vous voudriez ajouter existe dejà dans la base de donnée !",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,
@@ -315,27 +365,6 @@ class _EnregistrerNouvelBierreFormPageState
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snakbar);
                             }
-                          } else {
-                            // si le produit existe
-
-                            final snakbar = SnackBar(
-                              content: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Le produit que vous voudriez ajouter existe dejà dans la base de donnée !",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              backgroundColor: Colors.redAccent.withOpacity(.8),
-                              elevation: 10,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(5),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snakbar);
                           }
 
                           // ignore: empty_catches
