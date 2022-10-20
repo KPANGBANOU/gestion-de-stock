@@ -105,7 +105,7 @@ class BarVenteCredit extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   controller: _montant,
                   decoration: InputDecoration(
-                      hintText: "Saisissez le montant",
+                      hintText: "Saisissez le montant vendu svp",
                       labelText: "Montant de vente".toUpperCase()),
                 ),
               ),
@@ -139,7 +139,7 @@ class BarVenteCredit extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Vous n'avez pas renseigné le montant de crédit  que vous voudriez vendre ! Veuillez renseigner ce montant svp !",
+                                  "Vous n'avez pas renseigné le montant de crédit  que vous voudriez vendre ou le montant saisi est incorrecte ! Veuillez renseigner ce montant svp !",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

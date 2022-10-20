@@ -247,7 +247,7 @@ class _EnregistrerNouvelBierreFormPageState
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Vous n'avez pas renseigné tous les champs ! Tous ces champs sont obligatoires",
+                                    "Vous n'avez pas renseigné tous les champs ou certains champs renseignés sont incorrectes. Tous ces champs sont obligatoires svp !",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,

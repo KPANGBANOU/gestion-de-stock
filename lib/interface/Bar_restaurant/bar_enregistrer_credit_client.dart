@@ -187,7 +187,8 @@ class BarEnregistrerCreditClient extends StatelessWidget {
                           if (nomClient.text.isEmpty ||
                               prenomClient.text.isEmpty ||
                               montant.text.isEmpty ||
-                              descriptionCredit.text.isEmpty) {
+                              descriptionCredit.text.isEmpty ||
+                              montantCredit <= 0) {
                             final snakbar = SnackBar(
                               content: Padding(
                                 padding: const EdgeInsets.all(8.0),

@@ -129,7 +129,7 @@ class ApprovisionnementTeeShirt extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "Vous n'avez pas renseigné la quantité que vous voudriez réchargez ! Ce champ est obligatoire",
+                                        "Vous n'avez pas renseigné la quantité que vous voudriez réchargez ou la quantité saisi est incorrecte. Veuillez réessayez svp !",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,

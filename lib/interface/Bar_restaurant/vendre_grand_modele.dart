@@ -109,7 +109,7 @@ class VenteGrandModele extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Vous n'avez pas renseigné la quantité que vous voudriez vendre ! Ce champ est obligatoire",
+                                  "Vous n'avez pas renseigné la quantité que vous voudriez vendre ou la quantité saisie est incorrecte. Veuillez réessayez svp !",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

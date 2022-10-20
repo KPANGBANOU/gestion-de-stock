@@ -96,9 +96,10 @@ class BarEnregistrerDepense extends StatelessWidget {
 
                           try {
                             if (_description.text.isEmpty ||
-                                _montant.text.isEmpty) {
+                                _montant.text.isEmpty ||
+                                montant <= 0) {
                               message =
-                                  "Vous n'avez pas renseigné l'une des informations démandées! Tous ces champs sont obligatoires !"
+                                  "Vous n'avez pas renseigné l'une des informations démandées ou les informations renseignées sont incorrectes! Tous ces champs sont obligatoires svp !"
                                       .toUpperCase();
 
                               final snakbar = SnackBar(

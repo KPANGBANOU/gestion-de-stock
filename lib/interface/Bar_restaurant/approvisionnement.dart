@@ -122,14 +122,14 @@ class ApprovisionnementPetitModele extends StatelessWidget {
                             quantite = int.parse(_quantite.text);
 
                             try {
-                              if (_quantite.text.isEmpty) {
+                              if (_quantite.text.isEmpty || quantite <= 0) {
                                 final snakbar = SnackBar(
                                   content: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "Vous n'avez pas renseigné la quantité que vous voudriez réchargez ! Ce champ est obligatoire",
+                                        "Vous n'avez pas renseigné la quantité que vous voudriez réchargez ou la quantité saisie est incorrrecte. Veuillez réessayez svp !",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
