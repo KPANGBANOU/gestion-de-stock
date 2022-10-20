@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, camel_case_types, unused_local_variable, must_be_immutable, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:projet/parametres_admin.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 
@@ -95,9 +96,12 @@ class DrawerHome extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Profil".toUpperCase()),
+                title: Text("Paramètres".toUpperCase()),
                 onTap: () {
-                  Navigator.pushNamed(context, "/profil");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ParametresAdmin())));
                 },
               ),
               ListTile(

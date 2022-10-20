@@ -23,6 +23,7 @@ import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/modele/vente_tee_shirts.dart';
+import 'package:projet/services/admin.dart';
 
 import 'package:projet/services/user.dart';
 
@@ -34,6 +35,13 @@ class serviceBD {
         .doc(user_uid)
         .snapshots()
         .map((snap) => donnesUtilisateur.fromFiresotre(snap));
+  }
+
+  Stream<List<Admin>> get admin {
+    return _Ref.collection("users")
+        .where("admin", isEqualTo: true)
+        .snapshots()
+        .map((event) => event.docs.map((e) => Admin.fromFirestore(e)).toList());
   }
 
   Stream<List<CreditsServants>> credits_servant(String servant_uid) {

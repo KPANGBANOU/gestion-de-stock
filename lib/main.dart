@@ -21,6 +21,7 @@ import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/modele/vente_tee_shirts.dart';
+import 'package:projet/services/admin.dart';
 
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
 import 'package:projet/services/user.dart';
@@ -110,6 +111,9 @@ class MyApp extends StatelessWidget {
               print(error.toString());
             })*/
             initialData: donnesUtilisateur(
+                mdp: "",
+                numero_watsapp_reception_message: "",
+                email_reception_rapport: "",
                 uid: "",
                 nom: "",
                 prenom: "",
@@ -122,6 +126,9 @@ class MyApp extends StatelessWidget {
                 photo_url: "",
                 admin: false,
                 is_active: true)),
+        StreamProvider(
+            create: ((context) => context.read<serviceBD>().admin),
+            initialData: <Admin>[]),
 
         StreamProvider(
             create: ((context) =>

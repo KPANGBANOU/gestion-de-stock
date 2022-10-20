@@ -4,9 +4,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// ignore_for_file: camel_case_types
-
-class donnesUtilisateur {
+class Admin {
   final String nom;
   final String prenom;
   final String email;
@@ -22,7 +20,7 @@ class donnesUtilisateur {
   final String mdp;
   final String email_reception_rapport;
   final String numero_watsapp_reception_message;
-  donnesUtilisateur({
+  Admin({
     required this.nom,
     required this.prenom,
     required this.email,
@@ -40,8 +38,8 @@ class donnesUtilisateur {
     required this.numero_watsapp_reception_message,
   });
 
-  factory donnesUtilisateur.fromFiresotre(DocumentSnapshot snap) {
-    return donnesUtilisateur(
+  factory Admin.fromFirestore(DocumentSnapshot snap) {
+    return Admin(
         mdp: (snap.data() as Map<String, dynamic>)['mdp'],
         email_reception_rapport:
             (snap.data() as Map<String, dynamic>)['email_reception_rapport'],
@@ -61,7 +59,7 @@ class donnesUtilisateur {
         is_active: (snap.data() as Map)["is_active"]);
   }
 
-  donnesUtilisateur copyWith({
+  Admin copyWith({
     String? nom,
     String? prenom,
     String? email,
@@ -78,7 +76,7 @@ class donnesUtilisateur {
     String? email_reception_rapport,
     String? numero_watsapp_reception_message,
   }) {
-    return donnesUtilisateur(
+    return Admin(
       nom: nom ?? this.nom,
       prenom: prenom ?? this.prenom,
       email: email ?? this.email,
@@ -122,8 +120,8 @@ class donnesUtilisateur {
     return result;
   }
 
-  factory donnesUtilisateur.fromMap(Map<String, dynamic> map) {
-    return donnesUtilisateur(
+  factory Admin.fromMap(Map<String, dynamic> map) {
+    return Admin(
       nom: map['nom'] ?? '',
       prenom: map['prenom'] ?? '',
       email: map['email'] ?? '',
@@ -145,19 +143,18 @@ class donnesUtilisateur {
 
   String toJson() => json.encode(toMap());
 
-  factory donnesUtilisateur.fromJson(String source) =>
-      donnesUtilisateur.fromMap(json.decode(source));
+  factory Admin.fromJson(String source) => Admin.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'donnesUtilisateur(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, domaine: $domaine, photo_url: $photo_url, admin: $admin, is_active: $is_active, mdp: $mdp, email_reception_rapport: $email_reception_rapport, numero_watsapp_reception_message: $numero_watsapp_reception_message)';
+    return 'Admin(nom: $nom, prenom: $prenom, email: $email, telephone: $telephone, role: $role, sexe: $sexe, date_naissance: $date_naissance, uid: $uid, domaine: $domaine, photo_url: $photo_url, admin: $admin, is_active: $is_active, mdp: $mdp, email_reception_rapport: $email_reception_rapport, numero_watsapp_reception_message: $numero_watsapp_reception_message)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is donnesUtilisateur &&
+    return other is Admin &&
         other.nom == nom &&
         other.prenom == prenom &&
         other.email == email &&
@@ -194,11 +191,4 @@ class donnesUtilisateur {
         email_reception_rapport.hashCode ^
         numero_watsapp_reception_message.hashCode;
   }
-}
-
-class Utilisateur {
-  final String uid;
-  Utilisateur(
-    this.uid,
-  );
 }

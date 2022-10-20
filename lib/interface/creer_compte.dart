@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, deprecated_member_use, no_leading_underscores_for_local_identifiers, avoid_print, unnecessary_string_interpolations, unused_field, use_build_context_synchronously, unused_local_variable, depend_on_referenced_packages
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypt/crypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projet/interface/bottomnavigation.dart';
@@ -475,6 +476,9 @@ class _RegisterPageState extends State<RegisterPage> {
       "is_active": true,
       "domaine": "",
       "photo_url": "",
+      "mdp": Crypt.sha256(_password).toString(),
+      "email_reception_message": "",
+      "numero_watsapp_reception_message": ""
     });
     /* uid: auth.currentUser!.uid,
         */
