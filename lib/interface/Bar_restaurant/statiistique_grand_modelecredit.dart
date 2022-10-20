@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, non_constant_identifier_names, prefer_const_constructors_in_immutables, must_be_immutable, avoid_function_literals_in_foreach_calls
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/modele/bierre_grand_model.dart';
+import 'package:projet/modele/credit.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
@@ -17,14 +19,21 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
   late int total_credit = 0;
   late int total_produit = 0;
   late int totaux = 0;
+  late int nombre_vente_credit = 0;
+  late int nombre_vente_bierre = 0;
+  late int quantite_bierre = 0;
+  late int montant_credit = 0;
+  late int montant_bierre = 0;
 
   @override
   Widget build(BuildContext context) {
     final _donnesUtilisateur = Provider.of<donnesServants>(context);
     final _listVente = Provider.of<List<venteGrandModele>>(context);
+    final _list_bierre = Provider.of<List<donnesBierresGrandModel>>(context);
+    final _list_credit = Provider.of<List<credit>>(context);
     final _listVenteCredit = Provider.of<List<venteCredit>>(context);
-    credit_lenght = _listVenteCredit.length;
-    produit_lenght = _listVente.length;
+    credit_lenght = _list_credit.length;
+    produit_lenght = _list_bierre.length;
 
     _listVenteCredit.forEach((element) {
       total_credit = total_credit + element.montant;
@@ -60,9 +69,36 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
       produit_sizebox = 700;
     }
 
+    if (_listVenteCredit.isEmpty ||
+        _list_credit.isEmpty ||
+        _listVente.isEmpty ||
+        _list_bierre.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.greenAccent,
+        drawer: DrawerAdminBar(),
+        appBar: AppBar(
+          title: Text(
+            _donnesUtilisateur.prenom.toString() +
+                " " +
+                _donnesUtilisateur.nom.toString(),
+            style: TextStyle(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: DrawerAdminCentre(),
+        drawer: DrawerAdminBar(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom.toString() +
@@ -86,7 +122,7 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Statistique de vente de ".toUpperCase() +
+                      "Statistique générale de vente de ".toUpperCase() +
                           _donnesUtilisateur.prenom.toString().toUpperCase() +
                           "  " +
                           _donnesUtilisateur.nom.toString().toUpperCase(),
@@ -100,16 +136,24 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                   SizedBox(
                     height: 12,
                   ),
-                  Text(
-                    "Vente de crédits".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.redAccent.withOpacity(.7),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                  Container(
+                    color: Colors.redAccent.withOpacity(.7),
+                    width: double.infinity,
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Vente de crédits".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 0,
                   ),
                   Container(
                     color: Colors.indigo,
@@ -117,13 +161,13 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           Text(
-                            "Nom",
+                            "Crédit",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -147,32 +191,45 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
                         itemBuilder: ((context, index) {
-                          venteCredit _credit = _listVenteCredit[index];
+                          credit _credit = _list_credit[index];
+                          nombre_vente_credit = 0;
+                          montant_credit = 0;
 
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Text(
-                                  _credit.nom.toUpperCase(),
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Text(
-                                  _credit.montant.toString() + " FCFA",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                          _listVenteCredit.forEach((element) {
+                            if (element.nom == _credit.nom) {
+                              nombre_vente_credit++;
+                              montant_credit += element.montant;
+                            }
+                          });
+
+                          return nombre_vente_credit > 0
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    children: [
+                                      Text(
+                                        _credit.nom,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Text(
+                                        montant_credit.toString() + " F",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
                                 )
-                              ],
-                            ),
-                          );
+                              : Container();
                         }),
                         separatorBuilder: ((context, index) => Divider()),
-                        itemCount: _listVenteCredit.length),
+                        itemCount: _list_credit.length),
                   ),
                   SizedBox(
                     height: 10,
@@ -183,20 +240,20 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           Text(
-                            "Montant total",
+                            "Total vente crédit",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            total_credit.toString() + " FCFA",
+                            total_credit.toString() + " F",
                             style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold),
@@ -206,15 +263,23 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 72,
+                    height: 12,
                   ),
-                  Text(
-                    "Vente de produits".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.redAccent,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                  Container(
+                    color: Colors.redAccent.withOpacity(.7),
+                    width: double.infinity,
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Vente de produits".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 8,
@@ -231,7 +296,7 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           Text(
-                            "Nom",
+                            "Bièrre",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -251,7 +316,7 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "total",
+                            "Montant",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -268,44 +333,59 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
                         itemBuilder: ((context, index) {
-                          venteGrandModele _vente = _listVente[index];
+                          donnesBierresGrandModel _vente = _list_bierre[index];
+                          nombre_vente_bierre = 0;
+                          montant_bierre = 0;
+                          quantite_bierre = 0;
 
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Text(
-                                  _vente.nom_bierre,
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Text(
-                                  _vente.montant.toString() + " F",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Text(
-                                  _vente.quantite.toString(),
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Text(
-                                  _vente.montant.toString() + " F",
-                                  style: TextStyle(
-                                    color: Colors.black,
+                          _listVente.forEach((element) {
+                            if (element.nom_bierre == _vente.nom) {
+                              nombre_vente_bierre++;
+                              quantite_bierre += element.quantite;
+                              montant_bierre += element.montant;
+                            }
+                          });
+
+                          return nombre_vente_bierre > 0
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    children: [
+                                      Text(
+                                        _vente.nom,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Text(
+                                        _vente.prix_unitaire.toString() + " F",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      Text(
+                                        quantite_bierre.toString(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      Text(
+                                        montant_bierre.toString() + " F",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
-                              ],
-                            ),
-                          );
+                              : Container();
                         }),
                         separatorBuilder: ((context, index) => Divider()),
-                        itemCount: _listVente.length),
+                        itemCount: _list_bierre.length),
                   ),
                   SizedBox(
                     height: 10,
@@ -316,20 +396,20 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           Text(
-                            "Total vente ",
+                            "Total vente grand modèle",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            total_produit.toString() + " FCFA",
+                            total_produit.toString() + " F",
                             style: TextStyle(
                                 color: Colors.indigo,
                                 fontWeight: FontWeight.bold),
@@ -341,38 +421,24 @@ class StatistiqueGrandModeleCredit extends StatelessWidget {
                   SizedBox(
                     height: 22,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Statistique général de vente ".toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Container(
                     height: 50,
-                    color: Colors.redAccent.withOpacity(.7),
+                    color: Colors.green,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            "Totaux".toUpperCase(),
+                            "Totaux vente".toUpperCase(),
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            totaux.toString() + " FCFA",
+                            totaux.toString() + " F",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),

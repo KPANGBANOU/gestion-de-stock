@@ -2,15 +2,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 import 'package:projet/interface/centre_informatique/centre_list_credits_clients.dart';
 
 import 'package:projet/modele/credits_vente.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
-class BarCreditClient extends StatelessWidget {
-  const BarCreditClient({super.key});
+class CreditEmployeBar extends StatelessWidget {
+  const CreditEmployeBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BarCreditClient extends StatelessWidget {
     final _utilisateur = Provider.of<Utilisateur>(context);
     return Scaffold(
       backgroundColor: Colors.greenAccent,
-      drawer: servantdrawer(),
+      drawer: DrawerAdminBar(),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
@@ -52,16 +52,13 @@ class BarCreditClient extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Informations rélatives au vente à crédit".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.redAccent.withOpacity(.7),
-                  fontSize: 22,
-                ),
+            Text(
+              "Informations rélatives au vente à crédit".toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.redAccent.withOpacity(.7),
+                fontSize: 22,
               ),
             ),
             Container(
@@ -77,16 +74,21 @@ class BarCreditClient extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Nom du client",
+                        "Prenom de l'employé",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        _credit_client.nom_client,
+                        _credit_client.prenom_servant,
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       )
                     ],
+                  ),
+                  Container(
+                    color: Colors.black,
+                    width: double.infinity,
+                    height: 2,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -95,12 +97,37 @@ class BarCreditClient extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Prenom du client",
+                        "Nom de l'employé",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        _credit_client.prenom_client,
+                        _credit_client.nom_servant.toUpperCase(),
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Container(
+                    color: Colors.black,
+                    width: double.infinity,
+                    height: 2,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      Text(
+                        "Client",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        _credit_client.nom_client +
+                            " " +
+                            _credit_client.prenom_client,
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       )
@@ -114,7 +141,7 @@ class BarCreditClient extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Description du crédit du client :".toUpperCase(),
+                      "Description du crédit de vente".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 22,

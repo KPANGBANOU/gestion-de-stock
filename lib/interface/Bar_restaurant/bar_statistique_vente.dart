@@ -2,13 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+import 'package:projet/interface/Bar_restaurant/stream_statistique_servant_bar.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:provider/provider.dart';
 
-import 'stream_statistique_servant_bar.dart';
-
-class StatistiqueJournalierListEmployeBar extends StatelessWidget {
-  StatistiqueJournalierListEmployeBar({Key? key}) : super(key: key);
+class BarStatistiqueVente extends StatelessWidget {
+  BarStatistiqueVente({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +85,7 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
                         fontSize: 20),
                   ),
                   subtitle: Text(
-                    "A créé son compte le  ",
+                    "A créé son compte le",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black12),

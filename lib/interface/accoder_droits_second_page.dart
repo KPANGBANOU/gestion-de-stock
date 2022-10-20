@@ -2,20 +2,16 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet/interface/drawer.dart';
 import 'package:projet/interface/succes_accorder_droits.dart';
+import 'package:projet/modele/donnesservants.dart';
+import 'package:provider/provider.dart';
 
 class AccorderDroitsSecondPages extends StatelessWidget {
   AccorderDroitsSecondPages({
     Key? key,
-    required this.nom,
-    required this.uid,
-    required this.prenom,
-    required this.email,
   }) : super(key: key);
-  final String nom;
-  final String uid;
-  final String prenom;
-  final String email;
+
   String _value = "Centre informatique";
   /*List<S2Choice<String>> _options = [
     S2Choice(value: "", title: ""),
@@ -32,17 +28,18 @@ class AccorderDroitsSecondPages extends StatelessWidget {
   ];*/
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<donnesServants>(context);
     return Scaffold(
       backgroundColor: Colors.greenAccent,
-      drawer: Drawer(),
+      drawer: DrawerHome(),
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         centerTitle: true,
         elevation: 0,
         title: Text(
-          prenom.toString() + " " + nom.toString(),
+          _user.prenom.toString() + " " + _user.nom.toString(),
           style: TextStyle(
-              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
@@ -56,7 +53,10 @@ class AccorderDroitsSecondPages extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Accorder de droits d'unsage à " + prenom + " " + nom,
+                "Accorder de droits d'unsage de l'application à " +
+                    _user.prenom.toString() +
+                    " " +
+                    _user.nom.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black,
@@ -123,17 +123,14 @@ class AccorderDroitsSecondPages extends StatelessWidget {
                       try {
                         await FirebaseFirestore.instance
                             .collection("users")
-                            .doc(uid)
+                            .doc(_user.uid)
                             .update({"role": _role, "secteur_travail": _value});
 
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => SuccesAccorderDroits(
-                                    nom: nom,
-                                    prenom: prenom,
-                                    secteur: _value,
-                                    role: _role))));
+                                builder: ((context) =>
+                                    SuccesAccorderDroits())));
                       } catch (e) {
                         final snackar = SnackBar(
                           content: Text(
@@ -157,7 +154,7 @@ class AccorderDroitsSecondPages extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Accordez".toUpperCase(),
+                        "Accordez de droits".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,

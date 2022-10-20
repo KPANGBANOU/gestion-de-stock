@@ -5,6 +5,7 @@ import 'package:projet/interface/centre_informatique/centre_statistique_client.d
 import 'package:projet/modele/centre_vente.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:projet/modele/vente_credit.dart';
+import 'package:projet/modele/vente_tee_shirts.dart';
 
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,11 @@ class StreamStatistiqueVente extends StatelessWidget {
             create: ((context) =>
                 context.read<serviceBD>().list_vente_credits(utilisateur_uid)),
             initialData: <venteCredit>[]),
+        StreamProvider(
+            create: ((context) => context
+                .read<serviceBD>()
+                .list_vente_tee_shirt(utilisateur_uid)),
+            initialData: <venteteeshirts>[])
       ],
       child: CentreStatistiqueEmploye(),
     );

@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, non_constant_identifier_names, prefer_const_constructors, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_servant.dart';
+import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 
 import 'package:projet/modele/depense.dart';
 import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
-class DepenseServantBar extends StatelessWidget {
-  DepenseServantBar({
+class DepenseEmployeBar extends StatelessWidget {
+  DepenseEmployeBar({
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class DepenseServantBar extends StatelessWidget {
     final _user = Provider.of<donnesUtilisateur>(context);
     final _depense = Provider.of<donnesDepense>(context);
     return Scaffold(
-      drawer: servantdrawer(),
+      drawer: DrawerAdminBar(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         centerTitle: true,
@@ -40,7 +40,8 @@ class DepenseServantBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Dépense enregistré".toUpperCase(),
+                "Dépense  éffectuée par l'employé de l'entreprise"
+                    .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black,
@@ -53,16 +54,55 @@ class DepenseServantBar extends StatelessWidget {
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Description de la dépense éffectuée".toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.redAccent.withOpacity(.7),
-                    letterSpacing: 2,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Nom de l'employé",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  Text(
+                    _depense.user_nom,
+                    style: TextStyle(color: Colors.black),
+                  )
+                ],
               ),
+            ),
+            SizedBox(
+              height: 14,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Prénom de l'employé",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  Text(
+                    _depense.user_prenom,
+                    style: TextStyle(color: Colors.black),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 14,
+            ),
+            Text(
+              "Description de la dépense éffectuée par l'employé".toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.redAccent.withOpacity(.7),
+                  fontSize: 22,
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 10,
@@ -70,8 +110,7 @@ class DepenseServantBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Il s'agit de ".toUpperCase() +
-                    _depense.description.toUpperCase(),
+                _depense.description,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,
@@ -108,7 +147,7 @@ class DepenseServantBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    "Dépense ffectué le",
+                    "Dépense éffectué le",
                     style: TextStyle(color: Colors.black),
                   ),
                   Text(

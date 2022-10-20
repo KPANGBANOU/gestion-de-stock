@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, unused_field, non_constant_identifier_names, unused_local_variable, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
+
+import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:provider/provider.dart';
 
-import 'stream_statistique_servant_bar.dart';
+import 'stream_statistique_journalier_employe_centre.dart';
 
-class StatistiqueJournalierListEmployeBar extends StatelessWidget {
-  StatistiqueJournalierListEmployeBar({Key? key}) : super(key: key);
+class StatistiqueJournalierListEmployeCentre extends StatelessWidget {
+  StatistiqueJournalierListEmployeCentre({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +18,12 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
     if (_list_servants.isEmpty)
       // ignore: curly_braces_in_flow_control_structures
       return Scaffold(
-        drawer: DrawerAdminBar(),
+        drawer: DrawerAdminCentre(),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.indigo,
           title: Text(
-            "Statistique de vente",
+            "Statistique  journalier",
             style: TextStyle(
                 color: Colors.white.withOpacity(.9),
                 fontSize: 22,
@@ -35,12 +36,12 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
         ),
       );
     return Scaffold(
-        drawer: DrawerAdminBar(),
+        drawer: DrawerAdminCentre(),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.indigo,
           title: Text(
-            "Statistique de vente",
+            "Statistique journalier",
             style: TextStyle(
                 color: Colors.white.withOpacity(.9),
                 fontSize: 22,
@@ -61,7 +62,8 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: ((context) =>
-                                StreamServantBar(uid: _donnes.uid))));
+                                StreamStatistiqueJournalierEmployeCentre(
+                                    uid: _donnes.uid))));
                   },
                   leading: CircleAvatar(
                     radius: 20,
@@ -86,7 +88,7 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
                         fontSize: 20),
                   ),
                   subtitle: Text(
-                    "A créé son compte le  ",
+                    "A créé son compte le",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black12),

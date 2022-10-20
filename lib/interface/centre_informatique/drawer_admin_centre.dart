@@ -17,7 +17,13 @@ import 'package:projet/services/user.dart';
 import 'package:provider/provider.dart';
 
 import 'approvisionnerlisteeshirt.dart';
+import 'centre_list_credit.dart';
+import 'centre_list_tee_shirt.dart';
 import 'centreliquidite_serigraphie.dart';
+import 'list_depense_employe_centre.dart';
+import 'list_probleme_employe_centre.dart';
+import 'list_vente_credit_employe_centre.dart';
+import 'stream_statistique_journalier_list_employe_centre.dart';
 
 class DrawerAdminCentre extends StatelessWidget {
   DrawerAdminCentre({Key? key}) : super(key: key);
@@ -128,6 +134,45 @@ class DrawerAdminCentre extends StatelessWidget {
                 },
               ),
               ListTile(
+                title: Text("Statistique journalier de vente".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              StreamStatistiqueJournalierListEmployeCentre())));
+                },
+              ),
+              ListTile(
+                title: Text("Problèmes des employés".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              ListProblemeEmployesCentre())));
+                },
+              ),
+              ListTile(
+                title: Text("Dépenses effectuées".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ListDepenseEmployeCentre())));
+                },
+              ),
+              ListTile(
+                title: Text("Ventes à crédits enregistrées".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              ListVenteCreditsEmployeCentre())));
+                },
+              ),
+              ListTile(
                 title: Text("Liquidité de crédit".toUpperCase()),
                 onTap: () {
                   Navigator.push(
@@ -138,7 +183,7 @@ class DrawerAdminCentre extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Etat du stock".toUpperCase()),
+                title: Text("Etat du stock des produits".toUpperCase()),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -204,6 +249,24 @@ class DrawerAdminCentre extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) => CentreListProduits())));
+                },
+              ),
+              ListTile(
+                title: Text("Liste des crédits".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => CentreListCredits())));
+                },
+              ),
+              ListTile(
+                title: Text("Liste des tee shirts".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => CentreListTeeShirt())));
                 },
               ),
               ListTile(

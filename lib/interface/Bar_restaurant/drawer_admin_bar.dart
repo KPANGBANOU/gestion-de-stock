@@ -5,13 +5,19 @@ import 'package:projet/interface/Bar_restaurant/approvisionnement_list_petit_mod
 import 'package:projet/interface/Bar_restaurant/approvisonnement_list_grand_modele.dart';
 import 'package:projet/interface/Bar_restaurant/bar_rubrique_versement.dart';
 import 'package:projet/interface/Bar_restaurant/enregistrer_nouvel_bierre.dart';
-import 'package:projet/interface/Bar_restaurant/statistique_liste_servants.dart';
+import 'package:projet/interface/Bar_restaurant/list_depense_employe_bar.dart';
+import 'package:projet/interface/Bar_restaurant/list_problemes_employes_bar.dart';
+import 'package:projet/interface/Bar_restaurant/list_vente_credits_employe_bar.dart';
 import 'package:projet/interface/Bar_restaurant/stockphysiquedesgrandtmodel.dart';
+import 'package:projet/interface/Bar_restaurant/stream_statistique_journalier_list_employe_bar.dart';
+import 'package:projet/interface/Bar_restaurant/stream_statistique_list_servant_bar.dart';
 import 'package:projet/services/registration.dart';
 import 'package:projet/services/user.dart';
 
 import 'package:provider/provider.dart';
 
+import 'list_grand_modele.dart';
+import 'list_petit_modele.dart';
 import 'stockphysiquepetitmodel.dart';
 
 class DrawerAdminBar extends StatelessWidget {
@@ -116,8 +122,45 @@ class DrawerAdminBar extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
+                          builder: ((context) => StreamStatistiqueBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Statistique journalier de vente".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
                           builder: ((context) =>
-                              StatistiqueListeServantsBar())));
+                              StreamStatistiqueJournalierListEmployeBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Problèmes des employés".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ListProblemeEmployesBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Dépenses effectuées".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ListDepenseEmployeBar())));
+                },
+              ),
+              ListTile(
+                title: Text("Ventes à crédits enregistrées".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              ListVenteCreditsEmployeBar())));
                 },
               ),
               ListTile(
@@ -159,7 +202,25 @@ class DrawerAdminBar extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Nouveau produit".toUpperCase()),
+                title: Text("Liste des grand modèles".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ListGrandModele())));
+                },
+              ),
+              ListTile(
+                title: Text("Liste de pétit modèls".toUpperCase()),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ListPetitModele())));
+                },
+              ),
+              ListTile(
+                title: Text("Nouvelle bièree".toUpperCase()),
                 onTap: () {
                   Navigator.push(
                       context,

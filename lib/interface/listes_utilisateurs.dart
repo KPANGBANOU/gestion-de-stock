@@ -78,7 +78,7 @@ class ListeUtilisateurs extends StatelessWidget {
                     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
-                "Ajouté le : " + _donnes.role.toString(),
+                "A créé son compte le : " + _donnes.role.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             );

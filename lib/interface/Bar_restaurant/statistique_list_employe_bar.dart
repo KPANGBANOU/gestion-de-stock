@@ -5,10 +5,10 @@ import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
 import 'package:projet/modele/donnesservants.dart';
 import 'package:provider/provider.dart';
 
-import 'stream_statistique_servant_bar.dart';
+import 'stream_statistique_journalier_employe_bar.dart';
 
-class StatistiqueJournalierListEmployeBar extends StatelessWidget {
-  StatistiqueJournalierListEmployeBar({Key? key}) : super(key: key);
+class StatistiqueListEmployeBar extends StatelessWidget {
+  StatistiqueListEmployeBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.indigo,
           title: Text(
-            "Statistique de vente",
+            "Statistique de journalier",
             style: TextStyle(
                 color: Colors.white.withOpacity(.9),
                 fontSize: 22,
@@ -40,7 +40,7 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.indigo,
           title: Text(
-            "Statistique de vente",
+            "Statistique journalier",
             style: TextStyle(
                 color: Colors.white.withOpacity(.9),
                 fontSize: 22,
@@ -61,7 +61,8 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: ((context) =>
-                                StreamServantBar(uid: _donnes.uid))));
+                                StreamStatistiqueJournalierEmployeBar(
+                                    uid: _donnes.uid))));
                   },
                   leading: CircleAvatar(
                     radius: 20,
@@ -86,7 +87,7 @@ class StatistiqueJournalierListEmployeBar extends StatelessWidget {
                         fontSize: 20),
                   ),
                   subtitle: Text(
-                    "A créé son compte le  ",
+                    "A créé son compte le",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black12),

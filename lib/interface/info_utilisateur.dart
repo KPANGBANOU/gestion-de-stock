@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_interpolation_to_compose_strings, non_constant_identifier_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'accoder_droits_second_page.dart';
+import 'package:projet/interface/drawer.dart';
+import 'package:projet/interface/stream_accorder_droits_employes.dart';
 
 class InformationsUtilisateur extends StatelessWidget {
   InformationsUtilisateur({
@@ -31,7 +32,7 @@ class InformationsUtilisateur extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: DrawerHome(),
       backgroundColor: Colors.greenAccent,
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -148,28 +149,14 @@ class InformationsUtilisateur extends StatelessWidget {
               child: TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: Colors.redAccent.withOpacity(.8)),
-                  onPressed: (() {}),
+                  onPressed: (() async {
+                    await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(uid)
+                        .update({"is_active": false});
+                  }),
                   child: Text(
                     "Dsactivez son compte".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                  )),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: 45,
-              child: TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.redAccent.withOpacity(.8)),
-                  onPressed: (() {}),
-                  child: Text(
-                    "Supprimez son compte".toUpperCase(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -189,32 +176,11 @@ class InformationsUtilisateur extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: ((context) => AccorderDroitsSecondPages(
-                                nom: nom.toString(),
-                                uid: uid,
-                                prenom: prenom.toString(),
-                                email: email.toString()))));
+                            builder: ((context) =>
+                                StreamAccorderDroitsEmployes(uid: uid))));
                   }),
                   child: Text(
                     "Accordez lui de droits".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                  )),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: 45,
-              child: TextButton(
-                  style: TextButton.styleFrom(backgroundColor: Colors.indigo),
-                  onPressed: (() {}),
-                  child: Text(
-                    "Listes des utilisateurs".toUpperCase(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,

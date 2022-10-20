@@ -2,21 +2,29 @@
 
 import 'package:flutter/material.dart';
 import 'package:projet/base_donne/servicebasededonnees.dart';
-import 'package:projet/services/user.dart';
+import 'package:projet/interface/accoder_droits_second_page.dart';
+import 'package:projet/modele/donnesservants.dart';
 import 'package:provider/provider.dart';
 
-import 'accoder_droits_first_page.dart';
-
 class StreamAccorderDroitsEmployes extends StatelessWidget {
-  StreamAccorderDroitsEmployes({super.key, required this.email});
+  StreamAccorderDroitsEmployes({super.key, required this.uid});
 
-  final String email;
+  final String uid;
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      Provider<serviceBD>(create: (_)=> serviceBD()),
-      StreamProvider(create: ((context) => context.read<serviceBD>().infoEmploye(this.email)), initialData: const <donnesUtilisateur>[])
-    ],
-    child: AccorderDroitsFirstPage(),);
+    return MultiProvider(
+      providers: [
+        Provider<serviceBD>(create: (_) => serviceBD()),
+        StreamProvider(
+            create: ((context) => context.read<serviceBD>().servant_data(uid)),
+            initialData: donnesServants(
+                uid: uid,
+                domaine: "",
+                photo_url: "",
+                admin: false,
+                is_active: true)),
+      ],
+      child: AccorderDroitsSecondPages(),
+    );
   }
 }

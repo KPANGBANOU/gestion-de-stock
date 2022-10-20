@@ -39,8 +39,6 @@ import 'interface/Bar_restaurant/interface_bar_restaurant.dart';
 
 import 'interface/Bar_restaurant/pertes.dart';
 import 'interface/Bar_restaurant/profil_utilisateur.dart';
-
-import 'interface/accorder_droit.dart';
 import 'interface/accueil.dart';
 import 'interface/centre_informatique/centre_approvisionner_list_produits.dart';
 import 'interface/centre_informatique/centre_enregistrer_depense.dart';
@@ -60,7 +58,6 @@ import 'interface/connexion.dart';
 import 'interface/creer_compte.dart';
 
 import 'interface/home.dart';
-import 'interface/information_employe.dart';
 import 'interface/interface_centre_informatique.dart';
 import 'interface/listes_utilisateurs.dart';
 
@@ -136,7 +133,7 @@ class MyApp extends StatelessWidget {
         StreamProvider(
             create: ((context) =>
                 context.read<serviceBD>().list_credits_vente_centre),
-            initialData: <CreditsVente>[]),
+            initialData: <CreditsServants>[]),
 
         StreamProvider(
             create: ((context) =>
@@ -244,8 +241,6 @@ class MyApp extends StatelessWidget {
             "/centreInformatique": (context) => CentreInterfacePage(),
             "/zoom": (context) => Zoom(),
             "/listeEmployes": (context) => ListeUtilisateurs(),
-            "/infoEmploye": (context) => InfoEmploye(),
-            "/accorderDroits": (context) => DroitsEmployes(),
             "/home": (context) => HomePage(),
             "/barbenefices": (context) => BeneficeBar(),
             "/bardepenses": (context) => DepensesBar(),

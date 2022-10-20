@@ -52,7 +52,7 @@ class DrawerHome extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  "Centre informatique".toUpperCase(),
+                  "Gestion du centre informatique".toUpperCase(),
                   style: TextStyle(color: Colors.green),
                 ),
                 onTap: () {
@@ -61,7 +61,7 @@ class DrawerHome extends StatelessWidget {
               ),
               ListTile(
                 title: Text(
-                  "Bar restaurant".toUpperCase(),
+                  "Gestion du bar restaurant".toUpperCase(),
                   style: TextStyle(color: Colors.green),
                 ),
                 onTap: () {
@@ -74,7 +74,10 @@ class DrawerHome extends StatelessWidget {
                   style: TextStyle(color: Colors.green),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, "/bar");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => ComptabiliteGenerale())));
                 },
               ),
               ListTile(

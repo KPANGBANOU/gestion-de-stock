@@ -1,32 +1,32 @@
-// ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers, avoid_function_literals_in_foreach_calls, non_constant_identifier_names, prefer_interpolation_to_compose_strings, prefer_const_constructors
+// ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers, avoid_function_literals_in_foreach_calls, non_constant_identifier_names, prefer_interpolation_to_compose_strings, prefer_const_constructors, unused_local_variable, dead_code
 
 import 'package:flutter/material.dart';
-import 'package:projet/interface/Bar_restaurant/drawer_admin_bar.dart';
-import 'package:projet/modele/credit.dart';
+import 'package:intl/intl.dart';
+
+import 'package:projet/interface/centre_informatique/drawer_admin_centre.dart';
+import 'package:projet/modele/centre_vente.dart';
+import 'package:projet/modele/donnesservants.dart';
+import 'package:projet/modele/produit.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../modele/donnesservants.dart';
-import '../../modele/vente_credit.dart';
-
-class StatistiqueCreditServantBar extends StatelessWidget {
-  StatistiqueCreditServantBar({super.key});
+class StatistiqueJournalierEmployeCentreProduit extends StatelessWidget {
+  StatistiqueJournalierEmployeCentreProduit({super.key});
   late int credit_lenght = 0;
   late double credit_sizebox = 0;
   late int total_credit = 0;
-  late int nombre_vente_credit = 0;
-  late int montant_credit = 0;
+  late int montant_credit_vendu = 0;
+  late int nombre_vente_credit;
+  late int quantite = 0;
+  late String day = DateFormat('dd').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     final _donnesUtilisateur = Provider.of<donnesServants>(context);
-    final _listVenteCredit = Provider.of<List<venteCredit>>(context);
-    final _list_credit = Provider.of<List<credit>>(context);
-    credit_lenght = _list_credit.length;
+    final _listVente_produits = Provider.of<List<centreVente>>(context);
+    final _list_produits = Provider.of<List<products>>(context);
 
-    _listVenteCredit.forEach((element) {
-      total_credit = total_credit + element.montant;
-    });
+    credit_lenght = _list_produits.length;
 
     if (credit_lenght <= 5) {
       credit_sizebox = 180;
@@ -40,10 +40,10 @@ class StatistiqueCreditServantBar extends StatelessWidget {
       credit_sizebox = MediaQuery.of(context).size.height;
     }
 
-    if (_listVenteCredit.isEmpty || _list_credit.isEmpty) {
+    if (_listVente_produits.isEmpty || _list_produits.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: DrawerAdminBar(),
+        drawer: DrawerAdminCentre(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom.toString() +
@@ -66,7 +66,7 @@ class StatistiqueCreditServantBar extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.greenAccent,
-        drawer: DrawerAdminBar(),
+        drawer: DrawerAdminCentre(),
         appBar: AppBar(
           title: Text(
             _donnesUtilisateur.prenom.toString() +
@@ -90,10 +90,12 @@ class StatistiqueCreditServantBar extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Statistique générale de vente de ".toUpperCase() +
+                  "statistique journalier de vente de ".toUpperCase() +
                       _donnesUtilisateur.prenom.toString().toUpperCase() +
-                      "  " +
-                      _donnesUtilisateur.nom.toString().toUpperCase(),
+                      " " +
+                      _donnesUtilisateur.nom.toString().toUpperCase() +
+                      " au niveau du centre informatique de l'entreprise Déo Gracias"
+                          .toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
@@ -105,23 +107,20 @@ class StatistiqueCreditServantBar extends StatelessWidget {
                 height: 12,
               ),
               Container(
-                color: Colors.redAccent.withOpacity(.7),
                 width: double.infinity,
-                height: 50,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Vente de crédits".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
+                height: 45,
+                color: Colors.redAccent.withOpacity(.7),
+                child: Text(
+                  "Vente de produits".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(
-                height: 0,
+                height: 8,
               ),
               Container(
                 color: Colors.indigo,
@@ -135,14 +134,21 @@ class StatistiqueCreditServantBar extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Crédit",
+                        "Produit",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Montant vendu",
+                        "Quantité",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22),
+                      ),
+                      Text(
+                        "Montant",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -159,45 +165,55 @@ class StatistiqueCreditServantBar extends StatelessWidget {
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      credit _credit = _list_credit[index];
+                      products _credit = _list_produits[index];
 
-                      nombre_vente_credit = 0;
-                      montant_credit = 0;
-
-                      _listVenteCredit.forEach((element) {
-                        if (element.nom == _credit.nom) {
+                      _listVente_produits.forEach((element) {
+                        if (element.vente_day == day) {
                           nombre_vente_credit++;
-                          montant_credit += element.montant;
+                          quantite += element.quantite;
+                          montant_credit_vendu += element.montant;
+                          total_credit += element.montant;
                         }
                       });
 
-                      return nombre_vente_credit > 0
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  Text(
-                                    _credit.nom,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  Text(
-                                    montant_credit.toString() + " F",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
+                      if (nombre_vente_credit > 0) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              Text(
+                                _credit.nom,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            )
-                          : Container();
+                              Text(
+                                quantite.toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                montant_credit_vendu.toString() + " F",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                      return Container();
+                      nombre_vente_credit = 0;
+                      montant_credit_vendu = 0;
+                      quantite = 0;
                     }),
                     separatorBuilder: ((context, index) => Divider()),
-                    itemCount: _list_credit.length),
+                    itemCount: _list_produits.length),
               ),
               SizedBox(
                 height: 10,
@@ -208,13 +224,13 @@ class StatistiqueCreditServantBar extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       Text(
-                        "Total vente crédit",
+                        "Montant total vendu",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
