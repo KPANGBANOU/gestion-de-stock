@@ -21,6 +21,7 @@ import 'package:projet/modele/vente_credit.dart';
 import 'package:projet/modele/vente_grand_modele.dart';
 import 'package:projet/modele/vente_petit_modele.dart';
 import 'package:projet/modele/vente_tee_shirts.dart';
+import 'package:projet/provider/serac.dart';
 import 'package:projet/services/admin.dart';
 
 import 'package:projet/services/provider_recuperation_bierre_id.dart';
@@ -233,6 +234,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => changingServantPage()),
         ChangeNotifierProvider(create: (context) => changingAdminPage()),
         ChangeNotifierProvider(create: ((context) => changbierreid())),
+        ChangeNotifierProvider(create: ((context) => Search())),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
